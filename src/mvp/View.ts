@@ -49,9 +49,9 @@ class View {
     this.viewCurrentValue = [this.currentValue[0] - this.minValue];
 
     this.slider = new Slider();
-    this.scale = new Scale();
+    this.scale = new Scale(this.$this);
     this.runner = new Runner(this.$this);
-    this.progressBar = new ProgressBar();
+    this.progressBar = new ProgressBar(this.$this);
 
     this.$slider = this.slider.getSlider();
     this.$scale = this.scale.getScale();

@@ -1,9 +1,14 @@
 class ProgressBar {
   $progressBar: JQuery;
 
-  constructor() {
+  constructor($this: JQuery) {
     this.$progressBar = $('<div />', {
       class: 'slider__progress-bar',
+      on: {
+        click: (e: JQuery.Event) => {
+          $this.trigger('updataPositionRunner', { positionRunner: e.pageX });
+        },
+      },
     });
   }
 
