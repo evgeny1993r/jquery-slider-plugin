@@ -7,7 +7,7 @@ class Runner {
       on: {
         mousedown: () => {
           $(document).on('mousemove', (e) => {
-            $this.trigger('updataPositionRunner', { positionRunner: e.pageX });
+            $this.trigger('updataPositionRunner', { positionRunner: (e.pageX + this.$runner.outerWidth() / 2) });
           });
           $(document).on('mouseup', () => {
             $(document).off('mousemove');
