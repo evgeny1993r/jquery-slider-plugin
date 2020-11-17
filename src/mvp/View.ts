@@ -121,11 +121,19 @@ class View {
 
     this.$this.on('clickScale', (_, { position }) => {
       if (this.currentValue.length === 1) {
-        this.$this.trigger('updataCurrentValue', { currentValue: Math.floor((position - this.scaleOffset) / this.unit) });
-      } else if (this.currentValue.length === 2 && position < this.$runnerMin.offset().left) {
-        this.$this.trigger('updataCurrentValueMin', { currentValueMin: Math.floor((position - this.scaleOffset) / this.unit) });
-      } else if (this.currentValue.length === 2 && position > this.$runnerMax.offset().left) {
-        this.$this.trigger('updataCurrentValueMax', { currentValueMax: Math.floor((position - this.scaleOffset) / this.unit) });
+        this.$this.trigger('updataCurrentValue', {
+          currentValue: Math.floor((position - this.scaleOffset) / this.unit),
+        });
+      } else if (this.currentValue.length === 2) {
+        if (this.position === 'gorizontal' && position < this.$runnerMin.offset().left) {
+          this.$this.trigger('updataCurrentValueMin', { currentValueMin: Math.floor((position - this.scaleOffset) / this.unit) });
+        } else if (this.position === 'gorizontal' && position > this.$runnerMin.offset().left) {
+          this.$this.trigger('updataCurrentValueMax', { currentValueMax: Math.floor((position - this.scaleOffset) / this.unit) });
+        } else if (this.position === 'vertical' && position < this.$runnerMin.offset().top) {
+          this.$this.trigger('updataCurrentValueMin', { currentValueMin: Math.floor((position - this.scaleOffset) / this.unit) });
+        } else if (this.position === 'vertical' && position > this.$runnerMin.offset().top) {
+          this.$this.trigger('updataCurrentValueMax', { currentValueMax: Math.floor((position - this.scaleOffset) / this.unit) });
+        }
       }
     });
 
