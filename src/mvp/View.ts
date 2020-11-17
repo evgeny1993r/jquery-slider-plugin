@@ -13,6 +13,7 @@ import { Runner } from '../components/Runner';
 
 class View {
   $this: JQuery;
+  position: string;
   minValue: number;
   maxValue: number;
   currentValue: [number, number?];
@@ -34,17 +35,19 @@ class View {
   $runnerMin: JQuery;
   $runnerMax: JQuery;
 
-  scaleWidth: number;
+  scaleSize: number;
   scaleOffset: number;
   unit: number;
 
   constructor({
     $this,
+    position,
     minValue,
     maxValue,
     currentValue,
   }: IoptionsView) {
     this.$this = $this;
+    this.position = position;
     this.minValue = minValue;
     this.maxValue = maxValue;
     this.currentValue = currentValue;
@@ -59,15 +62,15 @@ class View {
       ];
     }
 
-    this.slider = new Slider();
-    this.scale = new Scale(this.$this);
+    this.slider = new Slider(this.position);
+    this.scale = new Scale(this.$this, this.position);
+    this.progressBar = new ProgressBar(this.$this, this.position);
     if (this.currentValue.length === 1) {
-      this.runner = new Runner(this.$this, 'updataPositionRunner');
+      this.runner = new Runner(this.$this, 'updataPositionRunner', this.position);
     } else if (this.currentValue.length === 2) {
-      this.runnerMin = new Runner(this.$this, 'updataPositionRunnerMin');
-      this.runnerMax = new Runner(this.$this, 'updataPositionRunnerMax');
+      this.runnerMin = new Runner(this.$this, 'updataPositionRunnerMin', this.position);
+      this.runnerMax = new Runner(this.$this, 'updataPositionRunnerMax', this.position);
     }
-    this.progressBar = new ProgressBar(this.$this);
 
     this.$slider = this.slider.getSlider();
     this.$scale = this.scale.getScale();
@@ -104,7 +107,7 @@ class View {
       this.renderCurrentValueMax();
     }
 
-    this.$this.on('updataPositionRunner', (e, { positionRunner }) => {
+    this.$this.on('updataPositionRunner', (_, { positionRunner }) => {
       this.$this.trigger('updataCurrentValue', { currentValue: Math.floor((positionRunner - this.scaleOffset) / this.unit) });
     });
 
@@ -142,9 +145,15 @@ class View {
   }
 
   dataCollection() {
-    this.scaleWidth = this.$scale.outerWidth();
-    this.scaleOffset = this.$scale.offset().left;
-    this.unit = this.scaleWidth / this.viewMaxValue;
+    if (this.position === 'gorizontal') {
+      this.scaleSize = this.$scale.outerWidth();
+      this.scaleOffset = this.$scale.offset().left;
+    } else if (this.position === 'vertical') {
+      this.scaleSize = this.$scale.outerHeight();
+      this.scaleOffset = this.$scale.offset().top;
+    }
+
+    this.unit = this.scaleSize / this.viewMaxValue;
   }
 
   updataCurrentValue(value: number) {

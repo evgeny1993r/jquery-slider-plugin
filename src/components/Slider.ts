@@ -1,9 +1,9 @@
 class Slider {
   $slider: JQuery;
 
-  constructor() {
+  constructor(position: string) {
     this.$slider = $('<div />', {
-      class: 'slider',
+      class: `slider slider_${position}`,
     });
   }
 

@@ -1,12 +1,16 @@
 class Scale {
   $scale: JQuery;
 
-  constructor($this: JQuery) {
+  constructor($this: JQuery, position: string) {
     this.$scale = $('<div />', {
       class: 'slider__scale',
       on: {
         click: (e: JQuery.Event) => {
-          $this.trigger('clickScale', { position: e.pageX });
+          if (position === 'gorizontal') {
+            $this.trigger('clickScale', { position: e.pageX });
+          } else if (position === 'vertical') {
+            $this.trigger('clickScale', { position: e.pageY });
+          }
         },
       },
     });

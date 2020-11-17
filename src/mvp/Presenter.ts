@@ -10,6 +10,7 @@ class Presenter {
 
   constructor({
     $this,
+    position,
     minValue,
     maxValue,
     currentValue,
@@ -22,6 +23,7 @@ class Presenter {
     });
     this.view = new View({
       $this,
+      position,
       minValue,
       maxValue,
       currentValue,
