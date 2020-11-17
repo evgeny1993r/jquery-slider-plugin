@@ -12,6 +12,7 @@ import './components/index.scss';
       minValue: 0,
       maxValue: 100,
       currentValue: [0],
+      step: 1,
     }, options);
 
     new Presenter(settings);

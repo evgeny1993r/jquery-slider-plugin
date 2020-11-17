@@ -4,7 +4,9 @@ interface JQuery {
 
 interface Ioptions {
   $this: JQuery
+  position: string
   minValue: number
   maxValue: number
   currentValue: [number]
+  step: number
 }

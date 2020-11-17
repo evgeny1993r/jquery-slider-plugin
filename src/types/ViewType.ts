@@ -4,6 +4,7 @@ interface IoptionsView {
   minValue: number
   maxValue: number
   currentValue: [number]
+  step: number
 }
 
 interface ISlider {
