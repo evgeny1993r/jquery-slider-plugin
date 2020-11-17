@@ -6,7 +6,7 @@ class ProgressBar {
       class: 'slider__progress-bar',
       on: {
         click: (e: JQuery.Event) => {
-          $this.trigger('updataPositionRunner', { positionRunner: e.pageX });
+          $this.trigger('clickProgressBar', { position: e.pageX });
         },
       },
     });
@@ -16,8 +16,9 @@ class ProgressBar {
     return this.$progressBar;
   }
 
-  updataWidthProgressBar(value: number): void {
-    this.$progressBar.css({ width: `${value}px` });
+  renderProgressBar(widthValue: number, indentValue: number): void {
+    this.$progressBar.css({ width: `${widthValue}px` });
+    this.$progressBar.css({ transform: `translateX(${indentValue}px)` });
   }
 }
 

@@ -15,7 +15,7 @@ interface IScale {
 
 interface IProgressBar {
   getProgressBar(): JQuery
-  updataWidthProgressBar(value: number): void
+  renderProgressBar(widthValue: number, indentValue: number): void
 }
 
 interface IRunner {

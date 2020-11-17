@@ -3,7 +3,7 @@ import { IoptionsModel } from '../types/ModelType';
 class Model {
   minValue: number;
   maxValue: number;
-  currentValue: [number];
+  currentValue: [number, number?];
 
   constructor({
     minValue,
@@ -15,22 +15,6 @@ class Model {
     this.currentValue = currentValue;
   }
 
-  getMinValue(): number {
-    return this.minValue;
-  }
-
-  setMinValue(value: number): void {
-    this.minValue = value;
-  }
-
-  getMaxValue(): number {
-    return this.maxValue;
-  }
-
-  setMaxValue(value: number): void {
-    this.maxValue = value;
-  }
-
   getCurrentValue(): number {
     return this.currentValue[0];
   }
@@ -38,6 +22,24 @@ class Model {
   setCurrentValue(value: number): void {
     if (value < this.minValue || value > this.maxValue) return;
     this.currentValue[0] = value;
+  }
+
+  getCurrentValueMin(): number {
+    return this.currentValue[0];
+  }
+
+  setCurrentValueMin(value: number): void {
+    if (value < this.minValue || value > this.currentValue[1]) return;
+    this.currentValue[0] = value;
+  }
+
+  getCurrentValueMax(): number {
+    return this.currentValue[1];
+  }
+
+  setCurrentValueMax(value: number): void {
+    if (value < this.currentValue[0] || value > this.maxValue) return;
+    this.currentValue[1] = value;
   }
 }
 

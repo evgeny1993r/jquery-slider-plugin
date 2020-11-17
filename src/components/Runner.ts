@@ -1,13 +1,13 @@
 class Runner {
   $runner: JQuery;
 
-  constructor($this: JQuery) {
+  constructor($this: JQuery, eventName: string) {
     this.$runner = $('<div />', {
       class: 'slider__runner',
       on: {
         mousedown: () => {
           $(document).on('mousemove', (e) => {
-            $this.trigger('updataPositionRunner', { positionRunner: (e.pageX + this.$runner.outerWidth() / 2) });
+            $this.trigger(eventName, { positionRunner: (e.pageX + this.$runner.outerWidth() / 2) });
           });
           $(document).on('mouseup', () => {
             $(document).off('mousemove');

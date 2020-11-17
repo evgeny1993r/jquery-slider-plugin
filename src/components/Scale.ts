@@ -6,7 +6,7 @@ class Scale {
       class: 'slider__scale',
       on: {
         click: (e: JQuery.Event) => {
-          $this.trigger('updataPositionRunner', { positionRunner: e.pageX });
+          $this.trigger('clickScale', { position: e.pageX });
         },
       },
     });

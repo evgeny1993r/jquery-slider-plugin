@@ -6,16 +6,18 @@ interface Ioptions {
 }
 
 interface IModel {
-  getMinValue(): number
-  setMinValue(value: number): void
-  getMaxValue(): number
-  setMaxValue(value: number): void
   getCurrentValue(): number
   setCurrentValue(value: number): void
+  getCurrentValueMin(): number
+  setCurrentValueMin(value: number): void
+  getCurrentValueMax(): number
+  setCurrentValueMax(value: number): void
 }
 
 interface IView {
   updataCurrentValue(value: number): void
+  updataCurrentValueMin(value: number): void
+  updataCurrentValueMax(value: number): void
 }
 
 export {

@@ -35,6 +35,16 @@ class Presenter {
       this.model.setCurrentValue(currentValue);
       this.view.updataCurrentValue(this.model.getCurrentValue());
     });
+
+    this.$this.on('updataCurrentValueMin', (_, { currentValueMin }) => {
+      this.model.setCurrentValueMin(currentValueMin);
+      this.view.updataCurrentValueMin(this.model.getCurrentValueMin());
+    });
+
+    this.$this.on('updataCurrentValueMax', (_, { currentValueMax }) => {
+      this.model.setCurrentValueMax(currentValueMax);
+      this.view.updataCurrentValueMax(this.model.getCurrentValueMax());
+    });
   }
 }
 
