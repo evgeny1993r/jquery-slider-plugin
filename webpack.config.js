@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const plugins = [
   new MiniCssExtractPlugin({
-    filename: 'style.css',
+    filename: 'slider-plugin.css',
   }),
 ];
 
@@ -39,7 +39,7 @@ module.exports = {
   },
 
   output: {
-    filename: 'app.js',
+    filename: 'slider-plugin.js',
     path: path.resolve(__dirname, 'dist'),
   },
 };
