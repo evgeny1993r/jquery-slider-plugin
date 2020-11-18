@@ -15,6 +15,7 @@ import './components/index.scss';
       step: 1,
       isShowValueWindow: false,
       $inputElement: $(),
+      symbol: '',
     }, options);
 
     new Presenter(settings);

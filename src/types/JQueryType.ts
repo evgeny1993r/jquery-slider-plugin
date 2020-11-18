@@ -11,4 +11,5 @@ interface Ioptions {
   step: number
   isShowWindowValue: boolean
   $inputElement: JQuery
+  symbol: string
 }

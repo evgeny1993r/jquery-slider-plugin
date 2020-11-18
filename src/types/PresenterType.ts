@@ -7,6 +7,7 @@ interface Ioptions {
   step: number
   isShowValueWindow: boolean
   $inputElement: JQuery
+  symbol: string
 }
 
 interface IModel {
