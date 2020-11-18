@@ -44,6 +44,7 @@ class View {
   $valueWindow: JQuery;
   $valueWindowMin: JQuery;
   $valueWindowMax: JQuery;
+  $inputElement: JQuery;
 
   scaleSize: number;
   scaleOffset: number;
@@ -57,6 +58,7 @@ class View {
     currentValue,
     step,
     isShowValueWindow,
+    $inputElement,
   }: IoptionsView) {
     this.$this = $this;
     this.position = position;
@@ -75,6 +77,7 @@ class View {
     }
     this.step = step;
     this.isShowValueWindow = isShowValueWindow;
+    this.$inputElement = $inputElement;
 
     this.slider = new Slider(this.position);
     this.scale = new Scale(this.$this, this.position);
@@ -217,6 +220,17 @@ class View {
         }
       }
     });
+
+    this.$inputElement.on('change', (e) => {
+      if (this.currentValue.length === 1) {
+        this.$this.trigger('updataCurrentValue', { currentValue: Number($(e.currentTarget).val()) });
+      } else if (this.currentValue.length === 2) {
+        const currentValueMin = Number(String($(e.currentTarget).val()).split('-')[0]);
+        const currentValueMax = Number(String($(e.currentTarget).val()).split('-')[1]);
+        this.$this.trigger('updataCurrentValueMin', { currentValueMin });
+        this.$this.trigger('updataCurrentValueMax', { currentValueMax });
+      }
+    });
   }
 
   dataCollection() {
@@ -246,6 +260,9 @@ class View {
         this.viewCurrentValue[0] * this.unit,
       );
     }
+    if (this.$inputElement.length !== 0) {
+      this.$inputElement.val(this.currentValue[0]);
+    }
   }
 
   updataCurrentValueMin(value: number) {
@@ -265,6 +282,11 @@ class View {
         this.currentValue[0], this.viewCurrentValue[0] * this.unit,
       );
     }
+    if (this.$inputElement.length !== 0) {
+      this.$inputElement.val(
+        `${this.currentValue[0]} - ${this.currentValue[1]}`,
+      );
+    }
   }
 
   updataCurrentValueMax(value: number) {
@@ -282,6 +304,11 @@ class View {
     if (this.isShowValueWindow) {
       this.valueWindowMax.renderValueWindow(
         this.currentValue[1], this.viewCurrentValue[1] * this.unit,
+      );
+    }
+    if (this.$inputElement.length !== 0) {
+      this.$inputElement.val(
+        `${this.currentValue[0]} - ${this.currentValue[1]}`,
       );
     }
   }

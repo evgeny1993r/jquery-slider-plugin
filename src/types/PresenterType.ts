@@ -6,6 +6,7 @@ interface Ioptions {
   currentValue: [number]
   step: number
   isShowValueWindow: boolean
+  $inputElement: JQuery
 }
 
 interface IModel {
