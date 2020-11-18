@@ -265,7 +265,8 @@ class View {
       );
     }
     if (this.$inputElement.length !== 0) {
-      this.$inputElement.val(`${this.currentValue[0]}${this.symbol}`);
+      const value = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
+      this.$inputElement.val(`${value}${this.symbol}`);
     }
   }
 
@@ -287,9 +288,9 @@ class View {
       );
     }
     if (this.$inputElement.length !== 0) {
-      this.$inputElement.val(
-        `${this.currentValue[0]}${this.symbol} - ${this.currentValue[1]}${this.symbol}`,
-      );
+      const valueOne = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
+      const valueTwo = String(this.currentValue[1]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
+      this.$inputElement.val(`${valueOne}${this.symbol} - ${valueTwo}${this.symbol}`);
     }
   }
 
@@ -311,9 +312,9 @@ class View {
       );
     }
     if (this.$inputElement.length !== 0) {
-      this.$inputElement.val(
-        `${this.currentValue[0]}${this.symbol} - ${this.currentValue[1]}${this.symbol}`,
-      );
+      const valueOne = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
+      const valueTwo = String(this.currentValue[1]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
+      this.$inputElement.val(`${valueOne}${this.symbol} - ${valueTwo}${this.symbol}`);
     }
   }
 }
