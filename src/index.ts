@@ -14,7 +14,7 @@ import './components/index.scss';
       currentValue: [0],
       step: 1,
       isShowValueWindow: false,
-      $valueElement: $(),
+      $inputElement: $(),
     }, options);
 
     new Presenter(settings);
