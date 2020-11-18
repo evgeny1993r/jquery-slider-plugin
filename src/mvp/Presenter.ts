@@ -15,6 +15,7 @@ class Presenter {
     maxValue,
     currentValue,
     step,
+    isShowValueWindow,
   }: Ioptions) {
     this.$this = $this;
     this.model = new Model({
@@ -29,6 +30,7 @@ class Presenter {
       maxValue,
       currentValue,
       step,
+      isShowValueWindow,
     });
 
     this.init();

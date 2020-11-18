@@ -9,4 +9,5 @@ interface Ioptions {
   maxValue: number
   currentValue: [number]
   step: number
+  isShowWindowValue: boolean
 }

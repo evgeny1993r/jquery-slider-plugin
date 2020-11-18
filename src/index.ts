@@ -13,6 +13,7 @@ import './components/index.scss';
       maxValue: 100,
       currentValue: [0],
       step: 1,
+      isShowValueWindow: false,
     }, options);
 
     new Presenter(settings);

@@ -5,6 +5,7 @@ interface IoptionsView {
   maxValue: number
   currentValue: [number]
   step: number
+  isShowValueWindow: boolean;
 }
 
 interface ISlider {
@@ -25,10 +26,16 @@ interface IRunner {
   updataPositionRunner(value: number): void
 }
 
+interface IValueWindow {
+  getValueWindow(): JQuery
+  renderValueWindow(currentValue: number, indentValue: number): void
+}
+
 export {
   IoptionsView,
   ISlider,
   IScale,
   IProgressBar,
   IRunner,
+  IValueWindow,
 };

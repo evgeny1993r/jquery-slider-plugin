@@ -5,6 +5,7 @@ interface Ioptions {
   maxValue: number
   currentValue: [number]
   step: number
+  isShowValueWindow: boolean
 }
 
 interface IModel {
