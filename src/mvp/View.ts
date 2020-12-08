@@ -337,9 +337,9 @@ class View {
   handleWindowResize() {
     this.dataCollection();
 
-    if (this.currentValue.length === 1) {
+    if (this.isCurrentValue()) {
       this.renderCurrentValue();
-    } else if (this.currentValue.length === 2) {
+    } else if (this.isCurrentValues()) {
       this.renderCurrentValueMin();
       this.renderCurrentValueMax();
     }
