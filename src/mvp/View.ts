@@ -155,6 +155,7 @@ class View {
     this.$this.on('clickScale', (_, { position }) => this.handleSliderClickScale(position));
     this.$this.on('clickProgressBar', (_, { position }) => this.handleSliderClickProgressBar(position));
     this.$inputElement.on('change', (e) => this.handleInputElementChange(e));
+    $(window).on('resize', () => this.handleWindowResize());
   }
 
   dataCollection() {
@@ -320,6 +321,17 @@ class View {
       const currentValueMax = Number(String($(e.currentTarget).val()).split('-')[1].match(/\d+/g));
       this.$this.trigger('updateCurrentValueMin', { currentValueMin });
       this.$this.trigger('updateCurrentValueMax', { currentValueMax });
+    }
+  }
+
+  handleWindowResize() {
+    this.dataCollection();
+
+    if (this.currentValue.length === 1) {
+      this.renderCurrentValue();
+    } else if (this.currentValue.length === 2) {
+      this.renderCurrentValueMin();
+      this.renderCurrentValueMax();
     }
   }
 }
