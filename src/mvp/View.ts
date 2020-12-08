@@ -69,9 +69,9 @@ class View {
     this.currentValue = currentValue;
     this.viewMinValue = this.minValue - this.minValue;
     this.viewMaxValue = this.maxValue - this.minValue;
-    if (this.currentValue.length === 1) {
+    if (this.isCurrentValue()) {
       this.viewCurrentValue = [this.currentValue[0] - this.minValue];
-    } else if (this.currentValue.length === 2) {
+    } else if (this.isCurrentValues()) {
       this.viewCurrentValue = [
         this.currentValue[0] - this.minValue,
         this.currentValue[1] - this.minValue,
@@ -85,12 +85,12 @@ class View {
     this.slider = new Slider(this.position);
     this.scale = new Scale(this.$this, this.position);
     this.progressBar = new ProgressBar(this.$this, this.position);
-    if (this.currentValue.length === 1) {
+    if (this.isCurrentValue()) {
       this.runner = new Runner(this.$this, 'updatePositionRunner', this.position);
       if (this.isShowValueWindow) {
         this.valueWindow = new ValueWindow(this.position);
       }
-    } else if (this.currentValue.length === 2) {
+    } else if (this.isCurrentValues()) {
       this.runnerMin = new Runner(this.$this, 'updatePositionRunnerMin', this.position);
       this.runnerMax = new Runner(this.$this, 'updatePositionRunnerMax', this.position);
       if (this.isShowValueWindow) {
@@ -101,12 +101,12 @@ class View {
 
     this.$slider = this.slider.getSlider();
     this.$scale = this.scale.getScale();
-    if (this.currentValue.length === 1) {
+    if (this.isCurrentValue()) {
       this.$runner = this.runner.getRunner();
       if (this.isShowValueWindow) {
         this.$valueWindow = this.valueWindow.getValueWindow();
       }
-    } else if (this.currentValue.length === 2) {
+    } else if (this.isCurrentValues()) {
       this.$runnerMin = this.runnerMin.getRunner();
       this.$runnerMax = this.runnerMax.getRunner();
       if (this.isShowValueWindow) {
@@ -119,17 +119,25 @@ class View {
     this.init();
   }
 
+  isCurrentValue() {
+    return this.currentValue.length === 1;
+  }
+
+  isCurrentValues() {
+    return this.currentValue.length === 2;
+  }
+
   init() {
     this.$this
       .append(this.$slider
         .append(this.$scale)
         .append(this.$progressBar));
-    if (this.currentValue.length === 1) {
+    if (this.isCurrentValue()) {
       this.$slider.append(this.$runner);
       if (this.isShowValueWindow) {
         this.$slider.append(this.$valueWindow);
       }
-    } else if (this.currentValue.length === 2) {
+    } else if (this.isCurrentValues()) {
       this.$slider
         .append(this.$runnerMin)
         .append(this.$runnerMax);
@@ -142,9 +150,9 @@ class View {
 
     this.dataCollection();
 
-    if (this.currentValue.length === 1) {
+    if (this.isCurrentValue()) {
       this.renderCurrentValue();
-    } else if (this.currentValue.length === 2) {
+    } else if (this.isCurrentValues()) {
       this.renderCurrentValueMin();
       this.renderCurrentValueMax();
     }
@@ -267,14 +275,15 @@ class View {
   }
 
   handleSliderClickScale(position: number) {
-    if (this.currentValue.length === 1) {
+    if (this.isCurrentValue()) {
       this.$this.trigger('updateCurrentValue', {
         currentValue:
           Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
       });
-    } else if (this.currentValue.length === 2) {
+    } else if (this.isCurrentValues()) {
       const min = this.currentValue[1] - Math.floor((position - this.scaleOffset) / this.unit);
       const max = Math.floor((position - this.scaleOffset) / this.unit) - this.currentValue[0];
+
       if (min > max) {
         this.$this.trigger('updateCurrentValueMin', {
           currentValueMin:
@@ -290,14 +299,15 @@ class View {
   }
 
   handleSliderClickProgressBar(position: number) {
-    if (this.currentValue.length === 1) {
+    if (this.isCurrentValue()) {
       this.$this.trigger('updateCurrentValue', {
         currentValue:
           Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
       });
-    } else if (this.currentValue.length === 2) {
+    } else if (this.isCurrentValues()) {
       const min = this.currentValue[1] - Math.floor((position - this.scaleOffset) / this.unit);
       const max = Math.floor((position - this.scaleOffset) / this.unit) - this.currentValue[0];
+
       if (min > max) {
         this.$this.trigger('updateCurrentValueMin', {
           currentValueMin:
@@ -313,10 +323,10 @@ class View {
   }
 
   handleInputElementChange(e: JQuery.ChangeEvent) {
-    if (this.currentValue.length === 1) {
+    if (this.isCurrentValue()) {
       const currentValue = String($(e.currentTarget).val()).match(/\d+/g);
       this.$this.trigger('updateCurrentValue', { currentValue });
-    } else if (this.currentValue.length === 2) {
+    } else if (this.isCurrentValues()) {
       const currentValueMin = Number(String($(e.currentTarget).val()).split('-')[0].match(/\d+/g));
       const currentValueMax = Number(String($(e.currentTarget).val()).split('-')[1].match(/\d+/g));
       this.$this.trigger('updateCurrentValueMin', { currentValueMin });
