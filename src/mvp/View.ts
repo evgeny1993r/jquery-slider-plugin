@@ -149,92 +149,12 @@ class View {
       this.renderCurrentValueMax();
     }
 
-    this.$this.on('updatePositionRunner', (_, { positionRunner }) => {
-      this.$this.trigger('updateCurrentValue', {
-        currentValue:
-          Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
-      });
-    });
-
-    this.$this.on('updatePositionRunnerMin', (_, { positionRunner }) => {
-      this.$this.trigger('updateCurrentValueMin', {
-        currentValueMin:
-          Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
-      });
-    });
-
-    this.$this.on('updatePositionRunnerMax', (_, { positionRunner }) => {
-      this.$this.trigger('updateCurrentValueMax', {
-        currentValueMax:
-          Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
-      });
-    });
-
-    this.$this.on('clickScale', (_, { position }) => {
-      if (this.currentValue.length === 1) {
-        this.$this.trigger('updateCurrentValue', {
-          currentValue:
-            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
-        });
-      } else if (this.currentValue.length === 2) {
-        if (this.position === 'horizontal' && position < this.$runnerMin.offset().left) {
-          this.$this.trigger('updateCurrentValueMin', {
-            currentValueMin:
-              Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
-          });
-        } else if (this.position === 'horizontal' && position > this.$runnerMin.offset().left) {
-          this.$this.trigger('updateCurrentValueMax', {
-            currentValueMax:
-              Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
-          });
-        } else if (this.position === 'vertical' && position < this.$runnerMin.offset().top) {
-          this.$this.trigger('updateCurrentValueMin', {
-            currentValueMin:
-              Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
-          });
-        } else if (this.position === 'vertical' && position > this.$runnerMin.offset().top) {
-          this.$this.trigger('updateCurrentValueMax', {
-            currentValueMax:
-              Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
-          });
-        }
-      }
-    });
-
-    this.$this.on('clickProgressBar', (_, { position }) => {
-      if (this.currentValue.length === 1) {
-        this.$this.trigger('updateCurrentValue', {
-          currentValue:
-            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
-        });
-      } else if (this.currentValue.length === 2) {
-        const min = this.currentValue[1] - Math.floor((position - this.scaleOffset) / this.unit);
-        const max = Math.floor((position - this.scaleOffset) / this.unit) - this.currentValue[0];
-        if (min > max) {
-          this.$this.trigger('updateCurrentValueMin', {
-            currentValueMin:
-              Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
-          });
-        } else if (max > min) {
-          this.$this.trigger('updateCurrentValueMax', {
-            currentValueMax:
-              Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
-          });
-        }
-      }
-    });
-
-    this.$inputElement.on('change', (e) => {
-      if (this.currentValue.length === 1) {
-        const currentValue = String($(e.currentTarget).val()).match(/\d+/g);
-        this.$this.trigger('updateCurrentValue', { currentValue });
-      } else if (this.currentValue.length === 2) {
-        const currentValueMin = Number(String($(e.currentTarget).val()).split('-')[0].match(/\d+/g));
-        const currentValueMax = Number(String($(e.currentTarget).val()).split('-')[1].match(/\d+/g));
-        this.$this.trigger('updateCurrentValueMin', { currentValueMin });
-        this.$this.trigger('updateCurrentValueMax', { currentValueMax });
-      }
-    });
+    this.$this.on('updatePositionRunner', (_, { positionRunner }) => this.handleSliderUpdatePositionRunner(positionRunner));
+    this.$this.on('updatePositionRunnerMin', (_, { positionRunner }) => this.handleSliderUpdatePositionRunnerMin(positionRunner));
+    this.$this.on('updatePositionRunnerMax', (_, { positionRunner }) => this.handleSliderUpdatePositionRunnerMax(positionRunner));
+    this.$this.on('clickScale', (_, { position }) => this.handleSliderClickScale(position));
+    this.$this.on('clickProgressBar', (_, { position }) => this.handleSliderClickProgressBar(position));
+    this.$inputElement.on('change', (e) => this.handleInputElementChange(e));
   }
 
   dataCollection() {
@@ -255,6 +175,18 @@ class View {
     this.renderCurrentValue();
   }
 
+  updateCurrentValueMin(value: number) {
+    this.currentValue[0] = value;
+    this.viewCurrentValue[0] = value - this.minValue;
+    this.renderCurrentValueMin();
+  }
+
+  updateCurrentValueMax(value: number) {
+    this.currentValue[1] = value;
+    this.viewCurrentValue[1] = value - this.minValue;
+    this.renderCurrentValueMax();
+  }
+
   renderCurrentValue() {
     this.runner.updatePositionRunner(this.viewCurrentValue[0] * this.unit);
     this.progressBar.renderProgressBar(this.viewCurrentValue[0] * this.unit, 0);
@@ -270,12 +202,6 @@ class View {
       const value = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
       this.$inputElement.val(`${value}${this.symbol}`);
     }
-  }
-
-  updateCurrentValueMin(value: number) {
-    this.currentValue[0] = value;
-    this.viewCurrentValue[0] = value - this.minValue;
-    this.renderCurrentValueMin();
   }
 
   renderCurrentValueMin() {
@@ -298,12 +224,6 @@ class View {
     }
   }
 
-  updateCurrentValueMax(value: number) {
-    this.currentValue[1] = value;
-    this.viewCurrentValue[1] = value - this.minValue;
-    this.renderCurrentValueMax();
-  }
-
   renderCurrentValueMax() {
     this.runnerMax.updatePositionRunner(this.viewCurrentValue[1] * this.unit);
     this.progressBar.renderProgressBar(
@@ -321,6 +241,93 @@ class View {
       const minValue = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
       const maxValue = String(this.currentValue[1]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
       this.$inputElement.val(`${minValue}${this.symbol} - ${maxValue}${this.symbol}`);
+    }
+  }
+
+  handleSliderUpdatePositionRunner(positionRunner: number) {
+    this.$this.trigger('updateCurrentValue', {
+      currentValue:
+        Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
+    });
+  }
+
+  handleSliderUpdatePositionRunnerMin(positionRunner: number) {
+    this.$this.trigger('updateCurrentValueMin', {
+      currentValueMin:
+        Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
+    });
+  }
+
+  handleSliderUpdatePositionRunnerMax(positionRunner: number) {
+    this.$this.trigger('updateCurrentValueMax', {
+      currentValueMax:
+        Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
+    });
+  }
+
+  handleSliderClickScale(position: number) {
+    if (this.currentValue.length === 1) {
+      this.$this.trigger('updateCurrentValue', {
+        currentValue:
+          Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+      });
+    } else if (this.currentValue.length === 2) {
+      if (this.position === 'horizontal' && position < this.$runnerMin.offset().left) {
+        this.$this.trigger('updateCurrentValueMin', {
+          currentValueMin:
+            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+        });
+      } else if (this.position === 'horizontal' && position > this.$runnerMin.offset().left) {
+        this.$this.trigger('updateCurrentValueMax', {
+          currentValueMax:
+            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+        });
+      } else if (this.position === 'vertical' && position < this.$runnerMin.offset().top) {
+        this.$this.trigger('updateCurrentValueMin', {
+          currentValueMin:
+            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+        });
+      } else if (this.position === 'vertical' && position > this.$runnerMin.offset().top) {
+        this.$this.trigger('updateCurrentValueMax', {
+          currentValueMax:
+            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+        });
+      }
+    }
+  }
+
+  handleSliderClickProgressBar(position: number) {
+    if (this.currentValue.length === 1) {
+      this.$this.trigger('updateCurrentValue', {
+        currentValue:
+          Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+      });
+    } else if (this.currentValue.length === 2) {
+      const min = this.currentValue[1] - Math.floor((position - this.scaleOffset) / this.unit);
+      const max = Math.floor((position - this.scaleOffset) / this.unit) - this.currentValue[0];
+      if (min > max) {
+        this.$this.trigger('updateCurrentValueMin', {
+          currentValueMin:
+            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+        });
+      } else if (max > min) {
+        this.$this.trigger('updateCurrentValueMax', {
+          currentValueMax:
+            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+        });
+      }
+    }
+  }
+
+  handleInputElementChange(e: JQuery.ChangeEvent) {
+    if (this.currentValue.length === 1) {
+      const currentValue = String($(e.currentTarget).val()).match(/\d+/g);
+      this.$this.trigger('updateCurrentValue', { currentValue });
+    } else if (this.currentValue.length === 2) {
+      const currentValueMin = Number(String($(e.currentTarget).val()).split('-')[0].match(/\d+/g));
+      const currentValueMax = Number(String($(e.currentTarget).val()).split('-')[1].match(/\d+/g));
+      this.$this.trigger('updateCurrentValueMin', { currentValueMin });
+      this.$this.trigger('updateCurrentValueMax', { currentValueMax });
     }
   }
 }

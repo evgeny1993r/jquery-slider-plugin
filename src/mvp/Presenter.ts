@@ -41,20 +41,24 @@ class Presenter {
   }
 
   init() {
-    this.$this.on('updateCurrentValue', (_, { currentValue }) => {
-      this.model.setCurrentValue(currentValue);
-      this.view.updateCurrentValue(this.model.getCurrentValue());
-    });
+    this.$this.on('updateCurrentValue', (_, { currentValue }) => this.handleSliderUpdateCurrentValue(currentValue));
+    this.$this.on('updateCurrentValueMin', (_, { currentValueMin }) => this.handleSliderUpdateCurrentValueMin(currentValueMin));
+    this.$this.on('updateCurrentValueMax', (_, { currentValueMax }) => this.handleSliderUpdateCurrentValueMax(currentValueMax));
+  }
 
-    this.$this.on('updateCurrentValueMin', (_, { currentValueMin }) => {
-      this.model.setCurrentValueMin(currentValueMin);
-      this.view.updateCurrentValueMin(this.model.getCurrentValueMin());
-    });
+  handleSliderUpdateCurrentValue(currentValue: number) {
+    this.model.setCurrentValue(currentValue);
+    this.view.updateCurrentValue(this.model.getCurrentValue());
+  }
 
-    this.$this.on('updateCurrentValueMax', (_, { currentValueMax }) => {
-      this.model.setCurrentValueMax(currentValueMax);
-      this.view.updateCurrentValueMax(this.model.getCurrentValueMax());
-    });
+  handleSliderUpdateCurrentValueMin(currentValueMin: number) {
+    this.model.setCurrentValueMin(currentValueMin);
+    this.view.updateCurrentValueMin(this.model.getCurrentValueMin());
+  }
+
+  handleSliderUpdateCurrentValueMax(currentValueMax: number) {
+    this.model.setCurrentValueMax(currentValueMax);
+    this.view.updateCurrentValueMax(this.model.getCurrentValueMax());
   }
 }
 
