@@ -6,7 +6,7 @@ class Scale {
       class: 'slider__scale',
       on: {
         click: (e: JQuery.Event) => {
-          if (position === 'gorizontal') {
+          if (position === 'horizontal') {
             $this.trigger('clickScale', { position: e.pageX });
           } else if (position === 'vertical') {
             $this.trigger('clickScale', { position: e.pageY });

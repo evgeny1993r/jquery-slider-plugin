@@ -15,7 +15,7 @@ class ValueWindow {
 
   renderValueWindow(currentValue: number, indentValue: number): void {
     this.$valueWindow.text(currentValue);
-    if (this.position === 'gorizontal') {
+    if (this.position === 'horizontal') {
       this.$valueWindow.css({ transform: `translateX(${indentValue}px)` });
     } else if (this.position === 'vertical') {
       this.$valueWindow.css({ transform: `translateY(${indentValue}px)` });

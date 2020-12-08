@@ -8,7 +8,7 @@ class ProgressBar {
       class: 'slider__progress-bar',
       on: {
         click: (e: JQuery.Event) => {
-          if (this.position === 'gorizontal') {
+          if (this.position === 'horizontal') {
             $this.trigger('clickProgressBar', { position: e.pageX });
           } else if (this.position === 'vertical') {
             $this.trigger('clickProgressBar', { position: e.pageY });
@@ -23,7 +23,7 @@ class ProgressBar {
   }
 
   renderProgressBar(sizeValue: number, indentValue: number): void {
-    if (this.position === 'gorizontal') {
+    if (this.position === 'horizontal') {
       this.$progressBar.css({ width: `${sizeValue}px` });
       this.$progressBar.css({ transform: `translateX(${indentValue}px)` });
     } else if (this.position === 'vertical') {

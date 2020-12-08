@@ -20,9 +20,9 @@ interface IModel {
 }
 
 interface IView {
-  updataCurrentValue(value: number): void
-  updataCurrentValueMin(value: number): void
-  updataCurrentValueMax(value: number): void
+  updateCurrentValue(value: number): void
+  updateCurrentValueMin(value: number): void
+  updateCurrentValueMax(value: number): void
 }
 
 export {

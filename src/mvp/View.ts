@@ -86,13 +86,13 @@ class View {
     this.scale = new Scale(this.$this, this.position);
     this.progressBar = new ProgressBar(this.$this, this.position);
     if (this.currentValue.length === 1) {
-      this.runner = new Runner(this.$this, 'updataPositionRunner', this.position);
+      this.runner = new Runner(this.$this, 'updatePositionRunner', this.position);
       if (this.isShowValueWindow) {
         this.valueWindow = new ValueWindow(this.position);
       }
     } else if (this.currentValue.length === 2) {
-      this.runnerMin = new Runner(this.$this, 'updataPositionRunnerMin', this.position);
-      this.runnerMax = new Runner(this.$this, 'updataPositionRunnerMax', this.position);
+      this.runnerMin = new Runner(this.$this, 'updatePositionRunnerMin', this.position);
+      this.runnerMax = new Runner(this.$this, 'updatePositionRunnerMax', this.position);
       if (this.isShowValueWindow) {
         this.valueWindowMin = new ValueWindow(this.position);
         this.valueWindowMax = new ValueWindow(this.position);
@@ -149,22 +149,22 @@ class View {
       this.renderCurrentValueMax();
     }
 
-    this.$this.on('updataPositionRunner', (_, { positionRunner }) => {
-      this.$this.trigger('updataCurrentValue', {
+    this.$this.on('updatePositionRunner', (_, { positionRunner }) => {
+      this.$this.trigger('updateCurrentValue', {
         currentValue:
           Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
       });
     });
 
-    this.$this.on('updataPositionRunnerMin', (_, { positionRunner }) => {
-      this.$this.trigger('updataCurrentValueMin', {
+    this.$this.on('updatePositionRunnerMin', (_, { positionRunner }) => {
+      this.$this.trigger('updateCurrentValueMin', {
         currentValueMin:
           Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
       });
     });
 
-    this.$this.on('updataPositionRunnerMax', (_, { positionRunner }) => {
-      this.$this.trigger('updataCurrentValueMax', {
+    this.$this.on('updatePositionRunnerMax', (_, { positionRunner }) => {
+      this.$this.trigger('updateCurrentValueMax', {
         currentValueMax:
           Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
       });
@@ -172,28 +172,28 @@ class View {
 
     this.$this.on('clickScale', (_, { position }) => {
       if (this.currentValue.length === 1) {
-        this.$this.trigger('updataCurrentValue', {
+        this.$this.trigger('updateCurrentValue', {
           currentValue:
             Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
         });
       } else if (this.currentValue.length === 2) {
-        if (this.position === 'gorizontal' && position < this.$runnerMin.offset().left) {
-          this.$this.trigger('updataCurrentValueMin', {
+        if (this.position === 'horizontal' && position < this.$runnerMin.offset().left) {
+          this.$this.trigger('updateCurrentValueMin', {
             currentValueMin:
               Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
           });
-        } else if (this.position === 'gorizontal' && position > this.$runnerMin.offset().left) {
-          this.$this.trigger('updataCurrentValueMax', {
+        } else if (this.position === 'horizontal' && position > this.$runnerMin.offset().left) {
+          this.$this.trigger('updateCurrentValueMax', {
             currentValueMax:
               Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
           });
         } else if (this.position === 'vertical' && position < this.$runnerMin.offset().top) {
-          this.$this.trigger('updataCurrentValueMin', {
+          this.$this.trigger('updateCurrentValueMin', {
             currentValueMin:
               Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
           });
         } else if (this.position === 'vertical' && position > this.$runnerMin.offset().top) {
-          this.$this.trigger('updataCurrentValueMax', {
+          this.$this.trigger('updateCurrentValueMax', {
             currentValueMax:
               Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
           });
@@ -203,7 +203,7 @@ class View {
 
     this.$this.on('clickProgressBar', (_, { position }) => {
       if (this.currentValue.length === 1) {
-        this.$this.trigger('updataCurrentValue', {
+        this.$this.trigger('updateCurrentValue', {
           currentValue:
             Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
         });
@@ -211,12 +211,12 @@ class View {
         const min = this.currentValue[1] - Math.floor((position - this.scaleOffset) / this.unit);
         const max = Math.floor((position - this.scaleOffset) / this.unit) - this.currentValue[0];
         if (min > max) {
-          this.$this.trigger('updataCurrentValueMin', {
+          this.$this.trigger('updateCurrentValueMin', {
             currentValueMin:
               Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
           });
         } else if (max > min) {
-          this.$this.trigger('updataCurrentValueMax', {
+          this.$this.trigger('updateCurrentValueMax', {
             currentValueMax:
               Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
           });
@@ -227,18 +227,18 @@ class View {
     this.$inputElement.on('change', (e) => {
       if (this.currentValue.length === 1) {
         const currentValue = String($(e.currentTarget).val()).match(/\d+/g);
-        this.$this.trigger('updataCurrentValue', { currentValue });
+        this.$this.trigger('updateCurrentValue', { currentValue });
       } else if (this.currentValue.length === 2) {
         const currentValueMin = Number(String($(e.currentTarget).val()).split('-')[0].match(/\d+/g));
         const currentValueMax = Number(String($(e.currentTarget).val()).split('-')[1].match(/\d+/g));
-        this.$this.trigger('updataCurrentValueMin', { currentValueMin });
-        this.$this.trigger('updataCurrentValueMax', { currentValueMax });
+        this.$this.trigger('updateCurrentValueMin', { currentValueMin });
+        this.$this.trigger('updateCurrentValueMax', { currentValueMax });
       }
     });
   }
 
   dataCollection() {
-    if (this.position === 'gorizontal') {
+    if (this.position === 'horizontal') {
       this.scaleSize = this.$scale.outerWidth();
       this.scaleOffset = this.$scale.offset().left;
     } else if (this.position === 'vertical') {
@@ -249,72 +249,78 @@ class View {
     this.unit = this.scaleSize / this.viewMaxValue;
   }
 
-  updataCurrentValue(value: number) {
+  updateCurrentValue(value: number) {
     this.currentValue[0] = value;
     this.viewCurrentValue[0] = value - this.minValue;
     this.renderCurrentValue();
   }
 
   renderCurrentValue() {
-    this.runner.updataPositionRunner(this.viewCurrentValue[0] * this.unit);
+    this.runner.updatePositionRunner(this.viewCurrentValue[0] * this.unit);
     this.progressBar.renderProgressBar(this.viewCurrentValue[0] * this.unit, 0);
+
     if (this.isShowValueWindow) {
       this.valueWindow.renderValueWindow(
         this.currentValue[0],
         this.viewCurrentValue[0] * this.unit,
       );
     }
+
     if (this.$inputElement.length !== 0) {
       const value = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
       this.$inputElement.val(`${value}${this.symbol}`);
     }
   }
 
-  updataCurrentValueMin(value: number) {
+  updateCurrentValueMin(value: number) {
     this.currentValue[0] = value;
     this.viewCurrentValue[0] = value - this.minValue;
     this.renderCurrentValueMin();
   }
 
   renderCurrentValueMin() {
-    this.runnerMin.updataPositionRunner(this.viewCurrentValue[0] * this.unit);
+    this.runnerMin.updatePositionRunner(this.viewCurrentValue[0] * this.unit);
     this.progressBar.renderProgressBar(
       (this.viewCurrentValue[1] - this.viewCurrentValue[0]) * this.unit,
       this.viewCurrentValue[0] * this.unit,
     );
+
     if (this.isShowValueWindow) {
       this.valueWindowMin.renderValueWindow(
         this.currentValue[0], this.viewCurrentValue[0] * this.unit,
       );
     }
+
     if (this.$inputElement.length !== 0) {
-      const valueOne = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
-      const valueTwo = String(this.currentValue[1]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
-      this.$inputElement.val(`${valueOne}${this.symbol} - ${valueTwo}${this.symbol}`);
+      const minValue = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
+      const maxValue = String(this.currentValue[1]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
+      this.$inputElement.val(`${minValue}${this.symbol} - ${maxValue}${this.symbol}`);
     }
   }
 
-  updataCurrentValueMax(value: number) {
+  updateCurrentValueMax(value: number) {
     this.currentValue[1] = value;
     this.viewCurrentValue[1] = value - this.minValue;
     this.renderCurrentValueMax();
   }
 
   renderCurrentValueMax() {
-    this.runnerMax.updataPositionRunner(this.viewCurrentValue[1] * this.unit);
+    this.runnerMax.updatePositionRunner(this.viewCurrentValue[1] * this.unit);
     this.progressBar.renderProgressBar(
       (this.viewCurrentValue[1] - this.viewCurrentValue[0]) * this.unit,
       this.viewCurrentValue[0] * this.unit,
     );
+
     if (this.isShowValueWindow) {
       this.valueWindowMax.renderValueWindow(
         this.currentValue[1], this.viewCurrentValue[1] * this.unit,
       );
     }
+
     if (this.$inputElement.length !== 0) {
-      const valueOne = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
-      const valueTwo = String(this.currentValue[1]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
-      this.$inputElement.val(`${valueOne}${this.symbol} - ${valueTwo}${this.symbol}`);
+      const minValue = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
+      const maxValue = String(this.currentValue[1]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
+      this.$inputElement.val(`${minValue}${this.symbol} - ${maxValue}${this.symbol}`);
     }
   }
 }

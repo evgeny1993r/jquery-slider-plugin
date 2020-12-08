@@ -25,7 +25,7 @@ interface IProgressBar {
 
 interface IRunner {
   getRunner(): JQuery
-  updataPositionRunner(value: number): void
+  updatePositionRunner(value: number): void
 }
 
 interface IValueWindow {

@@ -9,7 +9,7 @@ class Runner {
       on: {
         mousedown: () => {
           $(document).on('mousemove', (e) => {
-            if (this.position === 'gorizontal') {
+            if (this.position === 'horizontal') {
               $this.trigger(eventName, {
                 positionRunner: e.pageX,
               });
@@ -31,8 +31,8 @@ class Runner {
     return this.$runner;
   }
 
-  updataPositionRunner(value: number): void {
-    if (this.position === 'gorizontal') {
+  updatePositionRunner(value: number): void {
+    if (this.position === 'horizontal') {
       this.$runner.css({ transform: `translateX(${value}px)` });
     } else if (this.position === 'vertical') {
       this.$runner.css({ transform: `translateY(${value}px)` });

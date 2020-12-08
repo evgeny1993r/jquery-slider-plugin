@@ -41,19 +41,19 @@ class Presenter {
   }
 
   init() {
-    this.$this.on('updataCurrentValue', (_, { currentValue }) => {
+    this.$this.on('updateCurrentValue', (_, { currentValue }) => {
       this.model.setCurrentValue(currentValue);
-      this.view.updataCurrentValue(this.model.getCurrentValue());
+      this.view.updateCurrentValue(this.model.getCurrentValue());
     });
 
-    this.$this.on('updataCurrentValueMin', (_, { currentValueMin }) => {
+    this.$this.on('updateCurrentValueMin', (_, { currentValueMin }) => {
       this.model.setCurrentValueMin(currentValueMin);
-      this.view.updataCurrentValueMin(this.model.getCurrentValueMin());
+      this.view.updateCurrentValueMin(this.model.getCurrentValueMin());
     });
 
-    this.$this.on('updataCurrentValueMax', (_, { currentValueMax }) => {
+    this.$this.on('updateCurrentValueMax', (_, { currentValueMax }) => {
       this.model.setCurrentValueMax(currentValueMax);
-      this.view.updataCurrentValueMax(this.model.getCurrentValueMax());
+      this.view.updateCurrentValueMax(this.model.getCurrentValueMax());
     });
   }
 }

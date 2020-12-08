@@ -8,7 +8,7 @@ import './components/index.scss';
   $.fn.slider = function (options: Ioptions) {
     const settings = $.extend({
       $this: this,
-      position: 'gorizontal',
+      position: 'horizontal',
       minValue: 0,
       maxValue: 100,
       currentValue: [0],
