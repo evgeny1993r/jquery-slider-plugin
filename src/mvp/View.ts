@@ -272,22 +272,14 @@ class View {
           Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
       });
     } else if (this.currentValue.length === 2) {
-      if (this.position === 'horizontal' && position < this.$runnerMin.offset().left) {
+      const min = this.currentValue[1] - Math.floor((position - this.scaleOffset) / this.unit);
+      const max = Math.floor((position - this.scaleOffset) / this.unit) - this.currentValue[0];
+      if (min > max) {
         this.$this.trigger('updateCurrentValueMin', {
           currentValueMin:
             Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
         });
-      } else if (this.position === 'horizontal' && position > this.$runnerMin.offset().left) {
-        this.$this.trigger('updateCurrentValueMax', {
-          currentValueMax:
-            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
-        });
-      } else if (this.position === 'vertical' && position < this.$runnerMin.offset().top) {
-        this.$this.trigger('updateCurrentValueMin', {
-          currentValueMin:
-            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
-        });
-      } else if (this.position === 'vertical' && position > this.$runnerMin.offset().top) {
+      } else if (max > min) {
         this.$this.trigger('updateCurrentValueMax', {
           currentValueMax:
             Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
