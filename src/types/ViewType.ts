@@ -21,16 +21,19 @@ interface IScale {
 interface IProgressBar {
   getProgressBar(): JQuery
   renderProgressBar(widthValue: number, indentValue: number): void
+  updatePosition(position: string): void
 }
 
 interface IRunner {
   getRunner(): JQuery
   updatePositionRunner(value: number): void
+  updatePosition(position: string): void
 }
 
 interface IValueWindow {
   getValueWindow(): JQuery
   renderValueWindow(currentValue: number, indentValue: number): void
+  updatePosition(position: string): void
 }
 
 export {

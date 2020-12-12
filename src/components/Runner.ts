@@ -50,6 +50,10 @@ class Runner {
   handleDocumentMouseup() {
     this.$document.off('mousemove');
   }
+
+  updatePosition(position: string) {
+    this.position = position;
+  }
 }
 
 export {

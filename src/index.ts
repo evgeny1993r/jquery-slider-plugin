@@ -30,6 +30,10 @@ import './components/index.scss';
         $this.trigger('updateCurrentValueMax', { currentValueMax: value[1] });
       }
     },
+
+    setPosition: ($this: JQuery, position: string) => {
+      $this.trigger('updatePosition', { position });
+    },
   };
 
   $.fn.slider = function (key, value) {
@@ -39,6 +43,8 @@ import './components/index.scss';
       methods.init(this, key);
     } else if (key === 'setCurrentValue' && Array.isArray(value) && typeof (value[0]) === 'number' && (typeof (value[1]) === 'undefined' || typeof (value[1]) === 'number')) {
       methods.setCurrentValue(this, value);
+    } else if (key === 'setPosition' && typeof (value) === 'string') {
+      methods.setPosition(this, value);
     }
 
     return this;

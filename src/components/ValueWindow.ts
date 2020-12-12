@@ -21,6 +21,10 @@ class ValueWindow {
       this.$valueWindow.css({ transform: `translateY(${indentValue}px)` });
     }
   }
+
+  updatePosition(position: string) {
+    this.position = position;
+  }
 }
 
 export {

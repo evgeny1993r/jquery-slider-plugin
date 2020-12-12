@@ -23,6 +23,7 @@ interface IView {
   updateCurrentValue(value: number): void
   updateCurrentValueMin(value: number): void
   updateCurrentValueMax(value: number): void
+  updatePosition(position: string): void
 }
 
 export {
