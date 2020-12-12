@@ -159,30 +159,25 @@ class View {
   }
 
   convertIntervalValue() {
-    delete this.progressBar;
     delete this.runner;
     if (this.isShowValueWindow) {
       delete this.valueWindow;
     }
-    delete this.$progressBar;
     delete this.$runner;
     if (this.isShowValueWindow) {
       delete this.$valueWindow;
     }
-    this.$this.find('.slider__progress-bar').remove();
     this.$this.find('.slider__runner').remove();
     if (this.isShowValueWindow) {
       this.$this.find('.slider__value-window').remove();
     }
 
-    this.progressBar = new ProgressBar(this.$this, this.position);
     this.runnerMin = new Runner(this.$this, 'updatePositionRunnerMin', this.position);
     this.runnerMax = new Runner(this.$this, 'updatePositionRunnerMax', this.position);
     if (this.isShowValueWindow) {
       this.valueWindowMin = new ValueWindow(this.position);
       this.valueWindowMax = new ValueWindow(this.position);
     }
-    this.$progressBar = this.progressBar.getProgressBar();
     this.$runnerMin = this.runnerMin.getRunner();
     this.$runnerMax = this.runnerMax.getRunner();
     if (this.isShowValueWindow) {
@@ -190,7 +185,6 @@ class View {
       this.$valueWindowMax = this.valueWindowMax.getValueWindow();
     }
     this.$slider
-      .append(this.$progressBar)
       .append(this.$runnerMin)
       .append(this.$runnerMax);
     if (this.isShowValueWindow) {
@@ -203,38 +197,32 @@ class View {
   convertSingleValue() {
     this.currentValue.splice(1, 1);
     this.viewCurrentValue.splice(1, 1);
-    delete this.progressBar;
     delete this.runnerMin;
     delete this.runnerMax;
     if (this.isShowValueWindow) {
       delete this.valueWindowMin;
       delete this.valueWindowMax;
     }
-    delete this.$progressBar;
     delete this.$runnerMin;
     delete this.$runnerMax;
     if (this.isShowValueWindow) {
       delete this.$valueWindowMin;
       delete this.$valueWindowMax;
     }
-    this.$this.find('.slider__progress-bar').remove();
     this.$this.find('.slider__runner').remove();
     if (this.isShowValueWindow) {
       this.$this.find('.slider__value-window').remove();
     }
 
-    this.progressBar = new ProgressBar(this.$this, this.position);
     this.runner = new Runner(this.$this, 'updatePositionRunner', this.position);
     if (this.isShowValueWindow) {
       this.valueWindow = new ValueWindow(this.position);
     }
-    this.$progressBar = this.progressBar.getProgressBar();
     this.$runner = this.runner.getRunner();
     if (this.isShowValueWindow) {
       this.$valueWindow = this.valueWindow.getValueWindow();
     }
     this.$slider
-      .append(this.$progressBar)
       .append(this.$runner);
     if (this.isShowValueWindow) {
       this.$slider
