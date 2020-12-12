@@ -119,14 +119,6 @@ class View {
     this.init();
   }
 
-  isCurrentValue() {
-    return this.currentValue.length === 1;
-  }
-
-  isCurrentValues() {
-    return this.currentValue.length === 2;
-  }
-
   init() {
     this.$this
       .append(this.$slider
@@ -166,6 +158,98 @@ class View {
     $(window).on('resize', () => this.handleWindowResize());
   }
 
+  convertIntervalValue() {
+    delete this.progressBar;
+    delete this.runner;
+    if (this.isShowValueWindow) {
+      delete this.valueWindow;
+    }
+    delete this.$progressBar;
+    delete this.$runner;
+    if (this.isShowValueWindow) {
+      delete this.$valueWindow;
+    }
+    this.$this.find('.slider__progress-bar').remove();
+    this.$this.find('.slider__runner').remove();
+    if (this.isShowValueWindow) {
+      this.$this.find('.slider__value-window').remove();
+    }
+
+    this.progressBar = new ProgressBar(this.$this, this.position);
+    this.runnerMin = new Runner(this.$this, 'updatePositionRunnerMin', this.position);
+    this.runnerMax = new Runner(this.$this, 'updatePositionRunnerMax', this.position);
+    if (this.isShowValueWindow) {
+      this.valueWindowMin = new ValueWindow(this.position);
+      this.valueWindowMax = new ValueWindow(this.position);
+    }
+    this.$progressBar = this.progressBar.getProgressBar();
+    this.$runnerMin = this.runnerMin.getRunner();
+    this.$runnerMax = this.runnerMax.getRunner();
+    if (this.isShowValueWindow) {
+      this.$valueWindowMin = this.valueWindowMin.getValueWindow();
+      this.$valueWindowMax = this.valueWindowMax.getValueWindow();
+    }
+    this.$slider
+      .append(this.$progressBar)
+      .append(this.$runnerMin)
+      .append(this.$runnerMax);
+    if (this.isShowValueWindow) {
+      this.$slider
+        .append(this.$valueWindowMin)
+        .append(this.$valueWindowMax);
+    }
+  }
+
+  convertSingleValue() {
+    this.currentValue.splice(1, 1);
+    this.viewCurrentValue.splice(1, 1);
+    delete this.progressBar;
+    delete this.runnerMin;
+    delete this.runnerMax;
+    if (this.isShowValueWindow) {
+      delete this.valueWindowMin;
+      delete this.valueWindowMax;
+    }
+    delete this.$progressBar;
+    delete this.$runnerMin;
+    delete this.$runnerMax;
+    if (this.isShowValueWindow) {
+      delete this.$valueWindowMin;
+      delete this.$valueWindowMax;
+    }
+    this.$this.find('.slider__progress-bar').remove();
+    this.$this.find('.slider__runner').remove();
+    if (this.isShowValueWindow) {
+      this.$this.find('.slider__value-window').remove();
+    }
+
+    this.progressBar = new ProgressBar(this.$this, this.position);
+    this.runner = new Runner(this.$this, 'updatePositionRunner', this.position);
+    if (this.isShowValueWindow) {
+      this.valueWindow = new ValueWindow(this.position);
+    }
+    this.$progressBar = this.progressBar.getProgressBar();
+    this.$runner = this.runner.getRunner();
+    if (this.isShowValueWindow) {
+      this.$valueWindow = this.valueWindow.getValueWindow();
+    }
+    this.$slider
+      .append(this.$progressBar)
+      .append(this.$runner);
+    if (this.isShowValueWindow) {
+      this.$slider
+        .append(this.$valueWindow);
+    }
+  }
+
+  isCurrentValue() {
+    return this.currentValue.length === 1;
+  }
+
+  isCurrentValues() {
+    return this.currentValue.length === 2;
+  }
+
   dataCollection() {
     if (this.position === 'horizontal') {
       this.scaleSize = this.$scale.outerWidth();
@@ -179,15 +263,29 @@ class View {
   }
 
   updateCurrentValue(value: number) {
-    this.currentValue[0] = value;
-    this.viewCurrentValue[0] = value - this.minValue;
-    this.renderCurrentValue();
+    if (this.isCurrentValue()) {
+      this.currentValue[0] = value;
+      this.viewCurrentValue[0] = value - this.minValue;
+      this.renderCurrentValue();
+    } else if (this.isCurrentValues()) {
+      this.convertSingleValue();
+      this.currentValue[0] = value;
+      this.viewCurrentValue[0] = value - this.minValue;
+      this.renderCurrentValue();
+    }
   }
 
   updateCurrentValueMin(value: number) {
-    this.currentValue[0] = value;
-    this.viewCurrentValue[0] = value - this.minValue;
-    this.renderCurrentValueMin();
+    if (this.isCurrentValue()) {
+      this.convertIntervalValue();
+      this.currentValue[0] = value;
+      this.viewCurrentValue[0] = value - this.minValue;
+      this.renderCurrentValueMin();
+    } else if (this.isCurrentValues()) {
+      this.currentValue[0] = value;
+      this.viewCurrentValue[0] = value - this.minValue;
+      this.renderCurrentValueMin();
+    }
   }
 
   updateCurrentValueMax(value: number) {
