@@ -373,21 +373,27 @@ class View {
   handleSliderUpdatePositionRunner(positionRunner: number) {
     this.$this.trigger('updateCurrentValue', {
       currentValue:
-        Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
+        Math.round(
+          (positionRunner - this.scaleOffset) / this.unit / this.step,
+        ) * this.step + this.minValue,
     });
   }
 
   handleSliderUpdatePositionRunnerMin(positionRunner: number) {
     this.$this.trigger('updateCurrentValueMin', {
       currentValueMin:
-        Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
+      Math.round(
+        (positionRunner - this.scaleOffset) / this.unit / this.step,
+      ) * this.step + this.minValue,
     });
   }
 
   handleSliderUpdatePositionRunnerMax(positionRunner: number) {
     this.$this.trigger('updateCurrentValueMax', {
       currentValueMax:
-        Math.round((positionRunner - this.scaleOffset) / this.unit / this.step) * this.step,
+      Math.round(
+        (positionRunner - this.scaleOffset) / this.unit / this.step,
+      ) * this.step + this.minValue,
     });
   }
 
@@ -395,7 +401,9 @@ class View {
     if (this.isCurrentValue()) {
       this.$this.trigger('updateCurrentValue', {
         currentValue:
-          Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+        Math.round(
+          (position - this.scaleOffset) / this.unit / this.step,
+        ) * this.step + this.minValue,
       });
     } else if (this.isCurrentValues()) {
       const min = this.currentValue[1] - Math.floor((position - this.scaleOffset) / this.unit);
@@ -404,12 +412,16 @@ class View {
       if (min > max) {
         this.$this.trigger('updateCurrentValueMin', {
           currentValueMin:
-            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+          Math.round(
+            (position - this.scaleOffset) / this.unit / this.step,
+          ) * this.step + this.minValue,
         });
       } else if (max > min) {
         this.$this.trigger('updateCurrentValueMax', {
           currentValueMax:
-            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+          Math.round(
+            (position - this.scaleOffset) / this.unit / this.step,
+          ) * this.step + this.minValue,
         });
       }
     }
@@ -419,7 +431,9 @@ class View {
     if (this.isCurrentValue()) {
       this.$this.trigger('updateCurrentValue', {
         currentValue:
-          Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+        Math.round(
+          (position - this.scaleOffset) / this.unit / this.step,
+        ) * this.step + this.minValue,
       });
     } else if (this.isCurrentValues()) {
       const min = this.currentValue[1] - Math.floor((position - this.scaleOffset) / this.unit);
@@ -428,12 +442,16 @@ class View {
       if (min > max) {
         this.$this.trigger('updateCurrentValueMin', {
           currentValueMin:
-            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+          Math.round(
+            (position - this.scaleOffset) / this.unit / this.step,
+          ) * this.step + this.minValue,
         });
       } else if (max > min) {
         this.$this.trigger('updateCurrentValueMax', {
           currentValueMax:
-            Math.round((position - this.scaleOffset) / this.unit / this.step) * this.step,
+          Math.round(
+            (position - this.scaleOffset) / this.unit / this.step,
+          ) * this.step + this.minValue,
         });
       }
     }
