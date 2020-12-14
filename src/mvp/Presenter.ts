@@ -20,9 +20,12 @@ class Presenter {
   }: Ioptions) {
     this.$this = $this;
     this.model = new Model({
+      position,
       minValue,
       maxValue,
       currentValue,
+      step,
+      isShowValueWindow,
     });
     this.view = new View({
       $this,
@@ -61,7 +64,8 @@ class Presenter {
   }
 
   handleSliderUpdatePosition(position: string) {
-    this.view.updatePosition(position);
+    this.model.setPosition(position);
+    this.view.updatePosition(this.model.getPosition());
   }
 }
 

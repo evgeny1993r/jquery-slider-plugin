@@ -228,36 +228,34 @@ class View {
   }
 
   updatePosition(position: string) {
-    if (this.position !== position) {
-      this.$this
-        .children('.slider')
-        .removeClass(`slider_${this.position}`)
-        .addClass(`slider_${position}`);
-      this.position = position;
-      this.dataCollection();
-      this.scale.updatePosition(this.position);
-      this.progressBar.updatePosition(this.position);
-      if (this.isCurrentValue()) {
-        this.runner.updatePosition(this.position);
-        if (this.isShowValueWindow) {
-          this.valueWindow.updatePosition(this.position);
-        }
+    this.$this
+      .children('.slider')
+      .removeClass(`slider_${this.position}`)
+      .addClass(`slider_${position}`);
+    this.position = position;
+    this.dataCollection();
+    this.scale.updatePosition(this.position);
+    this.progressBar.updatePosition(this.position);
+    if (this.isCurrentValue()) {
+      this.runner.updatePosition(this.position);
+      if (this.isShowValueWindow) {
+        this.valueWindow.updatePosition(this.position);
       }
-      if (this.isCurrentValues()) {
-        this.runnerMin.updatePosition(this.position);
-        this.runnerMax.updatePosition(this.position);
-        if (this.isShowValueWindow) {
-          this.valueWindowMin.updatePosition(this.position);
-          this.valueWindowMax.updatePosition(this.position);
-        }
+    }
+    if (this.isCurrentValues()) {
+      this.runnerMin.updatePosition(this.position);
+      this.runnerMax.updatePosition(this.position);
+      if (this.isShowValueWindow) {
+        this.valueWindowMin.updatePosition(this.position);
+        this.valueWindowMax.updatePosition(this.position);
       }
+    }
 
-      if (this.isCurrentValue()) {
-        this.renderCurrentValue();
-      } else if (this.isCurrentValues()) {
-        this.renderCurrentValueMin();
-        this.renderCurrentValueMax();
-      }
+    if (this.isCurrentValue()) {
+      this.renderCurrentValue();
+    } else if (this.isCurrentValues()) {
+      this.renderCurrentValueMin();
+      this.renderCurrentValueMax();
     }
   }
 

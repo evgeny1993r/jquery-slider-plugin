@@ -10,12 +10,18 @@ interface Ioptions {
 }
 
 interface IModel {
+  getPosition(): string
+  setPosition(value: string): void
   getCurrentValue(): number
   setCurrentValue(value: number): void
   getCurrentValueMin(): number
   setCurrentValueMin(value: number): void
   getCurrentValueMax(): number
   setCurrentValueMax(value: number): void
+  getStep(): number
+  setStep(value: number): void
+  getIsShowValueWindow(): boolean
+  setIsShowValueWindow(value: boolean): void
 }
 
 interface IView {
