@@ -325,8 +325,7 @@ class View {
     }
 
     if (this.$inputElement.length !== 0) {
-      const value = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
-      this.$inputElement.val(`${value}`);
+      this.$inputElement.val(`${this.currentValue[0]}`);
     }
   }
 
@@ -344,8 +343,8 @@ class View {
     }
 
     if (this.$inputElement.length !== 0) {
-      const minValue = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
-      const maxValue = String(this.currentValue[1]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
+      const minValue = Math.sign(this.currentValue[0]) === -1 ? `(${this.currentValue[0]})` : `${this.currentValue[0]}`;
+      const maxValue = Math.sign(this.currentValue[1]) === -1 ? `(${this.currentValue[1]})` : `${this.currentValue[1]}`;
       this.$inputElement.val(`${minValue} - ${maxValue}`);
     }
   }
@@ -364,8 +363,8 @@ class View {
     }
 
     if (this.$inputElement.length !== 0) {
-      const minValue = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
-      const maxValue = String(this.currentValue[1]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
+      const minValue = Math.sign(this.currentValue[0]) === -1 ? `(${this.currentValue[0]})` : `${this.currentValue[0]}`;
+      const maxValue = Math.sign(this.currentValue[1]) === -1 ? `(${this.currentValue[1]})` : `${this.currentValue[1]}`;
       this.$inputElement.val(`${minValue} - ${maxValue}`);
     }
   }
