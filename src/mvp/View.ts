@@ -464,11 +464,11 @@ class View {
 
   handleInputElementChange(e: JQuery.ChangeEvent) {
     if (this.isCurrentValue()) {
-      const currentValue = String($(e.currentTarget).val()).match(/\d+/g);
+      const currentValue = $(e.currentTarget).val();
       this.$this.trigger('updateCurrentValue', { currentValue });
     } else if (this.isCurrentValues()) {
-      const currentValueMin = Number(String($(e.currentTarget).val()).split('-')[0].match(/\d+/g));
-      const currentValueMax = Number(String($(e.currentTarget).val()).split('-')[1].match(/\d+/g));
+      const currentValueMin = Number(String($(e.currentTarget).val()).split(' - ')[0].replace(/[()]/g, ''));
+      const currentValueMax = Number(String($(e.currentTarget).val()).split(' - ')[1].replace(/[()]/g, ''));
       this.$this.trigger('updateCurrentValueMin', { currentValueMin });
       this.$this.trigger('updateCurrentValueMax', { currentValueMax });
     }
