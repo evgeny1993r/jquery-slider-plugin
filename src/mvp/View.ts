@@ -24,7 +24,6 @@ class View {
   viewCurrentValue: [number, number?];
   step: number;
   isShowValueWindow: boolean;
-  symbol: string;
 
   slider: ISlider;
   scale: IScale;
@@ -60,7 +59,6 @@ class View {
     step,
     isShowValueWindow,
     $inputElement,
-    symbol,
   }: IoptionsView) {
     this.$this = $this;
     this.position = position;
@@ -80,7 +78,6 @@ class View {
     this.step = step;
     this.isShowValueWindow = isShowValueWindow;
     this.$inputElement = $inputElement;
-    this.symbol = symbol;
 
     this.slider = new Slider(this.position);
     this.scale = new Scale(this.$this, this.position);
@@ -329,7 +326,7 @@ class View {
 
     if (this.$inputElement.length !== 0) {
       const value = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
-      this.$inputElement.val(`${value}${this.symbol}`);
+      this.$inputElement.val(`${value}`);
     }
   }
 
@@ -349,7 +346,7 @@ class View {
     if (this.$inputElement.length !== 0) {
       const minValue = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
       const maxValue = String(this.currentValue[1]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
-      this.$inputElement.val(`${minValue}${this.symbol} - ${maxValue}${this.symbol}`);
+      this.$inputElement.val(`${minValue} - ${maxValue}`);
     }
   }
 
@@ -369,7 +366,7 @@ class View {
     if (this.$inputElement.length !== 0) {
       const minValue = String(this.currentValue[0]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
       const maxValue = String(this.currentValue[1]).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, '$1 ');
-      this.$inputElement.val(`${minValue}${this.symbol} - ${maxValue}${this.symbol}`);
+      this.$inputElement.val(`${minValue} - ${maxValue}`);
     }
   }
 

@@ -7,7 +7,6 @@ interface IoptionsView {
   step: number
   isShowValueWindow: boolean;
   $inputElement: JQuery
-  symbol: string
 }
 
 interface ISlider {
