@@ -237,6 +237,8 @@ class View {
         .removeClass(`slider_${this.position}`)
         .addClass(`slider_${position}`);
       this.position = position;
+      this.dataCollection();
+      this.scale.updatePosition(this.position);
       this.progressBar.updatePosition(this.position);
       if (this.isCurrentValue()) {
         this.runner.updatePosition(this.position);
@@ -252,6 +254,7 @@ class View {
           this.valueWindowMax.updatePosition(this.position);
         }
       }
+
       if (this.isCurrentValue()) {
         this.renderCurrentValue();
       } else if (this.isCurrentValues()) {
@@ -406,8 +409,12 @@ class View {
         ) * this.step + this.minValue,
       });
     } else if (this.isCurrentValues()) {
-      const min = this.currentValue[1] - Math.floor((position - this.scaleOffset) / this.unit);
-      const max = Math.floor((position - this.scaleOffset) / this.unit) - this.currentValue[0];
+      const min = this.currentValue[1] - Math.floor(
+        (position - this.scaleOffset) / this.unit + this.minValue,
+      );
+      const max = Math.floor(
+        (position - this.scaleOffset) / this.unit,
+      ) - this.currentValue[0] + this.minValue;
 
       if (min > max) {
         this.$this.trigger('updateCurrentValueMin', {
@@ -436,8 +443,12 @@ class View {
         ) * this.step + this.minValue,
       });
     } else if (this.isCurrentValues()) {
-      const min = this.currentValue[1] - Math.floor((position - this.scaleOffset) / this.unit);
-      const max = Math.floor((position - this.scaleOffset) / this.unit) - this.currentValue[0];
+      const min = this.currentValue[1] - Math.floor(
+        (position - this.scaleOffset) / this.unit + this.minValue,
+      );
+      const max = Math.floor(
+        (position - this.scaleOffset) / this.unit,
+      ) - this.currentValue[0] + this.minValue;
 
       if (min > max) {
         this.$this.trigger('updateCurrentValueMin', {

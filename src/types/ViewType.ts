@@ -16,6 +16,7 @@ interface ISlider {
 
 interface IScale {
   getScale(): JQuery
+  updatePosition(position: string): void
 }
 
 interface IProgressBar {

@@ -25,6 +25,10 @@ class Scale {
       this.$this.trigger('clickScale', { position: e.pageY });
     }
   }
+
+  updatePosition(position: string) {
+    this.position = position;
+  }
 }
 
 export {
