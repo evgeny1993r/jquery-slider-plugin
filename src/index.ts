@@ -45,6 +45,10 @@ import './components/index.scss';
     setStep: ($this: JQuery, step: number) => {
       $this.trigger('updateStep', { step });
     },
+
+    setIsShowValueWindow: ($this:JQuery, isShowValueWindow: boolean) => {
+      $this.trigger('updateIsShowValueWindow', { isShowValueWindow });
+    },
   };
 
   $.fn.slider = function (key, value) {
@@ -62,6 +66,8 @@ import './components/index.scss';
       methods.setMaxValue(this, value);
     } else if (key === 'setStep' && typeof (value) === 'number') {
       methods.setStep(this, value);
+    } else if (key === 'setIsShowValueWindow' && typeof (value) === 'boolean') {
+      methods.setIsShowValueWindow(this, value);
     }
 
     return this;

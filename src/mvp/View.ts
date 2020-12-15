@@ -299,6 +299,29 @@ class View {
     this.step = step;
   }
 
+  updateIsShowValueWindow(isShowValueWindow: boolean) {
+    this.isShowValueWindow = isShowValueWindow;
+
+    if (this.isCurrentValue()) {
+      this.valueWindow = new ValueWindow(this.position);
+      this.$valueWindow = this.valueWindow.getValueWindow();
+      this.$slider.append(this.$valueWindow);
+
+      this.renderCurrentValue();
+    } else if (this.isCurrentValues()) {
+      this.valueWindowMin = new ValueWindow(this.position);
+      this.valueWindowMax = new ValueWindow(this.position);
+      this.$valueWindowMin = this.valueWindowMin.getValueWindow();
+      this.$valueWindowMax = this.valueWindowMax.getValueWindow();
+      this.$slider
+        .append(this.$valueWindowMin)
+        .append(this.$valueWindowMax);
+
+      this.renderCurrentValueMin();
+      this.renderCurrentValueMax();
+    }
+  }
+
   isCurrentValue() {
     return this.currentValue.length === 1;
   }

@@ -87,8 +87,8 @@ class Model {
     return this.isShowValueWindow;
   }
 
-  setIsShowValueWindow(value: boolean): void {
-    this.isShowValueWindow = value;
+  setIsShowValueWindow(isShowValueWindow: boolean): void {
+    this.isShowValueWindow = isShowValueWindow;
   }
 }
 
