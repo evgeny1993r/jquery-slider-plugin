@@ -41,6 +41,10 @@ import './components/index.scss';
     setMaxValue: ($this: JQuery, maxValue: number) => {
       $this.trigger('updateMaxValue', { maxValue });
     },
+
+    setStep: ($this: JQuery, step: number) => {
+      $this.trigger('updateStep', { step });
+    },
   };
 
   $.fn.slider = function (key, value) {
@@ -56,6 +60,8 @@ import './components/index.scss';
       methods.setMinValue(this, value);
     } else if (key === 'setMaxValue' && typeof (value) === 'number') {
       methods.setMaxValue(this, value);
+    } else if (key === 'setStep' && typeof (value) === 'number') {
+      methods.setStep(this, value);
     }
 
     return this;

@@ -295,6 +295,10 @@ class View {
     }
   }
 
+  updateStep(step: number) {
+    this.step = step;
+  }
+
   isCurrentValue() {
     return this.currentValue.length === 1;
   }

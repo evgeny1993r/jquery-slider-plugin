@@ -35,6 +35,7 @@ interface IView {
   updateCurrentValue(value: number): void
   updateCurrentValueMin(value: number): void
   updateCurrentValueMax(value: number): void
+  updateStep(step: number): void
 }
 
 export {
