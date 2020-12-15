@@ -262,23 +262,37 @@ class View {
   updateIsShowValueWindow(isShowValueWindow: boolean) {
     this.isShowValueWindow = isShowValueWindow;
 
-    if (this.isCurrentValue()) {
-      this.valueWindow = new ValueWindow(this.position);
-      this.$valueWindow = this.valueWindow.getValueWindow();
-      this.$slider.append(this.$valueWindow);
+    if (this.isShowValueWindow) {
+      if (this.isCurrentValue()) {
+        this.valueWindow = new ValueWindow(this.position);
+        this.$valueWindow = this.valueWindow.getValueWindow();
+        this.$slider.append(this.$valueWindow);
 
-      this.renderCurrentValue();
-    } else if (this.isCurrentValues()) {
-      this.valueWindowMin = new ValueWindow(this.position);
-      this.valueWindowMax = new ValueWindow(this.position);
-      this.$valueWindowMin = this.valueWindowMin.getValueWindow();
-      this.$valueWindowMax = this.valueWindowMax.getValueWindow();
-      this.$slider
-        .append(this.$valueWindowMin)
-        .append(this.$valueWindowMax);
+        this.renderCurrentValue();
+      } else if (this.isCurrentValues()) {
+        this.valueWindowMin = new ValueWindow(this.position);
+        this.valueWindowMax = new ValueWindow(this.position);
+        this.$valueWindowMin = this.valueWindowMin.getValueWindow();
+        this.$valueWindowMax = this.valueWindowMax.getValueWindow();
+        this.$slider
+          .append(this.$valueWindowMin)
+          .append(this.$valueWindowMax);
 
-      this.renderCurrentValueMin();
-      this.renderCurrentValueMax();
+        this.renderCurrentValueMin();
+        this.renderCurrentValueMax();
+      }
+    } else if (!this.isShowValueWindow) {
+      if (this.isCurrentValue()) {
+        delete this.valueWindow;
+        delete this.$valueWindow;
+        this.$slider.find('.slider__value-window').remove();
+      } else if (this.isCurrentValues()) {
+        delete this.valueWindowMin;
+        delete this.valueWindowMax;
+        delete this.$valueWindowMin;
+        delete this.$valueWindowMax;
+        this.$slider.find('.slider__value-window').remove();
+      }
     }
   }
 
