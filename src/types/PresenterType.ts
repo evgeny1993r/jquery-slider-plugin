@@ -11,30 +11,30 @@ interface Ioptions {
 
 interface IModel {
   getPosition(): string
-  setPosition(value: string): void
+  setPosition(position: string): void
   getMinValue(): number
   setMinValue(minValue: number): void
   getMaxValue(): number
   setMaxValue(maxValue: number): void
   getCurrentValue(): number
-  setCurrentValue(value: number): void
+  setCurrentValue(currentValue: number): void
   getCurrentValueMin(): number
-  setCurrentValueMin(value: number): void
+  setCurrentValueMin(currentValueMin: number): void
   getCurrentValueMax(): number
-  setCurrentValueMax(value: number): void
+  setCurrentValueMax(currentValueMax: number): void
   getStep(): number
-  setStep(value: number): void
+  setStep(step: number): void
   getIsShowValueWindow(): boolean
-  setIsShowValueWindow(value: boolean): void
+  setIsShowValueWindow(isShowValueWindow: boolean): void
 }
 
 interface IView {
   updatePosition(position: string): void
   updateMinValue(minValue: number): void
   updateMaxValue(maxValue: number): void
-  updateCurrentValue(value: number): void
-  updateCurrentValueMin(value: number): void
-  updateCurrentValueMax(value: number): void
+  updateCurrentValue(currentValue: number): void
+  updateCurrentValueMin(currentValueMin: number): void
+  updateCurrentValueMax(currentValueMax: number): void
   updateStep(step: number): void
   updateIsShowValueWindow(isShowValueWindow: boolean): void
 }

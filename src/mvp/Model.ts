@@ -24,12 +24,39 @@ class Model {
     this.isShowValueWindow = isShowValueWindow;
   }
 
+  getCurrentValue(): number {
+    return this.currentValue[0];
+  }
+
+  setCurrentValue(currentValue: number): void {
+    if (currentValue < this.minValue || currentValue > this.maxValue) return;
+    this.currentValue[0] = currentValue;
+  }
+
+  getCurrentValueMin(): number {
+    return this.currentValue[0];
+  }
+
+  setCurrentValueMin(currentValueMin: number): void {
+    if (currentValueMin < this.minValue || currentValueMin > this.currentValue[1]) return;
+    this.currentValue[0] = currentValueMin;
+  }
+
+  getCurrentValueMax(): number {
+    return this.currentValue[1];
+  }
+
+  setCurrentValueMax(currentValueMax: number): void {
+    if (currentValueMax < this.currentValue[0] || currentValueMax > this.maxValue) return;
+    this.currentValue[1] = currentValueMax;
+  }
+
   getPosition(): string {
     return this.position;
   }
 
-  setPosition(value: string): void {
-    this.position = value;
+  setPosition(position: string): void {
+    this.position = position;
   }
 
   getMinValue(): number {
@@ -48,39 +75,12 @@ class Model {
     this.maxValue = maxValue;
   }
 
-  getCurrentValue(): number {
-    return this.currentValue[0];
-  }
-
-  setCurrentValue(value: number): void {
-    if (value < this.minValue || value > this.maxValue) return;
-    this.currentValue[0] = value;
-  }
-
-  getCurrentValueMin(): number {
-    return this.currentValue[0];
-  }
-
-  setCurrentValueMin(value: number): void {
-    if (value < this.minValue || value > this.currentValue[1]) return;
-    this.currentValue[0] = value;
-  }
-
-  getCurrentValueMax(): number {
-    return this.currentValue[1];
-  }
-
-  setCurrentValueMax(value: number): void {
-    if (value < this.currentValue[0] || value > this.maxValue) return;
-    this.currentValue[1] = value;
-  }
-
   getStep(): number {
     return this.step;
   }
 
-  setStep(value: number): void {
-    this.step = value;
+  setStep(step: number): void {
+    this.step = step;
   }
 
   getIsShowValueWindow(): boolean {

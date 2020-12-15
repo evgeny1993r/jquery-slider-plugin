@@ -155,76 +155,36 @@ class View {
     $(window).on('resize', () => this.handleWindowResize());
   }
 
-  convertIntervalValue() {
-    delete this.runner;
-    if (this.isShowValueWindow) {
-      delete this.valueWindow;
-    }
-    delete this.$runner;
-    if (this.isShowValueWindow) {
-      delete this.$valueWindow;
-    }
-    this.$this.find('.slider__runner').remove();
-    if (this.isShowValueWindow) {
-      this.$this.find('.slider__value-window').remove();
-    }
-
-    this.runnerMin = new Runner(this.$this, 'updatePositionRunnerMin', this.position);
-    this.runnerMax = new Runner(this.$this, 'updatePositionRunnerMax', this.position);
-    if (this.isShowValueWindow) {
-      this.valueWindowMin = new ValueWindow(this.position);
-      this.valueWindowMax = new ValueWindow(this.position);
-    }
-    this.$runnerMin = this.runnerMin.getRunner();
-    this.$runnerMax = this.runnerMax.getRunner();
-    if (this.isShowValueWindow) {
-      this.$valueWindowMin = this.valueWindowMin.getValueWindow();
-      this.$valueWindowMax = this.valueWindowMax.getValueWindow();
-    }
-    this.$slider
-      .append(this.$runnerMin)
-      .append(this.$runnerMax);
-    if (this.isShowValueWindow) {
-      this.$slider
-        .append(this.$valueWindowMin)
-        .append(this.$valueWindowMax);
+  updateCurrentValue(value: number) {
+    if (this.isCurrentValue()) {
+      this.currentValue[0] = value;
+      this.viewCurrentValue[0] = value - this.minValue;
+      this.renderCurrentValue();
+    } else if (this.isCurrentValues()) {
+      this.convertSingleValue();
+      this.currentValue[0] = value;
+      this.viewCurrentValue[0] = value - this.minValue;
+      this.renderCurrentValue();
     }
   }
 
-  convertSingleValue() {
-    this.currentValue.splice(1, 1);
-    this.viewCurrentValue.splice(1, 1);
-    delete this.runnerMin;
-    delete this.runnerMax;
-    if (this.isShowValueWindow) {
-      delete this.valueWindowMin;
-      delete this.valueWindowMax;
+  updateCurrentValueMin(value: number) {
+    if (this.isCurrentValue()) {
+      this.convertIntervalValue();
+      this.currentValue[0] = value;
+      this.viewCurrentValue[0] = value - this.minValue;
+      this.renderCurrentValueMin();
+    } else if (this.isCurrentValues()) {
+      this.currentValue[0] = value;
+      this.viewCurrentValue[0] = value - this.minValue;
+      this.renderCurrentValueMin();
     }
-    delete this.$runnerMin;
-    delete this.$runnerMax;
-    if (this.isShowValueWindow) {
-      delete this.$valueWindowMin;
-      delete this.$valueWindowMax;
-    }
-    this.$this.find('.slider__runner').remove();
-    if (this.isShowValueWindow) {
-      this.$this.find('.slider__value-window').remove();
-    }
+  }
 
-    this.runner = new Runner(this.$this, 'updatePositionRunner', this.position);
-    if (this.isShowValueWindow) {
-      this.valueWindow = new ValueWindow(this.position);
-    }
-    this.$runner = this.runner.getRunner();
-    if (this.isShowValueWindow) {
-      this.$valueWindow = this.valueWindow.getValueWindow();
-    }
-    this.$slider
-      .append(this.$runner);
-    if (this.isShowValueWindow) {
-      this.$slider
-        .append(this.$valueWindow);
-    }
+  updateCurrentValueMax(value: number) {
+    this.currentValue[1] = value;
+    this.viewCurrentValue[1] = value - this.minValue;
+    this.renderCurrentValueMax();
   }
 
   updatePosition(position: string) {
@@ -322,6 +282,78 @@ class View {
     }
   }
 
+  convertIntervalValue() {
+    delete this.runner;
+    if (this.isShowValueWindow) {
+      delete this.valueWindow;
+    }
+    delete this.$runner;
+    if (this.isShowValueWindow) {
+      delete this.$valueWindow;
+    }
+    this.$this.find('.slider__runner').remove();
+    if (this.isShowValueWindow) {
+      this.$this.find('.slider__value-window').remove();
+    }
+
+    this.runnerMin = new Runner(this.$this, 'updatePositionRunnerMin', this.position);
+    this.runnerMax = new Runner(this.$this, 'updatePositionRunnerMax', this.position);
+    if (this.isShowValueWindow) {
+      this.valueWindowMin = new ValueWindow(this.position);
+      this.valueWindowMax = new ValueWindow(this.position);
+    }
+    this.$runnerMin = this.runnerMin.getRunner();
+    this.$runnerMax = this.runnerMax.getRunner();
+    if (this.isShowValueWindow) {
+      this.$valueWindowMin = this.valueWindowMin.getValueWindow();
+      this.$valueWindowMax = this.valueWindowMax.getValueWindow();
+    }
+    this.$slider
+      .append(this.$runnerMin)
+      .append(this.$runnerMax);
+    if (this.isShowValueWindow) {
+      this.$slider
+        .append(this.$valueWindowMin)
+        .append(this.$valueWindowMax);
+    }
+  }
+
+  convertSingleValue() {
+    this.currentValue.splice(1, 1);
+    this.viewCurrentValue.splice(1, 1);
+    delete this.runnerMin;
+    delete this.runnerMax;
+    if (this.isShowValueWindow) {
+      delete this.valueWindowMin;
+      delete this.valueWindowMax;
+    }
+    delete this.$runnerMin;
+    delete this.$runnerMax;
+    if (this.isShowValueWindow) {
+      delete this.$valueWindowMin;
+      delete this.$valueWindowMax;
+    }
+    this.$this.find('.slider__runner').remove();
+    if (this.isShowValueWindow) {
+      this.$this.find('.slider__value-window').remove();
+    }
+
+    this.runner = new Runner(this.$this, 'updatePositionRunner', this.position);
+    if (this.isShowValueWindow) {
+      this.valueWindow = new ValueWindow(this.position);
+    }
+    this.$runner = this.runner.getRunner();
+    if (this.isShowValueWindow) {
+      this.$valueWindow = this.valueWindow.getValueWindow();
+    }
+    this.$slider
+      .append(this.$runner);
+    if (this.isShowValueWindow) {
+      this.$slider
+        .append(this.$valueWindow);
+    }
+  }
+
   isCurrentValue() {
     return this.currentValue.length === 1;
   }
@@ -340,38 +372,6 @@ class View {
     }
 
     this.unit = this.scaleSize / this.viewMaxValue;
-  }
-
-  updateCurrentValue(value: number) {
-    if (this.isCurrentValue()) {
-      this.currentValue[0] = value;
-      this.viewCurrentValue[0] = value - this.minValue;
-      this.renderCurrentValue();
-    } else if (this.isCurrentValues()) {
-      this.convertSingleValue();
-      this.currentValue[0] = value;
-      this.viewCurrentValue[0] = value - this.minValue;
-      this.renderCurrentValue();
-    }
-  }
-
-  updateCurrentValueMin(value: number) {
-    if (this.isCurrentValue()) {
-      this.convertIntervalValue();
-      this.currentValue[0] = value;
-      this.viewCurrentValue[0] = value - this.minValue;
-      this.renderCurrentValueMin();
-    } else if (this.isCurrentValues()) {
-      this.currentValue[0] = value;
-      this.viewCurrentValue[0] = value - this.minValue;
-      this.renderCurrentValueMin();
-    }
-  }
-
-  updateCurrentValueMax(value: number) {
-    this.currentValue[1] = value;
-    this.viewCurrentValue[1] = value - this.minValue;
-    this.renderCurrentValueMax();
   }
 
   renderCurrentValue() {
