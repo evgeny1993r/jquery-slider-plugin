@@ -33,6 +33,14 @@ import './components/index.scss';
     setPosition: ($this: JQuery, position: string) => {
       $this.trigger('updatePosition', { position });
     },
+
+    setMinValue: ($this: JQuery, minValue: number) => {
+      $this.trigger('updateMinValue', { minValue });
+    },
+
+    setMaxValue: ($this: JQuery, maxValue: number) => {
+      $this.trigger('updateMaxValue', { maxValue });
+    },
   };
 
   $.fn.slider = function (key, value) {
@@ -44,6 +52,10 @@ import './components/index.scss';
       methods.setCurrentValue(this, value);
     } else if (key === 'setPosition' && typeof (value) === 'string') {
       methods.setPosition(this, value);
+    } else if (key === 'setMinValue' && typeof (value) === 'number') {
+      methods.setMinValue(this, value);
+    } else if (key === 'setMaxValue' && typeof (value) === 'number') {
+      methods.setMaxValue(this, value);
     }
 
     return this;

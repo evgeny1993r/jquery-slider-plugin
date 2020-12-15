@@ -32,6 +32,22 @@ class Model {
     this.position = value;
   }
 
+  getMinValue(): number {
+    return this.minValue;
+  }
+
+  setMinValue(minValue: number): void {
+    this.minValue = minValue;
+  }
+
+  getMaxValue(): number {
+    return this.maxValue;
+  }
+
+  setMaxValue(maxValue: number): void {
+    this.maxValue = maxValue;
+  }
+
   getCurrentValue(): number {
     return this.currentValue[0];
   }

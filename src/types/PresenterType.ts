@@ -12,6 +12,10 @@ interface Ioptions {
 interface IModel {
   getPosition(): string
   setPosition(value: string): void
+  getMinValue(): number
+  setMinValue(minValue: number): void
+  getMaxValue(): number
+  setMaxValue(maxValue: number): void
   getCurrentValue(): number
   setCurrentValue(value: number): void
   getCurrentValueMin(): number
@@ -25,10 +29,12 @@ interface IModel {
 }
 
 interface IView {
+  updatePosition(position: string): void
+  updateMinValue(minValue: number): void
+  updateMaxValue(maxValue: number): void
   updateCurrentValue(value: number): void
   updateCurrentValueMin(value: number): void
   updateCurrentValueMax(value: number): void
-  updatePosition(position: string): void
 }
 
 export {

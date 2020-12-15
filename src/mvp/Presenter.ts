@@ -46,6 +46,8 @@ class Presenter {
     this.$this.on('updateCurrentValueMin', (_, { currentValueMin }) => this.handleSliderUpdateCurrentValueMin(currentValueMin));
     this.$this.on('updateCurrentValueMax', (_, { currentValueMax }) => this.handleSliderUpdateCurrentValueMax(currentValueMax));
     this.$this.on('updatePosition', (_, { position }) => this.handleSliderUpdatePosition(position));
+    this.$this.on('updateMinValue', (_, { minValue }) => this.handleSliderUpdateMinValue(minValue));
+    this.$this.on('updateMaxValue', (_, { maxValue }) => this.handleSliderUpdateMaxValue(maxValue));
   }
 
   handleSliderUpdateCurrentValue(currentValue: number) {
@@ -66,6 +68,16 @@ class Presenter {
   handleSliderUpdatePosition(position: string) {
     this.model.setPosition(position);
     this.view.updatePosition(this.model.getPosition());
+  }
+
+  handleSliderUpdateMinValue(minValue: number) {
+    this.model.setMinValue(minValue);
+    this.view.updateMinValue(this.model.getMinValue());
+  }
+
+  handleSliderUpdateMaxValue(maxValue: number) {
+    this.model.setMaxValue(maxValue);
+    this.view.updateMaxValue(this.model.getMaxValue());
   }
 }
 

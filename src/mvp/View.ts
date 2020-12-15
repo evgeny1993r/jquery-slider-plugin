@@ -259,6 +259,42 @@ class View {
     }
   }
 
+  updateMinValue(minValue: number) {
+    this.minValue = minValue;
+    this.viewMinValue = this.minValue - this.minValue;
+    this.viewMaxValue = this.maxValue - this.minValue;
+
+    if (this.isCurrentValue()) {
+      this.viewCurrentValue[0] = this.currentValue[0] - this.minValue;
+    } else if (this.isCurrentValues()) {
+      this.viewCurrentValue[0] = this.currentValue[0] - this.minValue;
+      this.viewCurrentValue[1] = this.currentValue[1] - this.minValue;
+    }
+
+    this.dataCollection();
+
+    if (this.isCurrentValue()) {
+      this.renderCurrentValue();
+    } else if (this.isCurrentValues()) {
+      this.renderCurrentValueMin();
+      this.renderCurrentValueMax();
+    }
+  }
+
+  updateMaxValue(maxValue: number) {
+    this.maxValue = maxValue;
+    this.viewMaxValue = this.maxValue - this.minValue;
+
+    this.dataCollection();
+
+    if (this.isCurrentValue()) {
+      this.renderCurrentValue();
+    } else if (this.isCurrentValues()) {
+      this.renderCurrentValueMin();
+      this.renderCurrentValueMax();
+    }
+  }
+
   isCurrentValue() {
     return this.currentValue.length === 1;
   }
