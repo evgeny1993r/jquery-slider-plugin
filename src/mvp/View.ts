@@ -540,14 +540,29 @@ class View {
   }
 
   handleInputElementChange(e: JQuery.ChangeEvent) {
+    const arrayCurrentValue = String($(e.currentTarget).val()).split(' - ');
     if (this.isCurrentValue()) {
-      const currentValue = $(e.currentTarget).val();
-      this.$this.trigger('updateCurrentValue', { currentValue });
+      if (arrayCurrentValue.length === 1) {
+        const currentValue = arrayCurrentValue[0].replace(/[()]/g, '');
+        this.$this.trigger('updateCurrentValue', { currentValue });
+      } else if (arrayCurrentValue.length === 2) {
+        this.convertIntervalValue();
+        const currentValueMin = arrayCurrentValue[0].replace(/[()]/g, '');
+        const currentValueMax = arrayCurrentValue[1].replace(/[()]/g, '');
+        this.$this.trigger('updateCurrentValueMin', { currentValueMin });
+        this.$this.trigger('updateCurrentValueMax', { currentValueMax });
+      }
     } else if (this.isCurrentValues()) {
-      const currentValueMin = Number(String($(e.currentTarget).val()).split(' - ')[0].replace(/[()]/g, ''));
-      const currentValueMax = Number(String($(e.currentTarget).val()).split(' - ')[1].replace(/[()]/g, ''));
-      this.$this.trigger('updateCurrentValueMin', { currentValueMin });
-      this.$this.trigger('updateCurrentValueMax', { currentValueMax });
+      if (arrayCurrentValue.length === 1) {
+        this.convertSingleValue();
+        const currentValue = arrayCurrentValue[0].replace(/[()]/g, '');
+        this.$this.trigger('updateCurrentValue', { currentValue });
+      } else if (arrayCurrentValue.length === 2) {
+        const currentValueMin = arrayCurrentValue[0].replace(/[()]/g, '');
+        const currentValueMax = arrayCurrentValue[1].replace(/[()]/g, '');
+        this.$this.trigger('updateCurrentValueMin', { currentValueMin });
+        this.$this.trigger('updateCurrentValueMax', { currentValueMax });
+      }
     }
   }
 
