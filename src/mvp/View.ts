@@ -377,6 +377,7 @@ class View {
   }
 
   dataCollection() {
+    this.progressBar.renderProgressBar(0, 0);
     if (this.position === 'horizontal') {
       this.scaleSize = this.$scale.outerWidth();
       this.scaleOffset = this.$scale.offset().left;
