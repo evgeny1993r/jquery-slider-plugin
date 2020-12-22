@@ -5,6 +5,7 @@ interface IoptionsModel {
   currentValue: [number]
   step: number
   isShowValueWindow: boolean
+  isShowScaleValues: boolean
 }
 
 export {

@@ -58,6 +58,11 @@ __isShowWindowValue__ <br/>
 Значение по умолчанию: ```false``` <br/>
 <br/>
 
+__isShowScaleValues__ <br/>
+Тип: ```boolean``` <br/>
+Значение по умолчанию: ```false``` <br/>
+<br/>
+
 __$inputElement__ <br/>
 Тип: ```JQuery``` <br/>
 Значение по умолчанию: ```$()``` <br/>
@@ -108,6 +113,13 @@ __setIsShowWindowValue__ <br/>
 Пример: 
 ```js
   $slider.slider('setIsShowWindowValue', true);
+```
+
+__setIsShowScaleValues__ <br/>
+Тип: ```function``` <br/>
+Пример: 
+```js
+  $slider.slider('setIsShowScaleValues', true);
 ```
 
 ## Архитектура

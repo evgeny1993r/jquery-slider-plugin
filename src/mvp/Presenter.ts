@@ -16,6 +16,7 @@ class Presenter {
     currentValue,
     step,
     isShowValueWindow,
+    isShowScaleValues,
     $inputElement,
   }: Ioptions) {
     this.$this = $this;
@@ -26,6 +27,7 @@ class Presenter {
       currentValue,
       step,
       isShowValueWindow,
+      isShowScaleValues,
     });
     this.view = new View({
       $this,
@@ -35,6 +37,7 @@ class Presenter {
       currentValue,
       step,
       isShowValueWindow,
+      isShowScaleValues,
       $inputElement,
     });
 
@@ -50,6 +53,7 @@ class Presenter {
     this.$this.on('updateMaxValue', (_, { maxValue }) => this.handleSliderUpdateMaxValue(maxValue));
     this.$this.on('updateStep', (_, { step }) => this.handleSliderUpdateStep(step));
     this.$this.on('updateIsShowValueWindow', (_, { isShowValueWindow }) => this.handleSliderUpdateIsShowValueWindow(isShowValueWindow));
+    this.$this.on('updateIsShowScaleValues', (_, { isShowScaleValues }) => this.handleSliderUpdateIsShowScaleValues(isShowScaleValues));
   }
 
   handleSliderUpdateCurrentValue(currentValue: number) {
@@ -90,6 +94,11 @@ class Presenter {
   handleSliderUpdateIsShowValueWindow(isShowValueWindow: boolean) {
     this.model.setIsShowValueWindow(isShowValueWindow);
     this.view.updateIsShowValueWindow(this.model.getIsShowValueWindow());
+  }
+
+  handleSliderUpdateIsShowScaleValues(isShowScaleValues: boolean) {
+    this.model.setIsShowScaleValues(isShowScaleValues);
+    this.view.updateIsShowScaleValues(this.model.getIsShowScaleValues());
   }
 }
 

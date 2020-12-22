@@ -6,6 +6,7 @@ interface Ioptions {
   currentValue: [number]
   step: number
   isShowValueWindow: boolean
+  isShowScaleValues: boolean
   $inputElement: JQuery
 }
 
@@ -26,6 +27,8 @@ interface IModel {
   setStep(step: number): void
   getIsShowValueWindow(): boolean
   setIsShowValueWindow(isShowValueWindow: boolean): void
+  getIsShowScaleValues(): boolean
+  setIsShowScaleValues(isShowScaleValues: boolean): void
 }
 
 interface IView {
@@ -37,6 +40,7 @@ interface IView {
   updateCurrentValueMax(currentValueMax: number): void
   updateStep(step: number): void
   updateIsShowValueWindow(isShowValueWindow: boolean): void
+  updateIsShowScaleValues(isShowScaleValues: boolean): void
 }
 
 export {

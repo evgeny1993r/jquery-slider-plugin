@@ -7,6 +7,7 @@ class Model {
   currentValue: [number, number?];
   step: number;
   isShowValueWindow: boolean;
+  isShowScaleValues: boolean;
 
   constructor({
     position,
@@ -15,6 +16,7 @@ class Model {
     currentValue,
     step,
     isShowValueWindow,
+    isShowScaleValues,
   }: IoptionsModel) {
     this.position = position;
     this.minValue = minValue;
@@ -22,6 +24,7 @@ class Model {
     this.currentValue = currentValue;
     this.step = step;
     this.isShowValueWindow = isShowValueWindow;
+    this.isShowScaleValues = isShowScaleValues;
   }
 
   getCurrentValue(): number {
@@ -89,6 +92,14 @@ class Model {
 
   setIsShowValueWindow(isShowValueWindow: boolean): void {
     this.isShowValueWindow = isShowValueWindow;
+  }
+
+  getIsShowScaleValues(): boolean {
+    return this.isShowScaleValues;
+  }
+
+  setIsShowScaleValues(isShowScaleValues: boolean) {
+    this.isShowScaleValues = isShowScaleValues;
   }
 }
 

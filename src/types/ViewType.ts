@@ -5,7 +5,8 @@ interface IoptionsView {
   maxValue: number
   currentValue: [number]
   step: number
-  isShowValueWindow: boolean;
+  isShowValueWindow: boolean
+  isShowScaleValues: boolean
   $inputElement: JQuery
 }
 
@@ -36,6 +37,11 @@ interface IValueWindow {
   updatePosition(position: string): void
 }
 
+interface IScaleValues {
+  getScaleValues(): JQuery
+  updatePositionScaleValues(scaleSize: number): void
+}
+
 export {
   IoptionsView,
   ISlider,
@@ -43,4 +49,5 @@ export {
   IProgressBar,
   IRunner,
   IValueWindow,
+  IScaleValues,
 };

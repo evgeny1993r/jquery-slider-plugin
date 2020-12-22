@@ -5,6 +5,7 @@ import {
   IProgressBar,
   IRunner,
   IValueWindow,
+  IScaleValues,
 } from '../types/ViewType';
 
 import { Slider } from '../components/slider/Slider';
@@ -12,6 +13,7 @@ import { Scale } from '../components/scale/Scale';
 import { ProgressBar } from '../components/progress-bar/ProgressBar';
 import { Runner } from '../components/runner/Runner';
 import { ValueWindow } from '../components/value-window/ValueWindow';
+import { ScaleValues } from '../components/scale-values/ScaleValues';
 
 class View {
   $this: JQuery;
@@ -24,6 +26,7 @@ class View {
   viewCurrentValue: [number, number?];
   step: number;
   isShowValueWindow: boolean;
+  isShowScaleValues: boolean;
 
   slider: ISlider;
   scale: IScale;
@@ -34,6 +37,7 @@ class View {
   valueWindow: IValueWindow;
   valueWindowMin: IValueWindow;
   valueWindowMax: IValueWindow;
+  scaleValues: IScaleValues;
 
   $slider: JQuery;
   $scale: JQuery;
@@ -44,6 +48,7 @@ class View {
   $valueWindow: JQuery;
   $valueWindowMin: JQuery;
   $valueWindowMax: JQuery;
+  $scaleValues: JQuery;
   $inputElement: JQuery;
 
   scaleSize: number;
@@ -58,6 +63,7 @@ class View {
     currentValue,
     step,
     isShowValueWindow,
+    isShowScaleValues,
     $inputElement,
   }: IoptionsView) {
     this.$this = $this;
@@ -77,6 +83,7 @@ class View {
     }
     this.step = step;
     this.isShowValueWindow = isShowValueWindow;
+    this.isShowScaleValues = isShowScaleValues;
     this.$inputElement = $inputElement;
 
     this.slider = new Slider(this.position);
@@ -95,6 +102,9 @@ class View {
         this.valueWindowMax = new ValueWindow(this.position);
       }
     }
+    if (this.isShowScaleValues) {
+      this.scaleValues = new ScaleValues(this.$this, this.position, this.minValue, this.maxValue);
+    }
 
     this.$slider = this.slider.getSlider();
     this.$scale = this.scale.getScale();
@@ -111,6 +121,9 @@ class View {
         this.$valueWindowMin = this.valueWindowMin.getValueWindow();
         this.$valueWindowMax = this.valueWindowMax.getValueWindow();
       }
+    }
+    if (this.isShowScaleValues) {
+      this.$scaleValues = this.scaleValues.getScaleValues();
     }
 
     this.init();
@@ -136,6 +149,14 @@ class View {
           .append(this.$valueWindowMax);
       }
     }
+    if (this.isShowScaleValues) {
+      this.$slider.append(this.$scaleValues);
+      if (this.position === 'horizontal') {
+        this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
+      } else if (this.position === 'vertical') {
+        this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
+      }
+    }
 
     this.dataCollection();
 
@@ -151,6 +172,7 @@ class View {
     this.$this.on('updatePositionRunnerMax', (_, { positionRunner }) => this.handleSliderUpdatePositionRunnerMax(positionRunner));
     this.$this.on('clickScale', (_, { position }) => this.handleSliderClickScale(position));
     this.$this.on('clickProgressBar', (_, { position }) => this.handleSliderClickProgressBar(position));
+    this.$this.on('clickScaleValues', (_, { position }) => this.handleSliderClickScaleValue(position));
     this.$inputElement.on('change', (e) => this.handleInputElementChange(e));
     $(window).on('resize', () => this.handleWindowResize());
   }
@@ -296,6 +318,25 @@ class View {
     }
   }
 
+  updateIsShowScaleValues(isShowScaleValues: boolean) {
+    this.isShowScaleValues = isShowScaleValues;
+
+    if (this.isShowScaleValues) {
+      this.scaleValues = new ScaleValues(this.$this, this.position, this.minValue, this.maxValue);
+      this.$scaleValues = this.scaleValues.getScaleValues();
+      this.$slider.append(this.$scaleValues);
+      if (this.position === 'horizontal') {
+        this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
+      } else if (this.position === 'vertical') {
+        this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
+      }
+    } else if (!this.isShowScaleValues) {
+      delete this.scaleValues;
+      delete this.$scaleValues;
+      this.$slider.find('.scale-values').remove();
+    }
+  }
+
   convertIntervalValue() {
     delete this.runner;
     if (this.isShowValueWindow) {
@@ -413,7 +454,8 @@ class View {
 
     if (this.isShowValueWindow) {
       this.valueWindowMin.renderValueWindow(
-        this.currentValue[0], this.viewCurrentValue[0] * this.unit,
+        this.currentValue[0],
+        this.viewCurrentValue[0] * this.unit,
       );
     }
 
@@ -539,6 +581,40 @@ class View {
     }
   }
 
+  handleSliderClickScaleValue(position: number) {
+    if (this.isCurrentValue()) {
+      this.$this.trigger('updateCurrentValue', {
+        currentValue:
+        Math.round(
+          (position - this.scaleOffset) / this.unit / this.step,
+        ) * this.step + this.minValue,
+      });
+    } else if (this.isCurrentValues()) {
+      const min = this.currentValue[1] - Math.floor(
+        (position - this.scaleOffset) / this.unit + this.minValue,
+      );
+      const max = Math.floor(
+        (position - this.scaleOffset) / this.unit,
+      ) - this.currentValue[0] + this.minValue;
+
+      if (min > max) {
+        this.$this.trigger('updateCurrentValueMin', {
+          currentValueMin:
+          Math.round(
+            (position - this.scaleOffset) / this.unit / this.step,
+          ) * this.step + this.minValue,
+        });
+      } else if (max > min) {
+        this.$this.trigger('updateCurrentValueMax', {
+          currentValueMax:
+          Math.round(
+            (position - this.scaleOffset) / this.unit / this.step,
+          ) * this.step + this.minValue,
+        });
+      }
+    }
+  }
+
   handleInputElementChange(e: JQuery.ChangeEvent) {
     const arrayCurrentValue = String($(e.currentTarget).val()).split(' - ');
     if (this.isCurrentValue()) {
@@ -575,6 +651,12 @@ class View {
     } else if (this.isCurrentValues()) {
       this.renderCurrentValueMin();
       this.renderCurrentValueMax();
+    }
+
+    if (this.isShowScaleValues && this.position === 'horizontal') {
+      this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
+    } else if (this.isShowScaleValues && this.position === 'vertical') {
+      this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
     }
   }
 }

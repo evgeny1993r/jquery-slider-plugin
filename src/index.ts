@@ -13,6 +13,7 @@ import { Presenter } from './mvp/Presenter';
         currentValue: [0],
         step: 1,
         isShowValueWindow: false,
+        isShowScaleValues: false,
         $inputElement: $(),
       }, options);
 
@@ -47,6 +48,10 @@ import { Presenter } from './mvp/Presenter';
     setIsShowValueWindow: ($this:JQuery, isShowValueWindow: boolean) => {
       $this.trigger('updateIsShowValueWindow', { isShowValueWindow });
     },
+
+    setIsShowScaleValues: ($this: JQuery, isShowScaleValues: boolean) => {
+      $this.trigger('updateIsShowScaleValues', { isShowScaleValues });
+    },
   };
 
   $.fn.slider = function (key, value) {
@@ -66,6 +71,8 @@ import { Presenter } from './mvp/Presenter';
       methods.setStep(this, value);
     } else if (key === 'setIsShowValueWindow' && typeof (value) === 'boolean') {
       methods.setIsShowValueWindow(this, value);
+    } else if (key === 'setIsShowScaleValues' && typeof (value) === 'boolean') {
+      methods.setIsShowScaleValues(this, value);
     }
 
     return this;

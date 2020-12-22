@@ -18,9 +18,9 @@ class ValueWindow {
   renderValueWindow(currentValue: number, indentValue: number): void {
     this.$valueWindow.text(currentValue);
     if (this.position === 'horizontal') {
-      this.$valueWindow.css({ transform: `translateX(${indentValue}px)` });
+      this.$valueWindow.css({ transform: `translateX(${indentValue - this.$valueWindow.outerWidth() / 2}px)` });
     } else if (this.position === 'vertical') {
-      this.$valueWindow.css({ transform: `translateY(${indentValue}px)` });
+      this.$valueWindow.css({ transform: `translate(-${this.$valueWindow.outerWidth() + 20}px, ${indentValue - this.$valueWindow.outerHeight() / 2}px)` });
     }
   }
 
