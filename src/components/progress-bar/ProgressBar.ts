@@ -1,3 +1,5 @@
+import './progress-bar.scss';
+
 class ProgressBar {
   $this: JQuery;
   $progressBar: JQuery;
@@ -8,7 +10,7 @@ class ProgressBar {
     this.$this = $this;
     this.position = position;
     this.$progressBar = $('<div />', {
-      class: 'slider__progress-bar',
+      class: `progress-bar progress-bar_${position}`,
       on: {
         click: (e: JQuery.Event) => this.handleProgressBar(e),
       },

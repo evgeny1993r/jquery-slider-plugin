@@ -1,3 +1,5 @@
+import './value-window.scss';
+
 class ValueWindow {
   $valueWindow: JQuery;
   position: string;
@@ -5,7 +7,7 @@ class ValueWindow {
   constructor(position: string) {
     this.position = position;
     this.$valueWindow = $('<div />', {
-      class: 'slider__value-window',
+      class: `value-window value-window_${position}`,
     });
   }
 

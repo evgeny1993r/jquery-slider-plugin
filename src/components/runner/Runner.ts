@@ -1,3 +1,5 @@
+import './runner.scss';
+
 class Runner {
   $this: JQuery;
   eventName: string;
@@ -11,7 +13,7 @@ class Runner {
     this.position = position;
     this.$document = $(document);
     this.$runner = $('<div />', {
-      class: 'slider__runner',
+      class: `runner runner_${position}`,
       on: {
         mousedown: () => this.handleRunnerMousedown(),
       },

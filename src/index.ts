@@ -2,8 +2,6 @@ import './types/JQueryType';
 
 import { Presenter } from './mvp/Presenter';
 
-import './components/index.scss';
-
 (function ($) {
   const methods = {
     init: ($this: JQuery, options?: Ioptions) => {

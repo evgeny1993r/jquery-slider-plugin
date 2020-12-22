@@ -7,11 +7,11 @@ import {
   IValueWindow,
 } from '../types/ViewType';
 
-import { Slider } from '../components/Slider';
-import { Scale } from '../components/Scale';
-import { ProgressBar } from '../components/ProgressBar';
-import { Runner } from '../components/Runner';
-import { ValueWindow } from '../components/ValueWindow';
+import { Slider } from '../components/slider/Slider';
+import { Scale } from '../components/scale/Scale';
+import { ProgressBar } from '../components/progress-bar/ProgressBar';
+import { Runner } from '../components/runner/Runner';
+import { ValueWindow } from '../components/value-window/ValueWindow';
 
 class View {
   $this: JQuery;
@@ -98,6 +98,7 @@ class View {
 
     this.$slider = this.slider.getSlider();
     this.$scale = this.scale.getScale();
+    this.$progressBar = this.progressBar.getProgressBar();
     if (this.isCurrentValue()) {
       this.$runner = this.runner.getRunner();
       if (this.isShowValueWindow) {
@@ -111,7 +112,6 @@ class View {
         this.$valueWindowMax = this.valueWindowMax.getValueWindow();
       }
     }
-    this.$progressBar = this.progressBar.getProgressBar();
 
     this.init();
   }

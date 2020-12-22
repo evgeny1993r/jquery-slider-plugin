@@ -1,3 +1,5 @@
+import './scale.scss';
+
 class Scale {
   $this: JQuery;
   position: string;
@@ -7,7 +9,7 @@ class Scale {
     this.$this = $this;
     this.position = position;
     this.$scale = $('<div />', {
-      class: 'slider__scale',
+      class: `scale scale_${position}`,
       on: {
         click: (e: JQuery.Event) => this.handleScaleClick(e),
       },
