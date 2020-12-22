@@ -29,7 +29,9 @@ class Scale {
   }
 
   updatePosition(position: string) {
+    this.$scale.removeClass(`scale_${this.position}`);
     this.position = position;
+    this.$scale.addClass(`scale_${this.position}`);
   }
 }
 

@@ -58,6 +58,21 @@ class ScaleValues {
     }
   }
 
+  updatePosition(position: string) {
+    this.$scaleValues.removeClass(`scale-values_${this.position}`);
+    this.position = position;
+    this.$scaleValues.addClass(`scale-values_${this.position}`);
+    if (this.position === 'horizontal') {
+      this.$scaleValues.css({ height: 'auto' });
+      this.symbol = '|';
+      this.$scaleValues.find('.scale-values__symbol').text(this.symbol);
+    } else if (this.position === 'vertical') {
+      this.$scaleValues.css({ width: 'auto' });
+      this.symbol = '—';
+      this.$scaleValues.find('.scale-values__symbol').text(this.symbol);
+    }
+  }
+
   handleScaleValues(e: JQuery.Event): void {
     if (this.position === 'horizontal') {
       this.$this.trigger('clickScaleValues', { position: e.pageX });

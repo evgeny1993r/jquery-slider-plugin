@@ -54,7 +54,9 @@ class Runner {
   }
 
   updatePosition(position: string) {
+    this.$runner.removeClass(`runner_${this.position}`);
     this.position = position;
+    this.$runner.addClass(`runner_${this.position}`);
   }
 }
 

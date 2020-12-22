@@ -25,7 +25,9 @@ class ValueWindow {
   }
 
   updatePosition(position: string) {
+    this.$valueWindow.removeClass(`value-window_${this.position}`);
     this.position = position;
+    this.$valueWindow.addClass(`value-window_${this.position}`);
   }
 }
 

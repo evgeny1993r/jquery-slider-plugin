@@ -40,6 +40,7 @@ interface IValueWindow {
 interface IScaleValues {
   getScaleValues(): JQuery
   updatePositionScaleValues(scaleSize: number): void
+  updatePosition(position: string): void
 }
 
 export {

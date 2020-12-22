@@ -232,12 +232,24 @@ class View {
         this.valueWindowMax.updatePosition(this.position);
       }
     }
+    if (this.isShowScaleValues) {
+      this.scaleValues.updatePosition(this.position);
+    }
+
+    this.progressBar.renderProgressBar(0, 0);
+    this.dataCollection();
 
     if (this.isCurrentValue()) {
       this.renderCurrentValue();
     } else if (this.isCurrentValues()) {
       this.renderCurrentValueMin();
       this.renderCurrentValueMax();
+    }
+
+    if (this.isShowScaleValues && this.position === 'horizontal') {
+      this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
+    } else if (this.isShowScaleValues && this.position === 'vertical') {
+      this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
     }
   }
 

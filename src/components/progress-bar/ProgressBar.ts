@@ -46,7 +46,9 @@ class ProgressBar {
   }
 
   updatePosition(position: string) {
+    this.$progressBar.removeClass(`progress-bar_${this.position}`);
     this.position = position;
+    this.$progressBar.addClass(`progress-bar_${this.position}`);
     if (this.position === 'horizontal') {
       this.$progressBar.css({
         height: this.size,
