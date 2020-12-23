@@ -356,9 +356,9 @@ class View {
     if (this.isShowValueWindow) {
       delete this.$valueWindow;
     }
-    this.$this.find('.slider__runner').remove();
+    this.$this.find('.runner').remove();
     if (this.isShowValueWindow) {
-      this.$this.find('.slider__value-window').remove();
+      this.$this.find('.value-window').remove();
     }
 
     this.runnerMin = new Runner(this.$this, 'updatePositionRunnerMin', this.position);
@@ -398,9 +398,9 @@ class View {
       delete this.$valueWindowMin;
       delete this.$valueWindowMax;
     }
-    this.$this.find('.slider__runner').remove();
+    this.$this.find('.runner').remove();
     if (this.isShowValueWindow) {
-      this.$this.find('.slider__value-window').remove();
+      this.$this.find('.value-window').remove();
     }
 
     this.runner = new Runner(this.$this, 'updatePositionRunner', this.position);
