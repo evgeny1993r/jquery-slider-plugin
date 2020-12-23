@@ -215,7 +215,6 @@ class View {
       .removeClass(`slider_${this.position}`)
       .addClass(`slider_${position}`);
     this.position = position;
-    this.dataCollection();
     this.scale.updatePosition(this.position);
     this.progressBar.updatePosition(this.position);
     if (this.isCurrentValue()) {
@@ -236,20 +235,19 @@ class View {
       this.scaleValues.updatePosition(this.position);
     }
 
-    this.progressBar.renderProgressBar(0, 0);
     this.dataCollection();
+
+    if (this.isShowScaleValues && this.position === 'horizontal') {
+      this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
+    } else if (this.isShowScaleValues && this.position === 'vertical') {
+      this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
+    }
 
     if (this.isCurrentValue()) {
       this.renderCurrentValue();
     } else if (this.isCurrentValues()) {
       this.renderCurrentValueMin();
       this.renderCurrentValueMax();
-    }
-
-    if (this.isShowScaleValues && this.position === 'horizontal') {
-      this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
-    } else if (this.isShowScaleValues && this.position === 'vertical') {
-      this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
     }
   }
 
@@ -319,13 +317,13 @@ class View {
       if (this.isCurrentValue()) {
         delete this.valueWindow;
         delete this.$valueWindow;
-        this.$slider.find('.slider__value-window').remove();
+        this.$slider.find('.value-window').remove();
       } else if (this.isCurrentValues()) {
         delete this.valueWindowMin;
         delete this.valueWindowMax;
         delete this.$valueWindowMin;
         delete this.$valueWindowMax;
-        this.$slider.find('.slider__value-window').remove();
+        this.$slider.find('.value-window').remove();
       }
     }
   }
