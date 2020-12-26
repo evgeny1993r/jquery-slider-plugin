@@ -3,12 +3,18 @@ import './scale-values.scss';
 class ScaleValues {
   $this: JQuery;
   position: string;
+  minValue: number;
+  maxValue: number;
+  step: number;
   $scaleValues: JQuery;
   symbol: string;
 
-  constructor($this: JQuery, position: string, minValue: number, maxValue: number) {
+  constructor($this: JQuery, position: string, minValue: number, maxValue: number, step: number) {
     this.$this = $this;
     this.position = position;
+    this.minValue = minValue;
+    this.maxValue = maxValue;
+    this.step = step;
     this.$scaleValues = $('<div/>', {
       class: `scale-values scale-values_${this.position}`,
       on: {
@@ -22,8 +28,11 @@ class ScaleValues {
       this.symbol = '—';
     }
 
-    for (let value = minValue; value <= maxValue; value += ((maxValue - minValue) / 10)) {
-      this.addScaleValue(value);
+    for (
+      let value = this.minValue;
+      value <= this.maxValue;
+      value += (this.maxValue - this.minValue) / 10) {
+      this.addScaleValue(Math.floor(value / this.step) * this.step);
     }
   }
 
@@ -70,6 +79,29 @@ class ScaleValues {
       this.$scaleValues.css({ width: 'auto' });
       this.symbol = '—';
       this.$scaleValues.find('.scale-values__symbol').text(this.symbol);
+    }
+  }
+
+  updateMinMaxValues(minValue: number, maxValue: number) {
+    this.$scaleValues.find('*').remove();
+    this.minValue = minValue;
+    this.maxValue = maxValue;
+    for (
+      let value = this.minValue;
+      value <= this.maxValue;
+      value += (this.maxValue - this.minValue) / 10) {
+      this.addScaleValue(Math.floor(value / this.step) * this.step);
+    }
+  }
+
+  updateStep(step: number) {
+    this.step = step;
+    this.$scaleValues.find('*').remove();
+    for (
+      let value = this.minValue;
+      value <= this.maxValue;
+      value += (this.maxValue - this.minValue) / 10) {
+      this.addScaleValue(Math.floor(value / this.step) * this.step);
     }
   }
 

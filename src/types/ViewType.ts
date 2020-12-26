@@ -41,6 +41,8 @@ interface IScaleValues {
   getScaleValues(): JQuery
   updatePositionScaleValues(scaleSize: number): void
   updatePosition(position: string): void
+  updateMinMaxValues(minValue: number, maxValue: number): void
+  updateStep(step: number): void
 }
 
 export {

@@ -103,7 +103,13 @@ class View {
       }
     }
     if (this.isShowScaleValues) {
-      this.scaleValues = new ScaleValues(this.$this, this.position, this.minValue, this.maxValue);
+      this.scaleValues = new ScaleValues(
+        this.$this,
+        this.position,
+        this.minValue,
+        this.maxValue,
+        this.step,
+      );
     }
 
     this.$slider = this.slider.getSlider();
@@ -265,6 +271,8 @@ class View {
 
     this.dataCollection();
 
+    this.scaleValues.updateMinMaxValues(this.minValue, this.maxValue);
+
     if (this.isCurrentValue()) {
       this.renderCurrentValue();
     } else if (this.isCurrentValues()) {
@@ -279,6 +287,8 @@ class View {
 
     this.dataCollection();
 
+    this.scaleValues.updateMinMaxValues(this.minValue, this.maxValue);
+
     if (this.isCurrentValue()) {
       this.renderCurrentValue();
     } else if (this.isCurrentValues()) {
@@ -289,6 +299,7 @@ class View {
 
   updateStep(step: number) {
     this.step = step;
+    this.scaleValues.updateStep(this.step);
   }
 
   updateIsShowValueWindow(isShowValueWindow: boolean) {
@@ -332,7 +343,13 @@ class View {
     this.isShowScaleValues = isShowScaleValues;
 
     if (this.isShowScaleValues) {
-      this.scaleValues = new ScaleValues(this.$this, this.position, this.minValue, this.maxValue);
+      this.scaleValues = new ScaleValues(
+        this.$this,
+        this.position,
+        this.minValue,
+        this.maxValue,
+        this.step,
+      );
       this.$scaleValues = this.scaleValues.getScaleValues();
       this.$slider.append(this.$scaleValues);
       if (this.position === 'horizontal') {
