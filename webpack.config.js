@@ -11,7 +11,7 @@ const plugins = [
 if (process.env.NODE_ENV === 'development') {
   plugins.push(
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: './public/index.pug',
     }),
   );
 }
@@ -23,6 +23,10 @@ module.exports = {
 
   module: {
     rules: [
+      {
+        test: /\.pug$/,
+        loader: 'pug-loader',
+      },
       {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
