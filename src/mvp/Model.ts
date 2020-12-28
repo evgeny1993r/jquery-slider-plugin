@@ -67,6 +67,7 @@ class Model {
   }
 
   setMinValue(minValue: number): void {
+    if (minValue > this.currentValue[0]) return
     this.minValue = minValue;
   }
 
@@ -75,6 +76,8 @@ class Model {
   }
 
   setMaxValue(maxValue: number): void {
+    if (this.currentValue.length === 1 && maxValue < this.currentValue[0]) return 
+    if (this.currentValue.length === 2 && maxValue < this.currentValue[1]) return 
     this.maxValue = maxValue;
   }
 
