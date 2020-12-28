@@ -33,7 +33,7 @@ class Model {
 
   setCurrentValue(currentValue: number): void {
     if (currentValue < this.minValue || currentValue > this.maxValue) return;
-    this.currentValue[0] = currentValue;
+    this.currentValue[0] = Math.round(currentValue / this.step) * this.step;
   }
 
   getCurrentValueMin(): number {
@@ -42,7 +42,7 @@ class Model {
 
   setCurrentValueMin(currentValueMin: number): void {
     if (currentValueMin < this.minValue || currentValueMin > this.currentValue[1]) return;
-    this.currentValue[0] = currentValueMin;
+    this.currentValue[0] = Math.round(currentValueMin / this.step) * this.step;
   }
 
   getCurrentValueMax(): number {
@@ -51,7 +51,7 @@ class Model {
 
   setCurrentValueMax(currentValueMax: number): void {
     if (currentValueMax < this.currentValue[0] || currentValueMax > this.maxValue) return;
-    this.currentValue[1] = currentValueMax;
+    this.currentValue[1] = Math.round(currentValueMax / this.step) * this.step;
   }
 
   getPosition(): string {
