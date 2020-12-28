@@ -1,7 +1,7 @@
 # jquery-slider-plugin
 
 ## Демонстрационная страница:
-  [DEMO PAGE](https://evgeny1993r.github.io/demo-page-jquery-slider-plugin/)
+  [DEMO PAGE](https://evgeny1993r.github.io/jquery-slider-plugin/)
 
 ## Основные команды npm:
 __Запуск проекта в режиме "development":__
