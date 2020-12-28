@@ -21,7 +21,12 @@ class Model {
     this.position = position;
     this.minValue = minValue;
     this.maxValue = maxValue;
-    this.currentValue = currentValue;
+    if (currentValue.length === 1) {
+      this.currentValue[0] = Math.round(currentValue[0] / this.step) * this.step;
+    } else if (currentValue.length === 2) {
+      this.currentValue[0] = Math.round(currentValue[0] / this.step) * this.step;
+      this.currentValue[1] = Math.round(currentValue[1] / this.step) * this.step;
+    }
     this.step = step;
     this.isShowValueWindow = isShowValueWindow;
     this.isShowScaleValues = isShowScaleValues;
