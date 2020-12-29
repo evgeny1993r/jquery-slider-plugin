@@ -7,7 +7,6 @@ interface Ioptions {
   step: number
   isShowValueWindow: boolean
   isShowScaleValues: boolean
-  $inputElement: JQuery
 }
 
 interface IModel {

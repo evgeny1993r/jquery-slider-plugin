@@ -17,7 +17,6 @@ class Presenter {
     step,
     isShowValueWindow,
     isShowScaleValues,
-    $inputElement,
   }: Ioptions) {
     this.$this = $this;
     this.model = new Model({
@@ -38,7 +37,6 @@ class Presenter {
       step,
       isShowValueWindow,
       isShowScaleValues,
-      $inputElement,
     });
 
     this.init();

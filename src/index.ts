@@ -13,20 +13,10 @@ import { Presenter } from './mvp/Presenter';
         currentValue: [0],
         step: 1,
         isShowValueWindow: false,
-        isShowScaleValues: false,
-        $inputElement: $(),
+        isShowScaleValues: false
       }, options);
 
       new Presenter(settings);
-    },
-
-    setCurrentValue: ($this: JQuery, value: number[]) => {
-      if (value.length === 1) {
-        $this.trigger('updateCurrentValue', { currentValue: value[0] });
-      } else if (value.length === 2) {
-        $this.trigger('updateCurrentValueMin', { currentValueMin: value[0] });
-        $this.trigger('updateCurrentValueMax', { currentValueMax: value[1] });
-      }
     },
 
     setPosition: ($this: JQuery, position: string) => {
@@ -39,6 +29,15 @@ import { Presenter } from './mvp/Presenter';
 
     setMaxValue: ($this: JQuery, maxValue: number) => {
       $this.trigger('updateMaxValue', { maxValue });
+    },
+
+    setCurrentValue: ($this: JQuery, value: number[]) => {
+      if (value.length === 1) {
+        $this.trigger('updateCurrentValue', { currentValue: value[0] });
+      } else if (value.length === 2) {
+        $this.trigger('updateCurrentValueMin', { currentValueMin: value[0] });
+        $this.trigger('updateCurrentValueMax', { currentValueMax: value[1] });
+      }
     },
 
     setStep: ($this: JQuery, step: number) => {

@@ -49,7 +49,6 @@ class View {
   $valueWindowMin: JQuery;
   $valueWindowMax: JQuery;
   $scaleValues: JQuery;
-  $inputElement: JQuery;
 
   scaleSize: number;
   scaleOffset: number;
@@ -64,7 +63,6 @@ class View {
     step,
     isShowValueWindow,
     isShowScaleValues,
-    $inputElement,
   }: IoptionsView) {
     this.$this = $this;
     this.position = position;
@@ -84,7 +82,6 @@ class View {
     this.step = step;
     this.isShowValueWindow = isShowValueWindow;
     this.isShowScaleValues = isShowScaleValues;
-    this.$inputElement = $inputElement;
 
     this.slider = new Slider(this.position);
     this.scale = new Scale(this.$this, this.position);
@@ -179,7 +176,6 @@ class View {
     this.$this.on('clickScale', (_, { position }) => this.handleScalesClick(position));
     this.$this.on('clickProgressBar', (_, { position }) => this.handleScalesClick(position));
     this.$this.on('clickScaleValues', (_, { position }) => this.handleScalesClick(position));
-    this.$inputElement.on('change', (e) => this.handleInputElementChange(e));
     $(window).on('resize', () => this.handleWindowResize());
   }
 
@@ -466,10 +462,6 @@ class View {
         this.viewCurrentValue[0] * this.unit,
       );
     }
-
-    if (this.$inputElement.length !== 0) {
-      this.$inputElement.val(`${this.currentValue[0]}`);
-    }
   }
 
   renderCurrentValueMin() {
@@ -485,12 +477,6 @@ class View {
         this.viewCurrentValue[0] * this.unit,
       );
     }
-
-    if (this.$inputElement.length !== 0) {
-      const minValue = Math.sign(this.currentValue[0]) === -1 ? `(${this.currentValue[0]})` : `${this.currentValue[0]}`;
-      const maxValue = Math.sign(this.currentValue[1]) === -1 ? `(${this.currentValue[1]})` : `${this.currentValue[1]}`;
-      this.$inputElement.val(`${minValue} - ${maxValue}`);
-    }
   }
 
   renderCurrentValueMax() {
@@ -504,12 +490,6 @@ class View {
       this.valueWindowMax.renderValueWindow(
         this.currentValue[1], this.viewCurrentValue[1] * this.unit,
       );
-    }
-
-    if (this.$inputElement.length !== 0) {
-      const minValue = Math.sign(this.currentValue[0]) === -1 ? `(${this.currentValue[0]})` : `${this.currentValue[0]}`;
-      const maxValue = Math.sign(this.currentValue[1]) === -1 ? `(${this.currentValue[1]})` : `${this.currentValue[1]}`;
-      this.$inputElement.val(`${minValue} - ${maxValue}`);
     }
   }
 
@@ -534,7 +514,7 @@ class View {
   handleScalesClick(position: number) {
     if (this.isCurrentValue()) {
       this.$this.trigger('updateCurrentValue', {
-        currentValue:(position - this.scaleOffset) / this.unit + this.minValue,
+        currentValue: (position - this.scaleOffset) / this.unit + this.minValue,
       });
     } else if (this.isCurrentValues()) {
       const min = this.currentValue[1] - Math.floor(
@@ -552,33 +532,6 @@ class View {
         this.$this.trigger('updateCurrentValueMax', {
           currentValueMax: (position - this.scaleOffset) / this.unit + this.minValue,
         });
-      }
-    }
-  }
-
-  handleInputElementChange(e: JQuery.ChangeEvent) {
-    const arrayCurrentValue = String($(e.currentTarget).val()).split(' - ');
-    if (this.isCurrentValue()) {
-      if (arrayCurrentValue.length === 1) {
-        const currentValue = arrayCurrentValue[0].replace(/[()]/g, '');
-        this.$this.trigger('updateCurrentValue', { currentValue });
-      } else if (arrayCurrentValue.length === 2) {
-        this.convertIntervalValue();
-        const currentValueMin = arrayCurrentValue[0].replace(/[()]/g, '');
-        const currentValueMax = arrayCurrentValue[1].replace(/[()]/g, '');
-        this.$this.trigger('updateCurrentValueMin', { currentValueMin });
-        this.$this.trigger('updateCurrentValueMax', { currentValueMax });
-      }
-    } else if (this.isCurrentValues()) {
-      if (arrayCurrentValue.length === 1) {
-        this.convertSingleValue();
-        const currentValue = arrayCurrentValue[0].replace(/[()]/g, '');
-        this.$this.trigger('updateCurrentValue', { currentValue });
-      } else if (arrayCurrentValue.length === 2) {
-        const currentValueMin = arrayCurrentValue[0].replace(/[()]/g, '');
-        const currentValueMax = arrayCurrentValue[1].replace(/[()]/g, '');
-        this.$this.trigger('updateCurrentValueMin', { currentValueMin });
-        this.$this.trigger('updateCurrentValueMax', { currentValueMax });
       }
     }
   }
