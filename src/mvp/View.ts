@@ -174,7 +174,7 @@ class View {
     if (this.$runnerMax !== undefined) this.$runnerMax.on('updatePositionRunnerMax', (_, { positionRunner }) => this.handleSliderUpdatePositionRunnerMax(positionRunner));
     this.$scale.on('clickScale', (_, { position }) => this.handleScalesClick(position));
     this.$progressBar.on('clickScale', (_, { position }) => this.handleScalesClick(position));
-    this.$scaleValues.on('clickScale', (_, { position }) => this.handleScalesClick(position));
+    if (this.$scaleValues !== undefined) this.$scaleValues.on('clickScale', (_, { position }) => this.handleScalesClick(position));
     $(window).on('resize', () => this.handleWindowResize());
   }
 
