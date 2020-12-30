@@ -1,6 +1,7 @@
 import { IoptionsModel } from '../types/ModelType';
 
 class Model {
+  $this: JQuery;
   position: string;
   minValue: number;
   maxValue: number;
@@ -10,6 +11,7 @@ class Model {
   isShowScaleValues: boolean;
 
   constructor({
+    $this,
     position,
     minValue,
     maxValue,
@@ -18,6 +20,7 @@ class Model {
     isShowValueWindow,
     isShowScaleValues,
   }: IoptionsModel) {
+    this.$this = $this;
     this.position = position;
     this.minValue = minValue;
     this.maxValue = maxValue;
@@ -27,7 +30,7 @@ class Model {
       this.currentValue = [
         Math.round(currentValue[0] / this.step) * this.step,
         Math.round(currentValue[1] / this.step) * this.step,
-      ]
+      ];
     }
     this.step = step;
     this.isShowValueWindow = isShowValueWindow;
@@ -41,6 +44,7 @@ class Model {
   setCurrentValue(currentValue: number): void {
     if (currentValue < this.minValue || currentValue > this.maxValue) return;
     this.currentValue[0] = Math.round(currentValue / this.step) * this.step;
+    this.$this.trigger('updateCurrentValue', { currentValue: this.currentValue[0] });
   }
 
   getCurrentValueMin(): number {
@@ -50,6 +54,7 @@ class Model {
   setCurrentValueMin(currentValueMin: number): void {
     if (currentValueMin < this.minValue || currentValueMin > this.currentValue[1]) return;
     this.currentValue[0] = Math.round(currentValueMin / this.step) * this.step;
+    this.$this.trigger('updateCurrentValueMin', { currentValueMin: this.currentValue[0] });
   }
 
   getCurrentValueMax(): number {
@@ -59,6 +64,7 @@ class Model {
   setCurrentValueMax(currentValueMax: number): void {
     if (currentValueMax < this.currentValue[0] || currentValueMax > this.maxValue) return;
     this.currentValue[1] = Math.round(currentValueMax / this.step) * this.step;
+    this.$this.trigger('updateCurrentValueMax', { currentValueMax: this.currentValue[1] });
   }
 
   getPosition(): string {
@@ -67,6 +73,7 @@ class Model {
 
   setPosition(position: string): void {
     this.position = position;
+    this.$this.trigger('updatePosition', { position: this.position });
   }
 
   getMinValue(): number {
@@ -74,8 +81,9 @@ class Model {
   }
 
   setMinValue(minValue: number): void {
-    if (minValue > this.currentValue[0]) return
+    if (minValue > this.currentValue[0]) return;
     this.minValue = minValue;
+    this.$this.trigger('updateMinValue', { minValue: this.minValue });
   }
 
   getMaxValue(): number {
@@ -83,9 +91,10 @@ class Model {
   }
 
   setMaxValue(maxValue: number): void {
-    if (this.currentValue.length === 1 && maxValue < this.currentValue[0]) return 
-    if (this.currentValue.length === 2 && maxValue < this.currentValue[1]) return 
+    if (this.currentValue.length === 1 && maxValue < this.currentValue[0]) return;
+    if (this.currentValue.length === 2 && maxValue < this.currentValue[1]) return;
     this.maxValue = maxValue;
+    this.$this.trigger('updateMaxValue', { maxValue: this.maxValue });
   }
 
   getStep(): number {
@@ -94,6 +103,7 @@ class Model {
 
   setStep(step: number): void {
     this.step = step;
+    this.$this.trigger('updateStep', { step: this.step });
   }
 
   getIsShowValueWindow(): boolean {
@@ -102,6 +112,7 @@ class Model {
 
   setIsShowValueWindow(isShowValueWindow: boolean): void {
     this.isShowValueWindow = isShowValueWindow;
+    this.$this.trigger('updateIsShowValueWindow', { isShowValueWindow: this.isShowValueWindow });
   }
 
   getIsShowScaleValues(): boolean {
@@ -110,6 +121,7 @@ class Model {
 
   setIsShowScaleValues(isShowScaleValues: boolean) {
     this.isShowScaleValues = isShowScaleValues;
+    this.$this.trigger('updateIsShowScaleValues', { isShowScaleValues: this.isShowScaleValues });
   }
 }
 

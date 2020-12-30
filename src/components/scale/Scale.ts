@@ -1,12 +1,10 @@
 import './scale.scss';
 
 class Scale {
-  $this: JQuery;
   position: string;
   $scale: JQuery;
 
-  constructor($this: JQuery, position: string) {
-    this.$this = $this;
+  constructor(position: string) {
     this.position = position;
     this.$scale = $('<div />', {
       class: `scale scale_${position}`,
@@ -22,9 +20,9 @@ class Scale {
 
   handleScaleClick(e: JQuery.Event) {
     if (this.position === 'horizontal') {
-      this.$this.trigger('clickScale', { position: e.pageX });
+      this.$scale.trigger('clickScale', { position: e.pageX });
     } else if (this.position === 'vertical') {
-      this.$this.trigger('clickScale', { position: e.pageY });
+      this.$scale.trigger('clickScale', { position: e.pageY });
     }
   }
 

@@ -1,13 +1,11 @@
 import './progress-bar.scss';
 
 class ProgressBar {
-  $this: JQuery;
   $progressBar: JQuery;
   position: string;
   size: string;
 
-  constructor($this: JQuery, position: string) {
-    this.$this = $this;
+  constructor(position: string) {
     this.position = position;
     this.$progressBar = $('<div />', {
       class: `progress-bar progress-bar_${position}`,
@@ -39,9 +37,9 @@ class ProgressBar {
 
   handleProgressBar(e: JQuery.Event): void {
     if (this.position === 'horizontal') {
-      this.$this.trigger('clickProgressBar', { position: e.pageX });
+      this.$progressBar.trigger('clickScale', { position: e.pageX });
     } else if (this.position === 'vertical') {
-      this.$this.trigger('clickProgressBar', { position: e.pageY });
+      this.$progressBar.trigger('clickScale', { position: e.pageY });
     }
   }
 

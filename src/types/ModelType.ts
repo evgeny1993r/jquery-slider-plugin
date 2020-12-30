@@ -1,4 +1,5 @@
 interface IoptionsModel {
+  $this: JQuery
   position: string
   minValue: number
   maxValue: number

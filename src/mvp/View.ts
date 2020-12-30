@@ -84,16 +84,16 @@ class View {
     this.isShowScaleValues = isShowScaleValues;
 
     this.slider = new Slider(this.position);
-    this.scale = new Scale(this.$this, this.position);
-    this.progressBar = new ProgressBar(this.$this, this.position);
+    this.scale = new Scale(this.position);
+    this.progressBar = new ProgressBar(this.position);
     if (this.isCurrentValue()) {
-      this.runner = new Runner(this.$this, 'updatePositionRunner', this.position);
+      this.runner = new Runner('updatePositionRunner', this.position);
       if (this.isShowValueWindow) {
         this.valueWindow = new ValueWindow(this.position);
       }
     } else if (this.isCurrentValues()) {
-      this.runnerMin = new Runner(this.$this, 'updatePositionRunnerMin', this.position);
-      this.runnerMax = new Runner(this.$this, 'updatePositionRunnerMax', this.position);
+      this.runnerMin = new Runner('updatePositionRunnerMin', this.position);
+      this.runnerMax = new Runner('updatePositionRunnerMax', this.position);
       if (this.isShowValueWindow) {
         this.valueWindowMin = new ValueWindow(this.position);
         this.valueWindowMax = new ValueWindow(this.position);
@@ -101,7 +101,6 @@ class View {
     }
     if (this.isShowScaleValues) {
       this.scaleValues = new ScaleValues(
-        this.$this,
         this.position,
         this.minValue,
         this.maxValue,
@@ -170,12 +169,12 @@ class View {
       this.renderCurrentValueMax();
     }
 
-    this.$this.on('updatePositionRunner', (_, { positionRunner }) => this.handleSliderUpdatePositionRunner(positionRunner));
-    this.$this.on('updatePositionRunnerMin', (_, { positionRunner }) => this.handleSliderUpdatePositionRunnerMin(positionRunner));
-    this.$this.on('updatePositionRunnerMax', (_, { positionRunner }) => this.handleSliderUpdatePositionRunnerMax(positionRunner));
-    this.$this.on('clickScale', (_, { position }) => this.handleScalesClick(position));
-    this.$this.on('clickProgressBar', (_, { position }) => this.handleScalesClick(position));
-    this.$this.on('clickScaleValues', (_, { position }) => this.handleScalesClick(position));
+    if (this.$runner !== undefined) this.$runner.on('updatePositionRunner', (_, { positionRunner }) => this.handleSliderUpdatePositionRunner(positionRunner));
+    if (this.$runnerMin !== undefined) this.$runnerMin.on('updatePositionRunnerMin', (_, { positionRunner }) => this.handleSliderUpdatePositionRunnerMin(positionRunner));
+    if (this.$runnerMax !== undefined) this.$runnerMax.on('updatePositionRunnerMax', (_, { positionRunner }) => this.handleSliderUpdatePositionRunnerMax(positionRunner));
+    this.$scale.on('clickScale', (_, { position }) => this.handleScalesClick(position));
+    this.$progressBar.on('clickScale', (_, { position }) => this.handleScalesClick(position));
+    this.$scaleValues.on('clickScale', (_, { position }) => this.handleScalesClick(position));
     $(window).on('resize', () => this.handleWindowResize());
   }
 
@@ -340,7 +339,6 @@ class View {
 
     if (this.isShowScaleValues) {
       this.scaleValues = new ScaleValues(
-        this.$this,
         this.position,
         this.minValue,
         this.maxValue,
@@ -374,8 +372,8 @@ class View {
       this.$this.find('.value-window').remove();
     }
 
-    this.runnerMin = new Runner(this.$this, 'updatePositionRunnerMin', this.position);
-    this.runnerMax = new Runner(this.$this, 'updatePositionRunnerMax', this.position);
+    this.runnerMin = new Runner('updatePositionRunnerMin', this.position);
+    this.runnerMax = new Runner('updatePositionRunnerMax', this.position);
     if (this.isShowValueWindow) {
       this.valueWindowMin = new ValueWindow(this.position);
       this.valueWindowMax = new ValueWindow(this.position);
@@ -416,7 +414,7 @@ class View {
       this.$this.find('.value-window').remove();
     }
 
-    this.runner = new Runner(this.$this, 'updatePositionRunner', this.position);
+    this.runner = new Runner('updatePositionRunner', this.position);
     if (this.isShowValueWindow) {
       this.valueWindow = new ValueWindow(this.position);
     }
@@ -494,26 +492,26 @@ class View {
   }
 
   handleSliderUpdatePositionRunner(positionRunner: number) {
-    this.$this.trigger('updateCurrentValue', {
+    this.$this.trigger('setCurrentValue', {
       currentValue: (positionRunner - this.scaleOffset) / this.unit + this.minValue,
     });
   }
 
   handleSliderUpdatePositionRunnerMin(positionRunner: number) {
-    this.$this.trigger('updateCurrentValueMin', {
+    this.$this.trigger('setCurrentValueMin', {
       currentValueMin: (positionRunner - this.scaleOffset) / this.unit + this.minValue,
     });
   }
 
   handleSliderUpdatePositionRunnerMax(positionRunner: number) {
-    this.$this.trigger('updateCurrentValueMax', {
+    this.$this.trigger('setCurrentValueMax', {
       currentValueMax: (positionRunner - this.scaleOffset) / this.unit + this.minValue,
     });
   }
 
   handleScalesClick(position: number) {
     if (this.isCurrentValue()) {
-      this.$this.trigger('updateCurrentValue', {
+      this.$this.trigger('setCurrentValue', {
         currentValue: (position - this.scaleOffset) / this.unit + this.minValue,
       });
     } else if (this.isCurrentValues()) {
@@ -525,11 +523,11 @@ class View {
       ) - this.currentValue[0] + this.minValue;
 
       if (min > max) {
-        this.$this.trigger('updateCurrentValueMin', {
+        this.$this.trigger('setCurrentValueMin', {
           currentValueMin: (position - this.scaleOffset) / this.unit + this.minValue,
         });
       } else if (max > min) {
-        this.$this.trigger('updateCurrentValueMax', {
+        this.$this.trigger('setCurrentValueMax', {
           currentValueMax: (position - this.scaleOffset) / this.unit + this.minValue,
         });
       }

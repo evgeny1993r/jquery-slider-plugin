@@ -3,7 +3,7 @@ interface IoptionsView {
   position: string
   minValue: number
   maxValue: number
-  currentValue: [number]
+  currentValue: [number, number?]
   step: number
   isShowValueWindow: boolean
   isShowScaleValues: boolean

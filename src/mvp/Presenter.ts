@@ -20,6 +20,7 @@ class Presenter {
   }: Ioptions) {
     this.$this = $this;
     this.model = new Model({
+      $this,
       position,
       minValue,
       maxValue,
@@ -43,59 +44,96 @@ class Presenter {
   }
 
   init() {
-    this.$this.on('updateCurrentValue', (_, { currentValue }) => this.handleSliderUpdateCurrentValue(currentValue));
-    this.$this.on('updateCurrentValueMin', (_, { currentValueMin }) => this.handleSliderUpdateCurrentValueMin(currentValueMin));
-    this.$this.on('updateCurrentValueMax', (_, { currentValueMax }) => this.handleSliderUpdateCurrentValueMax(currentValueMax));
-    this.$this.on('updatePosition', (_, { position }) => this.handleSliderUpdatePosition(position));
-    this.$this.on('updateMinValue', (_, { minValue }) => this.handleSliderUpdateMinValue(minValue));
-    this.$this.on('updateMaxValue', (_, { maxValue }) => this.handleSliderUpdateMaxValue(maxValue));
-    this.$this.on('updateStep', (_, { step }) => this.handleSliderUpdateStep(step));
-    this.$this.on('updateIsShowValueWindow', (_, { isShowValueWindow }) => this.handleSliderUpdateIsShowValueWindow(isShowValueWindow));
-    this.$this.on('updateIsShowScaleValues', (_, { isShowScaleValues }) => this.handleSliderUpdateIsShowScaleValues(isShowScaleValues));
+    this.$this.on('setCurrentValue', (_, { currentValue }) => this.handleSliderSetCurrentValue(currentValue));
+    this.$this.on('setCurrentValueMin', (_, { currentValueMin }) => this.handleSliderSetCurrentValueMin(currentValueMin));
+    this.$this.on('setCurrentValueMax', (_, { currentValueMax }) => this.handleSliderSetCurrentValueMax(currentValueMax));
+    this.$this.on('setPosition', (_, { position }) => this.handleSliderSetPosition(position));
+    this.$this.on('setMinValue', (_, { minValue }) => this.handleSliderSetMinValue(minValue));
+    this.$this.on('setMaxValue', (_, { maxValue }) => this.handleSliderSetMaxValue(maxValue));
+    this.$this.on('setStep', (_, { step }) => this.handleSliderSetStep(step));
+    this.$this.on('setIsShowValueWindow', (_, { isShowValueWindow }) => this.handleSliderSetIsShowValueWindow(isShowValueWindow));
+    this.$this.on('setIsShowScaleValues', (_, { isShowScaleValues }) => this.handleSliderSetIsShowScaleValues(isShowScaleValues));
+
+    this.$this.on('updateCurrentValue', () => this.handleSliderUpdateCurrentValue());
+    this.$this.on('updateCurrentValueMin', () => this.handleSliderUpdateCurrentValueMin());
+    this.$this.on('updateCurrentValueMax', () => this.handleSliderUpdateCurrentValueMax());
+    this.$this.on('updatePosition', () => this.handleSliderUpdatePosition());
+    this.$this.on('updateMinValue', () => this.handleSliderUpdateMinValue());
+    this.$this.on('updateMaxValue', () => this.handleSliderUpdateMaxValue());
+    this.$this.on('updateStep', () => this.handleSliderUpdateStep());
+    this.$this.on('updateIsShowValueWindow', () => this.handleSliderUpdateIsShowValueWindow());
+    this.$this.on('updateIsShowScaleValues', () => this.handleSliderUpdateIsShowScaleValues());
   }
 
-  handleSliderUpdateCurrentValue(currentValue: number) {
+  handleSliderSetCurrentValue(currentValue: number) {
     this.model.setCurrentValue(currentValue);
+  }
+
+  handleSliderSetCurrentValueMin(currentValueMin: number) {
+    this.model.setCurrentValueMin(currentValueMin);
+  }
+
+  handleSliderSetCurrentValueMax(currentValueMax: number) {
+    this.model.setCurrentValueMax(currentValueMax);
+  }
+
+  handleSliderSetPosition(position: string) {
+    this.model.setPosition(position);
+  }
+
+  handleSliderSetMinValue(minValue: number) {
+    this.model.setMinValue(minValue);
+  }
+
+  handleSliderSetMaxValue(maxValue: number) {
+    this.model.setMaxValue(maxValue);
+  }
+
+  handleSliderSetStep(step: number) {
+    this.model.setStep(step);
+  }
+
+  handleSliderSetIsShowValueWindow(isShowValueWindow: boolean) {
+    this.model.setIsShowValueWindow(isShowValueWindow);
+  }
+
+  handleSliderSetIsShowScaleValues(isShowScaleValues: boolean) {
+    this.model.setIsShowScaleValues(isShowScaleValues);
+  }
+
+  handleSliderUpdateCurrentValue() {
     this.view.updateCurrentValue(this.model.getCurrentValue());
   }
 
-  handleSliderUpdateCurrentValueMin(currentValueMin: number) {
-    this.model.setCurrentValueMin(currentValueMin);
+  handleSliderUpdateCurrentValueMin() {
     this.view.updateCurrentValueMin(this.model.getCurrentValueMin());
   }
 
-  handleSliderUpdateCurrentValueMax(currentValueMax: number) {
-    this.model.setCurrentValueMax(currentValueMax);
+  handleSliderUpdateCurrentValueMax() {
     this.view.updateCurrentValueMax(this.model.getCurrentValueMax());
   }
 
-  handleSliderUpdatePosition(position: string) {
-    this.model.setPosition(position);
+  handleSliderUpdatePosition() {
     this.view.updatePosition(this.model.getPosition());
   }
 
-  handleSliderUpdateMinValue(minValue: number) {
-    this.model.setMinValue(minValue);
+  handleSliderUpdateMinValue() {
     this.view.updateMinValue(this.model.getMinValue());
   }
 
-  handleSliderUpdateMaxValue(maxValue: number) {
-    this.model.setMaxValue(maxValue);
+  handleSliderUpdateMaxValue() {
     this.view.updateMaxValue(this.model.getMaxValue());
   }
 
-  handleSliderUpdateStep(step: number) {
-    this.model.setStep(step);
+  handleSliderUpdateStep() {
     this.view.updateStep(this.model.getStep());
   }
 
-  handleSliderUpdateIsShowValueWindow(isShowValueWindow: boolean) {
-    this.model.setIsShowValueWindow(isShowValueWindow);
+  handleSliderUpdateIsShowValueWindow() {
     this.view.updateIsShowValueWindow(this.model.getIsShowValueWindow());
   }
 
-  handleSliderUpdateIsShowScaleValues(isShowScaleValues: boolean) {
-    this.model.setIsShowScaleValues(isShowScaleValues);
+  handleSliderUpdateIsShowScaleValues() {
     this.view.updateIsShowScaleValues(this.model.getIsShowScaleValues());
   }
 }

@@ -1,32 +1,17 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-const plugins = [
-  new MiniCssExtractPlugin({
-    filename: 'slider-plugin.css',
-  }),
-];
-
-if (process.env.NODE_ENV === 'development') {
-  plugins.push(
-    new HtmlWebpackPlugin({
-      template: './public/index.pug',
-    }),
-  );
-}
 
 module.exports = {
   entry: './src/index',
 
-  plugins,
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'slider-plugin.css',
+    }),
+  ],
 
   module: {
     rules: [
-      {
-        test: /\.pug$/,
-        loader: 'pug-loader',
-      },
       {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],

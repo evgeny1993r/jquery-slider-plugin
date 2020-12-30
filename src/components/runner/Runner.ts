@@ -1,14 +1,12 @@
 import './runner.scss';
 
 class Runner {
-  $this: JQuery;
   eventName: string;
   position: string;
   $document: JQuery<Document>;
   $runner: JQuery;
 
-  constructor($this: JQuery, eventName: string, position: string) {
-    this.$this = $this;
+  constructor(eventName: string, position: string) {
     this.eventName = eventName;
     this.position = position;
     this.$document = $(document);
@@ -39,11 +37,11 @@ class Runner {
 
   handleDocumentMousemove(e: JQuery.Event) {
     if (this.position === 'horizontal') {
-      this.$this.trigger(this.eventName, {
+      this.$runner.trigger(this.eventName, {
         positionRunner: e.pageX,
       });
     } else if (this.position === 'vertical') {
-      this.$this.trigger(this.eventName, {
+      this.$runner.trigger(this.eventName, {
         positionRunner: e.pageY,
       });
     }

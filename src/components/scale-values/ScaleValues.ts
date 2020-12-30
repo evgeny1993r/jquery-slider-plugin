@@ -1,7 +1,6 @@
 import './scale-values.scss';
 
 class ScaleValues {
-  $this: JQuery;
   position: string;
   minValue: number;
   maxValue: number;
@@ -9,8 +8,7 @@ class ScaleValues {
   $scaleValues: JQuery;
   symbol: string;
 
-  constructor($this: JQuery, position: string, minValue: number, maxValue: number, step: number) {
-    this.$this = $this;
+  constructor(position: string, minValue: number, maxValue: number, step: number) {
     this.position = position;
     this.minValue = minValue;
     this.maxValue = maxValue;
@@ -107,9 +105,9 @@ class ScaleValues {
 
   handleScaleValues(e: JQuery.Event): void {
     if (this.position === 'horizontal') {
-      this.$this.trigger('clickScaleValues', { position: e.pageX });
+      this.$scaleValues.trigger('clickScale', { position: e.pageX });
     } else if (this.position === 'vertical') {
-      this.$this.trigger('clickScaleValues', { position: e.pageY });
+      this.$scaleValues.trigger('clickScale', { position: e.pageY });
     }
   }
 }
