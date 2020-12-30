@@ -20,36 +20,36 @@ import { Presenter } from './mvp/Presenter';
     },
 
     setPosition: ($this: JQuery, position: string) => {
-      $this.trigger('updatePosition', { position });
+      $this.trigger('setPosition', { position });
     },
 
     setMinValue: ($this: JQuery, minValue: number) => {
-      $this.trigger('updateMinValue', { minValue });
+      $this.trigger('setMinValue', { minValue });
     },
 
     setMaxValue: ($this: JQuery, maxValue: number) => {
-      $this.trigger('updateMaxValue', { maxValue });
+      $this.trigger('setMaxValue', { maxValue });
     },
 
     setCurrentValue: ($this: JQuery, value: number[]) => {
       if (value.length === 1) {
-        $this.trigger('updateCurrentValue', { currentValue: value[0] });
+        $this.trigger('setCurrentValue', { currentValue: value[0] });
       } else if (value.length === 2) {
-        $this.trigger('updateCurrentValueMin', { currentValueMin: value[0] });
-        $this.trigger('updateCurrentValueMax', { currentValueMax: value[1] });
+        $this.trigger('setCurrentValueMin', { currentValueMin: value[0] });
+        $this.trigger('setCurrentValueMax', { currentValueMax: value[1] });
       }
     },
 
     setStep: ($this: JQuery, step: number) => {
-      $this.trigger('updateStep', { step });
+      $this.trigger('setStep', { step });
     },
 
     setIsShowValueWindow: ($this:JQuery, isShowValueWindow: boolean) => {
-      $this.trigger('updateIsShowValueWindow', { isShowValueWindow });
+      $this.trigger('setIsShowValueWindow', { isShowValueWindow });
     },
 
     setIsShowScaleValues: ($this: JQuery, isShowScaleValues: boolean) => {
-      $this.trigger('updateIsShowScaleValues', { isShowScaleValues });
+      $this.trigger('setIsShowScaleValues', { isShowScaleValues });
     },
   };
 
