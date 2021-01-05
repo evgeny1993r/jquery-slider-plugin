@@ -1,13 +1,14 @@
 interface JQuery {
-  slider(key?: Ioptions | string, value?: string | number | [number, number]): JQuery
+  slider(key?: IOptions | string, value?: string | number | [number, number]): JQuery
 }
 
-interface Ioptions {
+interface IOptions {
   $this?: JQuery
-  position?: string
+  orientation?: 'horizontal' | 'vertical'
   minValue?: number
   maxValue?: number
   currentValue?: [number]
   step?: number
   isShowWindowValue?: boolean
+  isShowScaleValues?: boolean
 }

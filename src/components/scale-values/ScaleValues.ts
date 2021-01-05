@@ -1,28 +1,28 @@
 import './scale-values.scss';
 
 class ScaleValues {
-  position: string;
+  orientation: 'horizontal' | 'vertical';
   minValue: number;
   maxValue: number;
   step: number;
   $scaleValues: JQuery;
   symbol: string;
 
-  constructor(position: string, minValue: number, maxValue: number, step: number) {
-    this.position = position;
+  constructor(orientation: 'horizontal' | 'vertical', minValue: number, maxValue: number, step: number) {
+    this.orientation = orientation;
     this.minValue = minValue;
     this.maxValue = maxValue;
     this.step = step;
     this.$scaleValues = $('<div/>', {
-      class: `scale-values scale-values_${this.position}`,
+      class: `scale-values scale-values_${this.orientation}`,
       on: {
         click: (e: JQuery.Event) => this.handleScaleValues(e),
       },
     });
 
-    if (this.position === 'horizontal') {
+    if (this.orientation === 'horizontal') {
       this.symbol = '|';
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.symbol = '—';
     }
 
@@ -52,12 +52,12 @@ class ScaleValues {
   }
 
   updatePositionScaleValues(scaleSize: number): void {
-    if (this.position === 'horizontal') {
+    if (this.orientation === 'horizontal') {
       this.$scaleValues.css({
         width: (scaleSize / 10) * 11,
         transform: `translateX(-${scaleSize / 20}px)`,
       });
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.$scaleValues.css({
         height: (scaleSize / 10) * 11,
         transform: `translateY(-${scaleSize / 20}px)`,
@@ -65,15 +65,15 @@ class ScaleValues {
     }
   }
 
-  updatePosition(position: string) {
-    this.$scaleValues.removeClass(`scale-values_${this.position}`);
-    this.position = position;
-    this.$scaleValues.addClass(`scale-values_${this.position}`);
-    if (this.position === 'horizontal') {
+  updateOrientation(orientation: 'horizontal' | 'vertical') {
+    this.$scaleValues.removeClass(`scale-values_${this.orientation}`);
+    this.orientation = orientation;
+    this.$scaleValues.addClass(`scale-values_${this.orientation}`);
+    if (this.orientation === 'horizontal') {
       this.$scaleValues.css({ height: 'auto' });
       this.symbol = '|';
       this.$scaleValues.find('.scale-values__symbol').text(this.symbol);
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.$scaleValues.css({ width: 'auto' });
       this.symbol = '—';
       this.$scaleValues.find('.scale-values__symbol').text(this.symbol);
@@ -104,9 +104,9 @@ class ScaleValues {
   }
 
   handleScaleValues(e: JQuery.Event): void {
-    if (this.position === 'horizontal') {
+    if (this.orientation === 'horizontal') {
       this.$scaleValues.trigger('clickScale', { position: e.pageX });
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.$scaleValues.trigger('clickScale', { position: e.pageY });
     }
   }

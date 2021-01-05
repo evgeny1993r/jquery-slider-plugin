@@ -3,9 +3,9 @@ import './slider.scss';
 class Slider {
   $slider: JQuery;
 
-  constructor(position: string) {
+  constructor(orientation: 'horizontal' | 'vertical') {
     this.$slider = $('<div />', {
-      class: `slider slider_${position}`,
+      class: `slider slider_${orientation}`,
     });
   }
 

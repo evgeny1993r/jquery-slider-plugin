@@ -1,13 +1,13 @@
 import './scale.scss';
 
 class Scale {
-  position: string;
+  orientation: string;
   $scale: JQuery;
 
-  constructor(position: string) {
-    this.position = position;
+  constructor(orientation: 'horizontal' | 'vertical') {
+    this.orientation = orientation;
     this.$scale = $('<div />', {
-      class: `scale scale_${position}`,
+      class: `scale scale_${orientation}`,
       on: {
         click: (e: JQuery.Event) => this.handleScaleClick(e),
       },
@@ -19,17 +19,17 @@ class Scale {
   }
 
   handleScaleClick(e: JQuery.Event) {
-    if (this.position === 'horizontal') {
+    if (this.orientation === 'horizontal') {
       this.$scale.trigger('clickScale', { position: e.pageX });
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.$scale.trigger('clickScale', { position: e.pageY });
     }
   }
 
-  updatePosition(position: string) {
-    this.$scale.removeClass(`scale_${this.position}`);
-    this.position = position;
-    this.$scale.addClass(`scale_${this.position}`);
+  updateOrientation(orientation: 'horizontal' | 'vertical') {
+    this.$scale.removeClass(`scale_${this.orientation}`);
+    this.orientation = orientation;
+    this.$scale.addClass(`scale_${this.orientation}`);
   }
 }
 

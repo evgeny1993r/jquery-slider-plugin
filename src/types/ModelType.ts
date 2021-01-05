@@ -1,6 +1,6 @@
-interface IoptionsModel {
+interface IOptionsModel {
   $this: JQuery
-  position: string
+  orientation: 'horizontal' | 'vertical'
   minValue: number
   maxValue: number
   currentValue: [number, number?]
@@ -10,5 +10,5 @@ interface IoptionsModel {
 }
 
 export {
-  IoptionsModel,
+  IOptionsModel,
 };

@@ -1,4 +1,4 @@
-import { Ioptions, IModel, IView } from '../types/PresenterType';
+import { IOptions, IModel, IView } from '../types/PresenterType';
 
 import { Model } from './Model';
 import { View } from './View';
@@ -10,18 +10,18 @@ class Presenter {
 
   constructor({
     $this,
-    position,
+    orientation,
     minValue,
     maxValue,
     currentValue,
     step,
     isShowValueWindow,
     isShowScaleValues,
-  }: Ioptions) {
+  }: IOptions) {
     this.$this = $this;
     this.model = new Model({
       $this,
-      position,
+      orientation,
       minValue,
       maxValue,
       currentValue,
@@ -31,7 +31,7 @@ class Presenter {
     });
     this.view = new View({
       $this,
-      position,
+      orientation,
       minValue,
       maxValue,
       currentValue,
@@ -47,7 +47,7 @@ class Presenter {
     this.$this.on('setCurrentValue', (_, { currentValue }) => this.handleSliderSetCurrentValue(currentValue));
     this.$this.on('setCurrentValueMin', (_, { currentValueMin }) => this.handleSliderSetCurrentValueMin(currentValueMin));
     this.$this.on('setCurrentValueMax', (_, { currentValueMax }) => this.handleSliderSetCurrentValueMax(currentValueMax));
-    this.$this.on('setPosition', (_, { position }) => this.handleSliderSetPosition(position));
+    this.$this.on('setOrientation', (_, { orientation }) => this.handleSliderSetOrientation(orientation));
     this.$this.on('setMinValue', (_, { minValue }) => this.handleSliderSetMinValue(minValue));
     this.$this.on('setMaxValue', (_, { maxValue }) => this.handleSliderSetMaxValue(maxValue));
     this.$this.on('setStep', (_, { step }) => this.handleSliderSetStep(step));
@@ -57,7 +57,7 @@ class Presenter {
     this.$this.on('updateCurrentValue', () => this.handleSliderUpdateCurrentValue());
     this.$this.on('updateCurrentValueMin', () => this.handleSliderUpdateCurrentValueMin());
     this.$this.on('updateCurrentValueMax', () => this.handleSliderUpdateCurrentValueMax());
-    this.$this.on('updatePosition', () => this.handleSliderUpdatePosition());
+    this.$this.on('updateOrientation', () => this.handleSliderUpdateOrientation());
     this.$this.on('updateMinValue', () => this.handleSliderUpdateMinValue());
     this.$this.on('updateMaxValue', () => this.handleSliderUpdateMaxValue());
     this.$this.on('updateStep', () => this.handleSliderUpdateStep());
@@ -77,8 +77,8 @@ class Presenter {
     this.model.setCurrentValueMax(currentValueMax);
   }
 
-  handleSliderSetPosition(position: string) {
-    this.model.setPosition(position);
+  handleSliderSetOrientation(orientation: 'horizontal' | 'vertical') {
+    this.model.setOrientation(orientation);
   }
 
   handleSliderSetMinValue(minValue: number) {
@@ -113,8 +113,8 @@ class Presenter {
     this.view.updateCurrentValueMax(this.model.getCurrentValueMax());
   }
 
-  handleSliderUpdatePosition() {
-    this.view.updatePosition(this.model.getPosition());
+  handleSliderUpdateOrientation() {
+    this.view.updateOrientation(this.model.getOrientation());
   }
 
   handleSliderUpdateMinValue() {

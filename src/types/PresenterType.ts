@@ -1,6 +1,6 @@
-interface Ioptions {
+interface IOptions {
   $this: JQuery
-  position: string
+  orientation: 'horizontal' | 'vertical'
   minValue: number
   maxValue: number
   currentValue: [number]
@@ -10,8 +10,8 @@ interface Ioptions {
 }
 
 interface IModel {
-  getPosition(): string
-  setPosition(position: string): void
+  getOrientation(): 'horizontal' | 'vertical'
+  setOrientation(orientation: 'horizontal' | 'vertical'): void
   getMinValue(): number
   setMinValue(minValue: number): void
   getMaxValue(): number
@@ -31,7 +31,7 @@ interface IModel {
 }
 
 interface IView {
-  updatePosition(position: string): void
+  updateOrientation(orientation: 'horizontal' | 'vertical'): void
   updateMinValue(minValue: number): void
   updateMaxValue(maxValue: number): void
   updateCurrentValue(currentValue: number): void
@@ -43,7 +43,7 @@ interface IView {
 }
 
 export {
-  Ioptions,
+  IOptions,
   IModel,
   IView,
 };

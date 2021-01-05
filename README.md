@@ -31,8 +31,8 @@ __Клонирование репозитория__
 ```
 
 ## Параметры:
-__position__ <br/>
-Тип: ```string``` <br/>
+__orientation__ <br/>
+Тип: ```'horizontal' | 'vertical'``` <br/>
 Значение по умолчанию: ```horizontal``` <br/>
 Допустимые значения: ```horizontal | vertical``` <br/>
 <br/>
@@ -67,16 +67,12 @@ __isShowScaleValues__ <br/>
 Значение по умолчанию: ```false``` <br/>
 <br/>
 
-__$inputElement__ <br/>
-Тип: ```JQuery``` <br/>
-Значение по умолчанию: ```$()``` <br/>
-
 ## Публичные методы:
-__setPosition__ <br/>
+__setOrientation__ <br/>
 Тип: `function` <br/>
 Пример:
 ```js
-  $slider.slider('setPosition', 'vertical');
+  $slider.slider('setOrientation', 'vertical');
 ```
 <br/>
 
@@ -128,7 +124,7 @@ __setIsShowScaleValues__ <br/>
 
 ## Архитектура
 В данном проекте использовалась архитектура Model View Presenter. 
-Из index.js параметры передаются в класс Presenter, из Presenter параметры, такие как minValue, maxValue, currentValue, step и isShowWindowValue передаются в класс Model, а такие как $this, position, minValue, maxValue, currentValue, step и isShowWindowValue передаются в класс View. <br/>
+Из index.js параметры передаются в класс Presenter, из Presenter параметры передаются в классы Model и View. <br/>
 В зависимости от переданных параметров, в классе View вызваются классы компоненты, такие как Slider, Scale, ProgressBar, Runner и ValueWindow и отображаются данные. <br/>
 При взаимодействии пользователя с этими классами компонентами, срабатывают некоторые события, на которые подписан View. View, получив некоторые данные из события, проводит расчеты, и вызывает события на которые подписан Presenter. Presenter, получив данные из события, вызывает методы для изменения данных из Model, Model меняет данные, Presenter вызывает методы отображения из View, и View отображает новые данные.
 

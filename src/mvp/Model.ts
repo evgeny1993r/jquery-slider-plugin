@@ -1,8 +1,8 @@
-import { IoptionsModel } from '../types/ModelType';
+import { IOptionsModel } from '../types/ModelType';
 
 class Model {
   $this: JQuery;
-  position: string;
+  orientation: 'horizontal' | 'vertical';
   minValue: number;
   maxValue: number;
   currentValue: [number, number?];
@@ -12,16 +12,16 @@ class Model {
 
   constructor({
     $this,
-    position,
+    orientation,
     minValue,
     maxValue,
     currentValue,
     step,
     isShowValueWindow,
     isShowScaleValues,
-  }: IoptionsModel) {
+  }: IOptionsModel) {
     this.$this = $this;
-    this.position = position;
+    this.orientation = orientation;
     this.minValue = minValue;
     this.maxValue = maxValue;
     if (currentValue.length === 1) {
@@ -67,13 +67,13 @@ class Model {
     this.$this.trigger('updateCurrentValueMax', { currentValueMax: this.currentValue[1] });
   }
 
-  getPosition(): string {
-    return this.position;
+  getOrientation(): 'horizontal' | 'vertical' {
+    return this.orientation;
   }
 
-  setPosition(position: string): void {
-    this.position = position;
-    this.$this.trigger('updatePosition', { position: this.position });
+  setOrientation(orientation: 'horizontal' | 'vertical'): void {
+    this.orientation = orientation;
+    this.$this.trigger('updateOrientation', { orientation: this.orientation });
   }
 
   getMinValue(): number {

@@ -1,5 +1,5 @@
 import {
-  IoptionsView,
+  IOptionsView,
   ISlider,
   IScale,
   IProgressBar,
@@ -17,7 +17,7 @@ import { ScaleValues } from '../components/scale-values/ScaleValues';
 
 class View {
   $this: JQuery;
-  position: string;
+  orientation: 'horizontal' | 'vertical';
   minValue: number;
   maxValue: number;
   currentValue: [number, number?];
@@ -56,16 +56,16 @@ class View {
 
   constructor({
     $this,
-    position,
+    orientation,
     minValue,
     maxValue,
     currentValue,
     step,
     isShowValueWindow,
     isShowScaleValues,
-  }: IoptionsView) {
+  }: IOptionsView) {
     this.$this = $this;
-    this.position = position;
+    this.orientation = orientation;
     this.minValue = minValue;
     this.maxValue = maxValue;
     this.currentValue = currentValue;
@@ -83,25 +83,25 @@ class View {
     this.isShowValueWindow = isShowValueWindow;
     this.isShowScaleValues = isShowScaleValues;
 
-    this.slider = new Slider(this.position);
-    this.scale = new Scale(this.position);
-    this.progressBar = new ProgressBar(this.position);
+    this.slider = new Slider(this.orientation);
+    this.scale = new Scale(this.orientation);
+    this.progressBar = new ProgressBar(this.orientation);
     if (this.isCurrentValue()) {
-      this.runner = new Runner('updatePositionRunner', this.position);
+      this.runner = new Runner('updatePositionRunner', this.orientation);
       if (this.isShowValueWindow) {
-        this.valueWindow = new ValueWindow(this.position);
+        this.valueWindow = new ValueWindow(this.orientation);
       }
     } else if (this.isCurrentValues()) {
-      this.runnerMin = new Runner('updatePositionRunnerMin', this.position);
-      this.runnerMax = new Runner('updatePositionRunnerMax', this.position);
+      this.runnerMin = new Runner('updatePositionRunnerMin', this.orientation);
+      this.runnerMax = new Runner('updatePositionRunnerMax', this.orientation);
       if (this.isShowValueWindow) {
-        this.valueWindowMin = new ValueWindow(this.position);
-        this.valueWindowMax = new ValueWindow(this.position);
+        this.valueWindowMin = new ValueWindow(this.orientation);
+        this.valueWindowMax = new ValueWindow(this.orientation);
       }
     }
     if (this.isShowScaleValues) {
       this.scaleValues = new ScaleValues(
-        this.position,
+        this.orientation,
         this.minValue,
         this.maxValue,
         this.step,
@@ -153,9 +153,9 @@ class View {
     }
     if (this.isShowScaleValues) {
       this.$slider.append(this.$scaleValues);
-      if (this.position === 'horizontal') {
+      if (this.orientation === 'horizontal') {
         this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
-      } else if (this.position === 'vertical') {
+      } else if (this.orientation === 'vertical') {
         this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
       }
     }
@@ -210,37 +210,37 @@ class View {
     this.renderCurrentValueMax();
   }
 
-  updatePosition(position: string) {
+  updateOrientation(orientation: 'horizontal' | 'vertical') {
     this.$this
       .children('.slider')
-      .removeClass(`slider_${this.position}`)
-      .addClass(`slider_${position}`);
-    this.position = position;
-    this.scale.updatePosition(this.position);
-    this.progressBar.updatePosition(this.position);
+      .removeClass(`slider_${this.orientation}`)
+      .addClass(`slider_${orientation}`);
+    this.orientation = orientation;
+    this.scale.updateOrientation(this.orientation);
+    this.progressBar.updateOrientation(this.orientation);
     if (this.isCurrentValue()) {
-      this.runner.updatePosition(this.position);
+      this.runner.updateOrientation(this.orientation);
       if (this.isShowValueWindow) {
-        this.valueWindow.updatePosition(this.position);
+        this.valueWindow.updateOrientation(this.orientation);
       }
     }
     if (this.isCurrentValues()) {
-      this.runnerMin.updatePosition(this.position);
-      this.runnerMax.updatePosition(this.position);
+      this.runnerMin.updateOrientation(this.orientation);
+      this.runnerMax.updateOrientation(this.orientation);
       if (this.isShowValueWindow) {
-        this.valueWindowMin.updatePosition(this.position);
-        this.valueWindowMax.updatePosition(this.position);
+        this.valueWindowMin.updateOrientation(this.orientation);
+        this.valueWindowMax.updateOrientation(this.orientation);
       }
     }
     if (this.isShowScaleValues) {
-      this.scaleValues.updatePosition(this.position);
+      this.scaleValues.updateOrientation(this.orientation);
     }
 
     this.dataCollection();
 
-    if (this.isShowScaleValues && this.position === 'horizontal') {
+    if (this.isShowScaleValues && this.orientation === 'horizontal') {
       this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
-    } else if (this.isShowScaleValues && this.position === 'vertical') {
+    } else if (this.isShowScaleValues && this.orientation === 'vertical') {
       this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
     }
 
@@ -302,14 +302,14 @@ class View {
 
     if (this.isShowValueWindow) {
       if (this.isCurrentValue()) {
-        this.valueWindow = new ValueWindow(this.position);
+        this.valueWindow = new ValueWindow(this.orientation);
         this.$valueWindow = this.valueWindow.getValueWindow();
         this.$slider.append(this.$valueWindow);
 
         this.renderCurrentValue();
       } else if (this.isCurrentValues()) {
-        this.valueWindowMin = new ValueWindow(this.position);
-        this.valueWindowMax = new ValueWindow(this.position);
+        this.valueWindowMin = new ValueWindow(this.orientation);
+        this.valueWindowMax = new ValueWindow(this.orientation);
         this.$valueWindowMin = this.valueWindowMin.getValueWindow();
         this.$valueWindowMax = this.valueWindowMax.getValueWindow();
         this.$slider
@@ -339,16 +339,16 @@ class View {
 
     if (this.isShowScaleValues) {
       this.scaleValues = new ScaleValues(
-        this.position,
+        this.orientation,
         this.minValue,
         this.maxValue,
         this.step,
       );
       this.$scaleValues = this.scaleValues.getScaleValues();
       this.$slider.append(this.$scaleValues);
-      if (this.position === 'horizontal') {
+      if (this.orientation === 'horizontal') {
         this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
-      } else if (this.position === 'vertical') {
+      } else if (this.orientation === 'vertical') {
         this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
       }
     } else if (!this.isShowScaleValues) {
@@ -372,11 +372,11 @@ class View {
       this.$this.find('.value-window').remove();
     }
 
-    this.runnerMin = new Runner('updatePositionRunnerMin', this.position);
-    this.runnerMax = new Runner('updatePositionRunnerMax', this.position);
+    this.runnerMin = new Runner('updatePositionRunnerMin', this.orientation);
+    this.runnerMax = new Runner('updatePositionRunnerMax', this.orientation);
     if (this.isShowValueWindow) {
-      this.valueWindowMin = new ValueWindow(this.position);
-      this.valueWindowMax = new ValueWindow(this.position);
+      this.valueWindowMin = new ValueWindow(this.orientation);
+      this.valueWindowMax = new ValueWindow(this.orientation);
     }
     this.$runnerMin = this.runnerMin.getRunner();
     this.$runnerMax = this.runnerMax.getRunner();
@@ -414,9 +414,9 @@ class View {
       this.$this.find('.value-window').remove();
     }
 
-    this.runner = new Runner('updatePositionRunner', this.position);
+    this.runner = new Runner('updatePositionRunner', this.orientation);
     if (this.isShowValueWindow) {
-      this.valueWindow = new ValueWindow(this.position);
+      this.valueWindow = new ValueWindow(this.orientation);
     }
     this.$runner = this.runner.getRunner();
     if (this.isShowValueWindow) {
@@ -439,10 +439,10 @@ class View {
   }
 
   dataCollection() {
-    if (this.position === 'horizontal') {
+    if (this.orientation === 'horizontal') {
       this.scaleSize = this.$scale.outerWidth();
       this.scaleOffset = this.$scale.offset().left;
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.scaleSize = this.$scale.outerHeight();
       this.scaleOffset = this.$scale.offset().top;
     }
@@ -545,9 +545,9 @@ class View {
       this.renderCurrentValueMax();
     }
 
-    if (this.isShowScaleValues && this.position === 'horizontal') {
+    if (this.isShowScaleValues && this.orientation === 'horizontal') {
       this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
-    } else if (this.isShowScaleValues && this.position === 'vertical') {
+    } else if (this.isShowScaleValues && this.orientation === 'vertical') {
       this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
     }
   }

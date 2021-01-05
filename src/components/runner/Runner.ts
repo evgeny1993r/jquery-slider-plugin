@@ -2,16 +2,16 @@ import './runner.scss';
 
 class Runner {
   eventName: string;
-  position: string;
+  orientation: 'horizontal' | 'vertical';
   $document: JQuery<Document>;
   $runner: JQuery;
 
-  constructor(eventName: string, position: string) {
+  constructor(eventName: string, orientation: 'horizontal' | 'vertical') {
     this.eventName = eventName;
-    this.position = position;
+    this.orientation = orientation;
     this.$document = $(document);
     this.$runner = $('<div />', {
-      class: `runner runner_${position}`,
+      class: `runner runner_${orientation}`,
       on: {
         mousedown: () => this.handleRunnerMousedown(),
       },
@@ -23,9 +23,9 @@ class Runner {
   }
 
   updatePositionRunner(value: number): void {
-    if (this.position === 'horizontal') {
+    if (this.orientation === 'horizontal') {
       this.$runner.css({ transform: `translateX(${value}px)` });
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.$runner.css({ transform: `translateY(${value}px)` });
     }
   }
@@ -36,11 +36,11 @@ class Runner {
   }
 
   handleDocumentMousemove(e: JQuery.Event) {
-    if (this.position === 'horizontal') {
+    if (this.orientation === 'horizontal') {
       this.$runner.trigger(this.eventName, {
         positionRunner: e.pageX,
       });
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.$runner.trigger(this.eventName, {
         positionRunner: e.pageY,
       });
@@ -51,10 +51,10 @@ class Runner {
     this.$document.off('mousemove');
   }
 
-  updatePosition(position: string) {
-    this.$runner.removeClass(`runner_${this.position}`);
-    this.position = position;
-    this.$runner.addClass(`runner_${this.position}`);
+  updateOrientation(orientation: 'horizontal' | 'vertical') {
+    this.$runner.removeClass(`runner_${this.orientation}`);
+    this.orientation = orientation;
+    this.$runner.addClass(`runner_${this.orientation}`);
   }
 }
 

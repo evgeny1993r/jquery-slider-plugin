@@ -2,12 +2,12 @@ import './value-window.scss';
 
 class ValueWindow {
   $valueWindow: JQuery;
-  position: string;
+  orientation: 'horizontal' | 'vertical';
 
-  constructor(position: string) {
-    this.position = position;
+  constructor(orientation: 'horizontal' | 'vertical') {
+    this.orientation = orientation;
     this.$valueWindow = $('<div />', {
-      class: `value-window value-window_${position}`,
+      class: `value-window value-window_${orientation}`,
     });
   }
 
@@ -17,17 +17,17 @@ class ValueWindow {
 
   renderValueWindow(currentValue: number, indentValue: number): void {
     this.$valueWindow.text(currentValue);
-    if (this.position === 'horizontal') {
+    if (this.orientation === 'horizontal') {
       this.$valueWindow.css({ transform: `translateX(${indentValue - this.$valueWindow.outerWidth() / 2}px)` });
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.$valueWindow.css({ transform: `translate(-${this.$valueWindow.outerWidth() + 20}px, ${indentValue - this.$valueWindow.outerHeight() / 2}px)` });
     }
   }
 
-  updatePosition(position: string) {
-    this.$valueWindow.removeClass(`value-window_${this.position}`);
-    this.position = position;
-    this.$valueWindow.addClass(`value-window_${this.position}`);
+  updateOrientation(orientation: 'horizontal' | 'vertical') {
+    this.$valueWindow.removeClass(`value-window_${this.orientation}`);
+    this.orientation = orientation;
+    this.$valueWindow.addClass(`value-window_${this.orientation}`);
   }
 }
 

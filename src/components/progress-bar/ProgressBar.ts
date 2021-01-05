@@ -2,13 +2,13 @@ import './progress-bar.scss';
 
 class ProgressBar {
   $progressBar: JQuery;
-  position: string;
+  orientation: 'horizontal' | 'vertical';
   size: string;
 
-  constructor(position: string) {
-    this.position = position;
+  constructor(orientation: 'horizontal' | 'vertical') {
+    this.orientation = orientation;
     this.$progressBar = $('<div />', {
-      class: `progress-bar progress-bar_${position}`,
+      class: `progress-bar progress-bar_${orientation}`,
       on: {
         click: (e: JQuery.Event) => this.handleProgressBar(e),
       },
@@ -20,13 +20,13 @@ class ProgressBar {
   }
 
   renderProgressBar(sizeValue: number, indentValue: number): void {
-    if (this.position === 'horizontal') {
+    if (this.orientation === 'horizontal') {
       this.size = this.$progressBar.css('height');
       this.$progressBar.css({
         width: `${sizeValue}px`,
         transform: `translateX(${indentValue}px)`,
       });
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.size = this.$progressBar.css('width');
       this.$progressBar.css({
         height: `${sizeValue}px`,
@@ -36,23 +36,23 @@ class ProgressBar {
   }
 
   handleProgressBar(e: JQuery.Event): void {
-    if (this.position === 'horizontal') {
+    if (this.orientation === 'horizontal') {
       this.$progressBar.trigger('clickScale', { position: e.pageX });
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.$progressBar.trigger('clickScale', { position: e.pageY });
     }
   }
 
-  updatePosition(position: string) {
-    this.$progressBar.removeClass(`progress-bar_${this.position}`);
-    this.position = position;
-    this.$progressBar.addClass(`progress-bar_${this.position}`);
-    if (this.position === 'horizontal') {
+  updateOrientation(orientation: 'horizontal' | 'vertical') {
+    this.$progressBar.removeClass(`progress-bar_${this.orientation}`);
+    this.orientation = orientation;
+    this.$progressBar.addClass(`progress-bar_${this.orientation}`);
+    if (this.orientation === 'horizontal') {
       this.$progressBar.css({
         height: this.size,
         transform: 'translateX(0)',
       });
-    } else if (this.position === 'vertical') {
+    } else if (this.orientation === 'vertical') {
       this.$progressBar.css({
         width: this.size,
         transform: 'translateY(0)',
