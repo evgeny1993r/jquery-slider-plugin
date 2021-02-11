@@ -1,6 +1,8 @@
+import { IObserver } from './ObserverTypes';
+
 interface IOptions {
   $this: JQuery
-  orientation: 'horizontal' | 'vertical'
+  orientation: string
   minValue: number
   maxValue: number
   currentValue: [number]
@@ -9,9 +11,9 @@ interface IOptions {
   isShowScaleValues: boolean
 }
 
-interface IModel {
-  getOrientation(): 'horizontal' | 'vertical'
-  setOrientation(orientation: 'horizontal' | 'vertical'): void
+interface IModel extends IObserver {
+  getOrientation(): string
+  setOrientation(orientation: string): void
   getMinValue(): number
   setMinValue(minValue: number): void
   getMaxValue(): number
@@ -30,8 +32,8 @@ interface IModel {
   setIsShowScaleValues(isShowScaleValues: boolean): void
 }
 
-interface IView {
-  updateOrientation(orientation: 'horizontal' | 'vertical'): void
+interface IView extends IObserver {
+  updateOrientation(orientation: string): void
   updateMinValue(minValue: number): void
   updateMaxValue(maxValue: number): void
   updateCurrentValue(currentValue: number): void

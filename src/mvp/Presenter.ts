@@ -1,9 +1,10 @@
 import { IOptions, IModel, IView } from '../types/PresenterType';
 
+import { Observer } from '../observer/Observer';
 import { Model } from './Model';
 import { View } from './View';
 
-class Presenter {
+class Presenter extends Observer {
   $this: JQuery;
   model: IModel;
   view: IView;
@@ -18,6 +19,7 @@ class Presenter {
     isShowValueWindow,
     isShowScaleValues,
   }: IOptions) {
+    super();
     this.$this = $this;
     this.model = new Model({
       $this,
@@ -44,25 +46,97 @@ class Presenter {
   }
 
   init() {
-    this.$this.on('setCurrentValue', (_, { currentValue }) => this.handleSliderSetCurrentValue(currentValue));
-    this.$this.on('setCurrentValueMin', (_, { currentValueMin }) => this.handleSliderSetCurrentValueMin(currentValueMin));
-    this.$this.on('setCurrentValueMax', (_, { currentValueMax }) => this.handleSliderSetCurrentValueMax(currentValueMax));
-    this.$this.on('setOrientation', (_, { orientation }) => this.handleSliderSetOrientation(orientation));
-    this.$this.on('setMinValue', (_, { minValue }) => this.handleSliderSetMinValue(minValue));
-    this.$this.on('setMaxValue', (_, { maxValue }) => this.handleSliderSetMaxValue(maxValue));
-    this.$this.on('setStep', (_, { step }) => this.handleSliderSetStep(step));
-    this.$this.on('setIsShowValueWindow', (_, { isShowValueWindow }) => this.handleSliderSetIsShowValueWindow(isShowValueWindow));
-    this.$this.on('setIsShowScaleValues', (_, { isShowScaleValues }) => this.handleSliderSetIsShowScaleValues(isShowScaleValues));
+    this.view.subscribe(({ type, value }: {type: String, value: number}) => {
+      if (type === 'setCurrentValue') {
+        this.handleSliderSetCurrentValue(value);
+      }
+    });
+    this.view.subscribe(({ type, value }: {type: String, value: number}) => {
+      if (type === 'setCurrentValueMin') {
+        this.handleSliderSetCurrentValueMin(value);
+      }
+    });
+    this.view.subscribe(({ type, value }: {type: String, value: number}) => {
+      if (type === 'setCurrentValueMax') {
+        this.handleSliderSetCurrentValueMax(value);
+      }
+    });
+    this.subscribe(({ type, value }: { type: string, value: string }) => {
+      if (type === 'setOrientation') {
+        this.handleSliderSetOrientation(value);
+      }
+    });
+    this.subscribe(({ type, value }: {type: String, value: number }) => {
+      if (type === 'setMinValue') {
+        this.handleSliderSetMinValue(value);
+      }
+    });
+    this.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'setMaxValue') {
+        this.handleSliderSetMaxValue(value);
+      }
+    });
+    this.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'setStep') {
+        this.handleSliderSetStep(value);
+      }
+    });
+    this.subscribe(({ type, value }: { type: string, value: boolean }) => {
+      if (type === 'setIsShowValueWindow') {
+        this.handleSliderSetIsShowValueWindow(value);
+      }
+    });
+    this.subscribe(({ type, value }: { type: String, value: boolean }) => {
+      if (type === 'setIsShowScaleValues') {
+        this.handleSliderSetIsShowScaleValues(value);
+      }
+    });
 
-    this.$this.on('updateCurrentValue', () => this.handleSliderUpdateCurrentValue());
-    this.$this.on('updateCurrentValueMin', () => this.handleSliderUpdateCurrentValueMin());
-    this.$this.on('updateCurrentValueMax', () => this.handleSliderUpdateCurrentValueMax());
-    this.$this.on('updateOrientation', () => this.handleSliderUpdateOrientation());
-    this.$this.on('updateMinValue', () => this.handleSliderUpdateMinValue());
-    this.$this.on('updateMaxValue', () => this.handleSliderUpdateMaxValue());
-    this.$this.on('updateStep', () => this.handleSliderUpdateStep());
-    this.$this.on('updateIsShowValueWindow', () => this.handleSliderUpdateIsShowValueWindow());
-    this.$this.on('updateIsShowScaleValues', () => this.handleSliderUpdateIsShowScaleValues());
+    this.model.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'updateCurrentValue') {
+        this.handleSliderUpdateCurrentValue(value);
+      }
+    });
+    this.model.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'updateCurrentValueMin') {
+        this.handleSliderUpdateCurrentValueMin(value);
+      }
+    });
+    this.model.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'updateCurrentValueMax') {
+        this.handleSliderUpdateCurrentValueMax(value);
+      }
+    });
+    this.model.subscribe(({ type, value }: {type: string, value: string }) => {
+      if (type === 'updateOrientation') {
+        this.handleSliderUpdateOrientation(value);
+      }
+    });
+    this.model.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'updateMinValue') {
+        this.handleSliderUpdateMinValue(value);
+      }
+    });
+    this.model.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'updateMaxValue') {
+        this.handleSliderUpdateMaxValue(value);
+      }
+    });
+    this.model.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'updateStep') {
+        this.handleSliderUpdateStep(value);
+      }
+    });
+    this.model.subscribe(({ type, value }: { type: String, value: boolean}) => {
+      if (type === 'updateIsShowValueWindow') {
+        this.handleSliderUpdateIsShowValueWindow(value);
+      }
+    });
+    this.model.subscribe(({ type, value }: { type: string, value: boolean }) => {
+      if (type === 'updateIsShowScaleValues') {
+        this.handleSliderUpdateIsShowScaleValues(value);
+      }
+    });
   }
 
   handleSliderSetCurrentValue(currentValue: number) {
@@ -77,7 +151,7 @@ class Presenter {
     this.model.setCurrentValueMax(currentValueMax);
   }
 
-  handleSliderSetOrientation(orientation: 'horizontal' | 'vertical') {
+  handleSliderSetOrientation(orientation: string) {
     this.model.setOrientation(orientation);
   }
 
@@ -101,40 +175,40 @@ class Presenter {
     this.model.setIsShowScaleValues(isShowScaleValues);
   }
 
-  handleSliderUpdateCurrentValue() {
-    this.view.updateCurrentValue(this.model.getCurrentValue());
+  handleSliderUpdateCurrentValue(value: number) {
+    this.view.updateCurrentValue(value);
   }
 
-  handleSliderUpdateCurrentValueMin() {
-    this.view.updateCurrentValueMin(this.model.getCurrentValueMin());
+  handleSliderUpdateCurrentValueMin(value: number) {
+    this.view.updateCurrentValueMin(value);
   }
 
-  handleSliderUpdateCurrentValueMax() {
-    this.view.updateCurrentValueMax(this.model.getCurrentValueMax());
+  handleSliderUpdateCurrentValueMax(value: number) {
+    this.view.updateCurrentValueMax(value);
   }
 
-  handleSliderUpdateOrientation() {
-    this.view.updateOrientation(this.model.getOrientation());
+  handleSliderUpdateOrientation(value: string) {
+    this.view.updateOrientation(value);
   }
 
-  handleSliderUpdateMinValue() {
-    this.view.updateMinValue(this.model.getMinValue());
+  handleSliderUpdateMinValue(value: number) {
+    this.view.updateMinValue(value);
   }
 
-  handleSliderUpdateMaxValue() {
-    this.view.updateMaxValue(this.model.getMaxValue());
+  handleSliderUpdateMaxValue(value: number) {
+    this.view.updateMaxValue(value);
   }
 
-  handleSliderUpdateStep() {
-    this.view.updateStep(this.model.getStep());
+  handleSliderUpdateStep(value: number) {
+    this.view.updateStep(value);
   }
 
-  handleSliderUpdateIsShowValueWindow() {
-    this.view.updateIsShowValueWindow(this.model.getIsShowValueWindow());
+  handleSliderUpdateIsShowValueWindow(value: boolean) {
+    this.view.updateIsShowValueWindow(value);
   }
 
-  handleSliderUpdateIsShowScaleValues() {
-    this.view.updateIsShowScaleValues(this.model.getIsShowScaleValues());
+  handleSliderUpdateIsShowScaleValues(value: boolean) {
+    this.view.updateIsShowScaleValues(value);
   }
 }
 

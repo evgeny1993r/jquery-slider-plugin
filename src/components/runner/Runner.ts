@@ -1,12 +1,15 @@
+import { Observer } from '../../observer/Observer';
+
 import './runner.scss';
 
-class Runner {
+class Runner extends Observer {
   eventName: string;
-  orientation: 'horizontal' | 'vertical';
+  orientation: string;
   $document: JQuery<Document>;
   $runner: JQuery;
 
-  constructor(eventName: string, orientation: 'horizontal' | 'vertical') {
+  constructor(eventName: string, orientation: string) {
+    super();
     this.eventName = eventName;
     this.orientation = orientation;
     this.$document = $(document);
@@ -37,13 +40,9 @@ class Runner {
 
   handleDocumentMousemove(e: JQuery.Event) {
     if (this.orientation === 'horizontal') {
-      this.$runner.trigger(this.eventName, {
-        positionRunner: e.pageX,
-      });
+      this.broadcast({ type: this.eventName, value: e.pageX });
     } else if (this.orientation === 'vertical') {
-      this.$runner.trigger(this.eventName, {
-        positionRunner: e.pageY,
-      });
+      this.broadcast({ type: this.eventName, value: e.pageY });
     }
   }
 

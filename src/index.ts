@@ -3,6 +3,7 @@ import './types/JQueryType';
 import { Presenter } from './mvp/Presenter';
 
 (function ($) {
+  let presenter: any;
   const methods = {
     init: ($this: JQuery, options?: IOptions) => {
       const settings = $.extend({
@@ -16,62 +17,62 @@ import { Presenter } from './mvp/Presenter';
         isShowScaleValues: false,
       }, options);
 
-      new Presenter(settings);
+      return new Presenter(settings);
     },
 
-    setOrientation: ($this: JQuery, orientation: 'horizontal' | 'vertical') => {
-      $this.trigger('setOrientation', { orientation });
+    setOrientation: (orientation: string) => {
+      presenter.broadcast({ type: 'setOrientation', value: orientation });
     },
 
-    setMinValue: ($this: JQuery, minValue: number) => {
-      $this.trigger('setMinValue', { minValue });
+    setMinValue: (minValue: number) => {
+      presenter.broadcast({ type: 'setMinValue', value: minValue });
     },
 
-    setMaxValue: ($this: JQuery, maxValue: number) => {
-      $this.trigger('setMaxValue', { maxValue });
+    setMaxValue: (maxValue: number) => {
+      presenter.broadcast({ type: 'setMaxValue', value: maxValue });
     },
 
-    setCurrentValue: ($this: JQuery, value: number[]) => {
+    setCurrentValue: (value: number[]) => {
       if (value.length === 1) {
-        $this.trigger('setCurrentValue', { currentValue: value[0] });
+        presenter.broadcast({ type: 'setCurrentValue', value: value[0] });
       } else if (value.length === 2) {
-        $this.trigger('setCurrentValueMin', { currentValueMin: value[0] });
-        $this.trigger('setCurrentValueMax', { currentValueMax: value[1] });
+        presenter.broadcast({ type: 'setCurrentValueMin', value: value[0] });
+        presenter.broadcast({ type: 'setCurrentValueMax', value: value[1] });
       }
     },
 
-    setStep: ($this: JQuery, step: number) => {
-      $this.trigger('setStep', { step });
+    setStep: (step: number) => {
+      presenter.broadcast({ type: 'setStep', value: step });
     },
 
-    setIsShowValueWindow: ($this:JQuery, isShowValueWindow: boolean) => {
-      $this.trigger('setIsShowValueWindow', { isShowValueWindow });
+    setIsShowValueWindow: (isShowValueWindow: boolean) => {
+      presenter.broadcast({ type: 'setIsShowValueWindow', value: isShowValueWindow });
     },
 
-    setIsShowScaleValues: ($this: JQuery, isShowScaleValues: boolean) => {
-      $this.trigger('setIsShowScaleValues', { isShowScaleValues });
+    setIsShowScaleValues: (isShowScaleValues: boolean) => {
+      presenter.broadcast({ type: 'setIsShowScaleValues', value: isShowScaleValues });
     },
   };
 
   $.fn.slider = function (key, value) {
     if (!key) {
-      methods.init(this);
+      presenter = methods.init(this);
     } else if (typeof (key) === 'object') {
-      methods.init(this, key);
+      presenter = methods.init(this, key);
     } else if (key === 'setCurrentValue' && Array.isArray(value) && typeof (value[0]) === 'number' && (typeof (value[1]) === 'undefined' || typeof (value[1]) === 'number')) {
-      methods.setCurrentValue(this, value);
+      methods.setCurrentValue(value);
     } else if ((key === 'setOrientation' && value === 'horizontal') || (key === 'setOrientation' && value === 'vertical')) {
-      methods.setOrientation(this, value);
+      methods.setOrientation(value);
     } else if (key === 'setMinValue' && typeof (value) === 'number') {
-      methods.setMinValue(this, value);
+      methods.setMinValue(value);
     } else if (key === 'setMaxValue' && typeof (value) === 'number') {
-      methods.setMaxValue(this, value);
+      methods.setMaxValue(value);
     } else if (key === 'setStep' && typeof (value) === 'number') {
-      methods.setStep(this, value);
+      methods.setStep(value);
     } else if (key === 'setIsShowValueWindow' && typeof (value) === 'boolean') {
-      methods.setIsShowValueWindow(this, value);
+      methods.setIsShowValueWindow(value);
     } else if (key === 'setIsShowScaleValues' && typeof (value) === 'boolean') {
-      methods.setIsShowScaleValues(this, value);
+      methods.setIsShowScaleValues(value);
     }
 
     return this;

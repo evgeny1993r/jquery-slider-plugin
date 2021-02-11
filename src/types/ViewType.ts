@@ -1,6 +1,8 @@
+import { IObserver } from './ObserverTypes';
+
 interface IOptionsView {
   $this: JQuery
-  orientation: 'horizontal' | 'vertical'
+  orientation: string
   minValue: number
   maxValue: number
   currentValue: [number, number?]
@@ -13,33 +15,33 @@ interface ISlider {
   getSlider(): JQuery
 }
 
-interface IScale {
+interface IScale extends IObserver {
   getScale(): JQuery
-  updateOrientation(orientation: 'horizontal' | 'vertical'): void
+  updateOrientation(orientation: string): void
 }
 
-interface IProgressBar {
+interface IProgressBar extends IObserver {
   getProgressBar(): JQuery
   renderProgressBar(widthValue: number, indentValue: number): void
-  updateOrientation(orientation: 'horizontal' | 'vertical'): void
+  updateOrientation(orientation: string): void
 }
 
-interface IRunner {
+interface IRunner extends IObserver {
   getRunner(): JQuery
   updatePositionRunner(value: number): void
-  updateOrientation(orientation: 'horizontal' | 'vertical'): void
+  updateOrientation(orientation: string): void
 }
 
 interface IValueWindow {
   getValueWindow(): JQuery
   renderValueWindow(currentValue: number, indentValue: number): void
-  updateOrientation(orientation: 'horizontal' | 'vertical'): void
+  updateOrientation(orientation: string): void
 }
 
-interface IScaleValues {
+interface IScaleValues extends IObserver {
   getScaleValues(): JQuery
   updatePositionScaleValues(scaleSize: number): void
-  updateOrientation(orientation: 'horizontal' | 'vertical'): void
+  updateOrientation(orientation: string): void
   updateMinMaxValues(minValue: number, maxValue: number): void
   updateStep(step: number): void
 }

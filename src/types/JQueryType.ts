@@ -4,7 +4,7 @@ interface JQuery {
 
 interface IOptions {
   $this?: JQuery
-  orientation?: 'horizontal' | 'vertical'
+  orientation?: string
   minValue?: number
   maxValue?: number
   currentValue?: [number]

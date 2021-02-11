@@ -1,10 +1,13 @@
+import { Observer } from '../../observer/Observer';
+
 import './scale.scss';
 
-class Scale {
+class Scale extends Observer {
   orientation: string;
   $scale: JQuery;
 
-  constructor(orientation: 'horizontal' | 'vertical') {
+  constructor(orientation: string) {
+    super();
     this.orientation = orientation;
     this.$scale = $('<div />', {
       class: `scale scale_${orientation}`,
@@ -20,9 +23,9 @@ class Scale {
 
   handleScaleClick(e: JQuery.Event) {
     if (this.orientation === 'horizontal') {
-      this.$scale.trigger('clickScale', { position: e.pageX });
+      this.broadcast({ type: 'clickScale', value: e.pageX });
     } else if (this.orientation === 'vertical') {
-      this.$scale.trigger('clickScale', { position: e.pageY });
+      this.broadcast({ type: 'clickScale', value: e.pageY });
     }
   }
 

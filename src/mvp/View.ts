@@ -8,6 +8,7 @@ import {
   IScaleValues,
 } from '../types/ViewType';
 
+import { Observer } from '../observer/Observer';
 import { Slider } from '../components/slider/Slider';
 import { Scale } from '../components/scale/Scale';
 import { ProgressBar } from '../components/progress-bar/ProgressBar';
@@ -15,9 +16,9 @@ import { Runner } from '../components/runner/Runner';
 import { ValueWindow } from '../components/value-window/ValueWindow';
 import { ScaleValues } from '../components/scale-values/ScaleValues';
 
-class View {
+class View extends Observer {
   $this: JQuery;
-  orientation: 'horizontal' | 'vertical';
+  orientation: string;
   minValue: number;
   maxValue: number;
   currentValue: [number, number?];
@@ -64,6 +65,7 @@ class View {
     isShowValueWindow,
     isShowScaleValues,
   }: IOptionsView) {
+    super();
     this.$this = $this;
     this.orientation = orientation;
     this.minValue = minValue;
@@ -169,12 +171,50 @@ class View {
       this.renderCurrentValueMax();
     }
 
-    if (this.$runner !== undefined) this.$runner.on('updatePositionRunner', (_, { positionRunner }) => this.handleSliderUpdatePositionRunner(positionRunner));
-    if (this.$runnerMin !== undefined) this.$runnerMin.on('updatePositionRunnerMin', (_, { positionRunner }) => this.handleSliderUpdatePositionRunnerMin(positionRunner));
-    if (this.$runnerMax !== undefined) this.$runnerMax.on('updatePositionRunnerMax', (_, { positionRunner }) => this.handleSliderUpdatePositionRunnerMax(positionRunner));
-    this.$scale.on('clickScale', (_, { position }) => this.handleScalesClick(position));
-    this.$progressBar.on('clickScale', (_, { position }) => this.handleScalesClick(position));
-    if (this.$scaleValues !== undefined) this.$scaleValues.on('clickScale', (_, { position }) => this.handleScalesClick(position));
+    if (this.$runner !== undefined) {
+      this.runner.subscribe(({ type, value }: { type: string, value: number }) => {
+        if (type === 'updatePositionRunner') {
+          this.handleSliderUpdatePositionRunner(value);
+        }
+      });
+    }
+
+    if (this.$runnerMin !== undefined) {
+      this.runnerMin.subscribe(({ type, value }: { type: string, value: number }) => {
+        if (type === 'updatePositionRunnerMin') {
+          this.handleSliderUpdatePositionRunnerMin(value);
+        }
+      });
+    }
+
+    if (this.$runnerMax !== undefined) {
+      this.runnerMax.subscribe(({ type, value }: { type: string, value: number }) => {
+        if (type === 'updatePositionRunnerMax') {
+          this.handleSliderUpdatePositionRunnerMax(value);
+        }
+      });
+    }
+
+    this.scale.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'clickScale') {
+        this.handleScalesClick(value);
+      }
+    });
+
+    this.progressBar.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'clickScale') {
+        this.handleScalesClick(value);
+      }
+    });
+
+    if (this.$scaleValues !== undefined) {
+      this.scaleValues.subscribe(({ type, value }: { type: String, value: number }) => {
+        if (type === 'clickScale') {
+          this.handleScalesClick(value);
+        }
+      });
+    }
+
     $(window).on('resize', () => this.handleWindowResize());
   }
 
@@ -210,7 +250,7 @@ class View {
     this.renderCurrentValueMax();
   }
 
-  updateOrientation(orientation: 'horizontal' | 'vertical') {
+  updateOrientation(orientation: string) {
     this.$this
       .children('.slider')
       .removeClass(`slider_${this.orientation}`)
@@ -492,28 +532,20 @@ class View {
   }
 
   handleSliderUpdatePositionRunner(positionRunner: number) {
-    this.$this.trigger('setCurrentValue', {
-      currentValue: (positionRunner - this.scaleOffset) / this.unit + this.minValue,
-    });
+    this.broadcast({ type: 'setCurrentValue', value: (positionRunner - this.scaleOffset) / this.unit + this.minValue });
   }
 
   handleSliderUpdatePositionRunnerMin(positionRunner: number) {
-    this.$this.trigger('setCurrentValueMin', {
-      currentValueMin: (positionRunner - this.scaleOffset) / this.unit + this.minValue,
-    });
+    this.broadcast({ type: 'setCurrentValueMin', value: (positionRunner - this.scaleOffset) / this.unit + this.minValue });
   }
 
   handleSliderUpdatePositionRunnerMax(positionRunner: number) {
-    this.$this.trigger('setCurrentValueMax', {
-      currentValueMax: (positionRunner - this.scaleOffset) / this.unit + this.minValue,
-    });
+    this.broadcast({ type: 'setCurrentValue', value: (positionRunner - this.scaleOffset) / this.unit + this.minValue });
   }
 
   handleScalesClick(position: number) {
     if (this.isCurrentValue()) {
-      this.$this.trigger('setCurrentValue', {
-        currentValue: (position - this.scaleOffset) / this.unit + this.minValue,
-      });
+      this.broadcast({ type: 'setCurrentValue', value: (position - this.scaleOffset) / this.unit + this.minValue });
     } else if (this.isCurrentValues()) {
       const min = this.currentValue[1] - Math.floor(
         (position - this.scaleOffset) / this.unit + this.minValue,
@@ -523,13 +555,9 @@ class View {
       ) - this.currentValue[0] + this.minValue;
 
       if (min > max) {
-        this.$this.trigger('setCurrentValueMin', {
-          currentValueMin: (position - this.scaleOffset) / this.unit + this.minValue,
-        });
+        this.broadcast({ type: 'setCurrentValueMin', value: (position - this.scaleOffset) / this.unit + this.minValue });
       } else if (max > min) {
-        this.$this.trigger('setCurrentValueMax', {
-          currentValueMax: (position - this.scaleOffset) / this.unit + this.minValue,
-        });
+        this.broadcast({ type: 'setCurrentValueMax', value: (position - this.scaleOffset) / this.unit + this.minValue });
       }
     }
   }

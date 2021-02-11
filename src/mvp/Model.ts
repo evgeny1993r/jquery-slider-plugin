@@ -1,8 +1,9 @@
+import { Observer } from '../observer/Observer';
+
 import { IOptionsModel } from '../types/ModelType';
 
-class Model {
-  $this: JQuery;
-  orientation: 'horizontal' | 'vertical';
+class Model extends Observer {
+  orientation: string;
   minValue: number;
   maxValue: number;
   currentValue: [number, number?];
@@ -11,7 +12,6 @@ class Model {
   isShowScaleValues: boolean;
 
   constructor({
-    $this,
     orientation,
     minValue,
     maxValue,
@@ -20,7 +20,7 @@ class Model {
     isShowValueWindow,
     isShowScaleValues,
   }: IOptionsModel) {
-    this.$this = $this;
+    super();
     this.orientation = orientation;
     this.minValue = minValue;
     this.maxValue = maxValue;
@@ -44,7 +44,7 @@ class Model {
   setCurrentValue(currentValue: number): void {
     if (currentValue < this.minValue || currentValue > this.maxValue) return;
     this.currentValue[0] = Math.round(currentValue / this.step) * this.step;
-    this.$this.trigger('updateCurrentValue', { currentValue: this.currentValue[0] });
+    this.broadcast({ type: 'updateCurrentValue', value: this.currentValue[0] });
   }
 
   getCurrentValueMin(): number {
@@ -54,7 +54,7 @@ class Model {
   setCurrentValueMin(currentValueMin: number): void {
     if (currentValueMin < this.minValue || currentValueMin > this.currentValue[1]) return;
     this.currentValue[0] = Math.round(currentValueMin / this.step) * this.step;
-    this.$this.trigger('updateCurrentValueMin', { currentValueMin: this.currentValue[0] });
+    this.broadcast({ type: 'updateCurrentValueMin', value: this.currentValue[0] });
   }
 
   getCurrentValueMax(): number {
@@ -64,16 +64,18 @@ class Model {
   setCurrentValueMax(currentValueMax: number): void {
     if (currentValueMax < this.currentValue[0] || currentValueMax > this.maxValue) return;
     this.currentValue[1] = Math.round(currentValueMax / this.step) * this.step;
-    this.$this.trigger('updateCurrentValueMax', { currentValueMax: this.currentValue[1] });
+    this.broadcast({ type: 'updateCurrentValueMax', value: this.currentValue[1] });
   }
 
-  getOrientation(): 'horizontal' | 'vertical' {
+  getOrientation(): string {
     return this.orientation;
   }
 
-  setOrientation(orientation: 'horizontal' | 'vertical'): void {
-    this.orientation = orientation;
-    this.$this.trigger('updateOrientation', { orientation: this.orientation });
+  setOrientation(orientation: string): void {
+    if (orientation === 'horizontal' || orientation === 'vertical') {
+      this.orientation = orientation;
+      this.broadcast({ type: 'updateOrientation', value: this.orientation });
+    }
   }
 
   getMinValue(): number {
@@ -83,7 +85,7 @@ class Model {
   setMinValue(minValue: number): void {
     if (minValue > this.currentValue[0]) return;
     this.minValue = minValue;
-    this.$this.trigger('updateMinValue', { minValue: this.minValue });
+    this.broadcast({ type: 'updateMinValue', value: this.minValue });
   }
 
   getMaxValue(): number {
@@ -94,7 +96,7 @@ class Model {
     if (this.currentValue.length === 1 && maxValue < this.currentValue[0]) return;
     if (this.currentValue.length === 2 && maxValue < this.currentValue[1]) return;
     this.maxValue = maxValue;
-    this.$this.trigger('updateMaxValue', { maxValue: this.maxValue });
+    this.broadcast({ type: 'updateMaxValue', value: this.maxValue });
   }
 
   getStep(): number {
@@ -103,7 +105,7 @@ class Model {
 
   setStep(step: number): void {
     this.step = step;
-    this.$this.trigger('updateStep', { step: this.step });
+    this.broadcast({ type: 'updateStep', value: this.step });
   }
 
   getIsShowValueWindow(): boolean {
@@ -112,7 +114,7 @@ class Model {
 
   setIsShowValueWindow(isShowValueWindow: boolean): void {
     this.isShowValueWindow = isShowValueWindow;
-    this.$this.trigger('updateIsShowValueWindow', { isShowValueWindow: this.isShowValueWindow });
+    this.broadcast({ type: 'updateIsShowValueWindow', value: this.isShowValueWindow });
   }
 
   getIsShowScaleValues(): boolean {
@@ -121,7 +123,7 @@ class Model {
 
   setIsShowScaleValues(isShowScaleValues: boolean) {
     this.isShowScaleValues = isShowScaleValues;
-    this.$this.trigger('updateIsShowScaleValues', { isShowScaleValues: this.isShowScaleValues });
+    this.broadcast({ type: 'updateIsShowScaleValues', value: this.isShowScaleValues });
   }
 }
 

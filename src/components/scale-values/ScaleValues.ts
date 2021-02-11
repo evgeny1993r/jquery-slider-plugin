@@ -1,14 +1,17 @@
+import { Observer } from '../../observer/Observer';
+
 import './scale-values.scss';
 
-class ScaleValues {
-  orientation: 'horizontal' | 'vertical';
+class ScaleValues extends Observer {
+  orientation: string;
   minValue: number;
   maxValue: number;
   step: number;
   $scaleValues: JQuery;
   symbol: string;
 
-  constructor(orientation: 'horizontal' | 'vertical', minValue: number, maxValue: number, step: number) {
+  constructor(orientation: string, minValue: number, maxValue: number, step: number) {
+    super();
     this.orientation = orientation;
     this.minValue = minValue;
     this.maxValue = maxValue;
@@ -105,9 +108,9 @@ class ScaleValues {
 
   handleScaleValues(e: JQuery.Event): void {
     if (this.orientation === 'horizontal') {
-      this.$scaleValues.trigger('clickScale', { position: e.pageX });
+      this.broadcast({ type: 'clickScale', value: e.pageX });
     } else if (this.orientation === 'vertical') {
-      this.$scaleValues.trigger('clickScale', { position: e.pageY });
+      this.broadcast({ type: 'clickScale', value: e.pageY });
     }
   }
 }

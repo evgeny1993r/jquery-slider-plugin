@@ -1,11 +1,14 @@
+import { Observer } from '../../observer/Observer';
+
 import './progress-bar.scss';
 
-class ProgressBar {
+class ProgressBar extends Observer {
   $progressBar: JQuery;
-  orientation: 'horizontal' | 'vertical';
+  orientation: string;
   size: string;
 
-  constructor(orientation: 'horizontal' | 'vertical') {
+  constructor(orientation: string) {
+    super();
     this.orientation = orientation;
     this.$progressBar = $('<div />', {
       class: `progress-bar progress-bar_${orientation}`,
@@ -37,9 +40,9 @@ class ProgressBar {
 
   handleProgressBar(e: JQuery.Event): void {
     if (this.orientation === 'horizontal') {
-      this.$progressBar.trigger('clickScale', { position: e.pageX });
+      this.broadcast({ type: 'clickScale', value: e.pageX });
     } else if (this.orientation === 'vertical') {
-      this.$progressBar.trigger('clickScale', { position: e.pageY });
+      this.broadcast({ type: 'clickScale', value: e.pageY });
     }
   }
 
