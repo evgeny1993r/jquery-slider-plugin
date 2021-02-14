@@ -540,7 +540,7 @@ class View extends Observer {
   }
 
   handleSliderUpdatePositionRunnerMax(positionRunner: number) {
-    this.broadcast({ type: 'setCurrentValue', value: (positionRunner - this.scaleOffset) / this.unit + this.minValue });
+    this.broadcast({ type: 'setCurrentValueMax', value: (positionRunner - this.scaleOffset) / this.unit + this.minValue });
   }
 
   handleScalesClick(position: number) {
