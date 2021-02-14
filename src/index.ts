@@ -59,9 +59,15 @@ import { Presenter } from './mvp/Presenter';
       presenter = methods.init(this);
     } else if (typeof (key) === 'object') {
       presenter = methods.init(this, key);
-    } else if (key === 'setCurrentValue' && Array.isArray(value) && typeof (value[0]) === 'number' && (typeof (value[1]) === 'undefined' || typeof (value[1]) === 'number')) {
+    } else if (
+      key === 'setCurrentValue'
+      && Array.isArray(value)
+      && typeof (value[0]) === 'number'
+      && (typeof (value[1]) === 'undefined' || typeof (value[1]) === 'number')) {
       methods.setCurrentValue(value);
-    } else if ((key === 'setOrientation' && value === 'horizontal') || (key === 'setOrientation' && value === 'vertical')) {
+    } else if (
+      (key === 'setOrientation' && value === 'horizontal')
+      || (key === 'setOrientation' && value === 'vertical')) {
       methods.setOrientation(value);
     } else if (key === 'setMinValue' && typeof (value) === 'number') {
       methods.setMinValue(value);

@@ -532,20 +532,32 @@ class View extends Observer {
   }
 
   private handleSliderUpdatePositionRunner(positionRunner: number) {
-    this.broadcast({ type: 'setCurrentValue', value: (positionRunner - this.scaleOffset) / this.unit + this.minValue });
+    this.broadcast({
+      type: 'setCurrentValue',
+      value: (positionRunner - this.scaleOffset) / this.unit + this.minValue,
+    });
   }
 
   private handleSliderUpdatePositionRunnerMin(positionRunner: number) {
-    this.broadcast({ type: 'setCurrentValueMin', value: (positionRunner - this.scaleOffset) / this.unit + this.minValue });
+    this.broadcast({
+      type: 'setCurrentValueMin',
+      value: (positionRunner - this.scaleOffset) / this.unit + this.minValue,
+    });
   }
 
   private handleSliderUpdatePositionRunnerMax(positionRunner: number) {
-    this.broadcast({ type: 'setCurrentValueMax', value: (positionRunner - this.scaleOffset) / this.unit + this.minValue });
+    this.broadcast({
+      type: 'setCurrentValueMax',
+      value: (positionRunner - this.scaleOffset) / this.unit + this.minValue,
+    });
   }
 
   private handleScalesClick(position: number) {
     if (this.isCurrentValue()) {
-      this.broadcast({ type: 'setCurrentValue', value: (position - this.scaleOffset) / this.unit + this.minValue });
+      this.broadcast({
+        type: 'setCurrentValue',
+        value: (position - this.scaleOffset) / this.unit + this.minValue,
+      });
     } else if (this.isCurrentValues()) {
       const min = this.currentValue[1] - Math.floor(
         (position - this.scaleOffset) / this.unit + this.minValue,
@@ -555,9 +567,15 @@ class View extends Observer {
       ) - this.currentValue[0] + this.minValue;
 
       if (min > max) {
-        this.broadcast({ type: 'setCurrentValueMin', value: (position - this.scaleOffset) / this.unit + this.minValue });
+        this.broadcast({
+          type: 'setCurrentValueMin',
+          value: (position - this.scaleOffset) / this.unit + this.minValue,
+        });
       } else if (max > min) {
-        this.broadcast({ type: 'setCurrentValueMax', value: (position - this.scaleOffset) / this.unit + this.minValue });
+        this.broadcast({
+          type: 'setCurrentValueMax',
+          value: (position - this.scaleOffset) / this.unit + this.minValue,
+        });
       }
     }
   }
