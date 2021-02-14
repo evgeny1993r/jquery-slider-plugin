@@ -3,10 +3,10 @@ import { Observer } from '../../observer/Observer';
 import './runner.scss';
 
 class Runner extends Observer {
-  eventName: string;
-  orientation: string;
-  $document: JQuery<Document>;
-  $runner: JQuery;
+  private eventName: string;
+  private orientation: string;
+  private $document: JQuery<Document>;
+  private $runner: JQuery;
 
   constructor(eventName: string, orientation: string) {
     super();
@@ -21,11 +21,11 @@ class Runner extends Observer {
     });
   }
 
-  getRunner(): JQuery {
+  public getRunner(): JQuery {
     return this.$runner;
   }
 
-  updatePositionRunner(value: number): void {
+  public updatePositionRunner(value: number): void {
     if (this.orientation === 'horizontal') {
       this.$runner.css({ transform: `translateX(${value}px)` });
     } else if (this.orientation === 'vertical') {
@@ -33,12 +33,18 @@ class Runner extends Observer {
     }
   }
 
-  handleRunnerMousedown() {
+  public updateOrientation(orientation: 'horizontal' | 'vertical') {
+    this.$runner.removeClass(`runner_${this.orientation}`);
+    this.orientation = orientation;
+    this.$runner.addClass(`runner_${this.orientation}`);
+  }
+
+  private handleRunnerMousedown() {
     this.$document.on('mousemove', (e: JQuery.Event) => this.handleDocumentMousemove(e));
     this.$document.on('mouseup', () => this.handleDocumentMouseup());
   }
 
-  handleDocumentMousemove(e: JQuery.Event) {
+  private handleDocumentMousemove(e: JQuery.Event) {
     if (this.orientation === 'horizontal') {
       this.broadcast({ type: this.eventName, value: e.pageX });
     } else if (this.orientation === 'vertical') {
@@ -46,14 +52,8 @@ class Runner extends Observer {
     }
   }
 
-  handleDocumentMouseup() {
+  private handleDocumentMouseup() {
     this.$document.off('mousemove');
-  }
-
-  updateOrientation(orientation: 'horizontal' | 'vertical') {
-    this.$runner.removeClass(`runner_${this.orientation}`);
-    this.orientation = orientation;
-    this.$runner.addClass(`runner_${this.orientation}`);
   }
 }
 

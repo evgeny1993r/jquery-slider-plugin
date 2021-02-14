@@ -17,43 +17,43 @@ import { ValueWindow } from '../components/value-window/ValueWindow';
 import { ScaleValues } from '../components/scale-values/ScaleValues';
 
 class View extends Observer {
-  $this: JQuery;
-  orientation: string;
-  minValue: number;
-  maxValue: number;
-  currentValue: [number, number?];
-  viewMinValue: number;
-  viewMaxValue: number;
-  viewCurrentValue: [number, number?];
-  step: number;
-  isShowValueWindow: boolean;
-  isShowScaleValues: boolean;
+  private $this: JQuery;
+  private orientation: string;
+  private minValue: number;
+  private maxValue: number;
+  private currentValue: [number, number?];
+  private viewMinValue: number;
+  private viewMaxValue: number;
+  private viewCurrentValue: [number, number?];
+  private step: number;
+  private isShowValueWindow: boolean;
+  private isShowScaleValues: boolean;
 
-  slider: ISlider;
-  scale: IScale;
-  progressBar: IProgressBar;
-  runner: IRunner;
-  runnerMin: IRunner;
-  runnerMax: IRunner;
-  valueWindow: IValueWindow;
-  valueWindowMin: IValueWindow;
-  valueWindowMax: IValueWindow;
-  scaleValues: IScaleValues;
+  private slider: ISlider;
+  private scale: IScale;
+  private progressBar: IProgressBar;
+  private runner: IRunner;
+  private runnerMin: IRunner;
+  private runnerMax: IRunner;
+  private valueWindow: IValueWindow;
+  private valueWindowMin: IValueWindow;
+  private valueWindowMax: IValueWindow;
+  private scaleValues: IScaleValues;
 
-  $slider: JQuery;
-  $scale: JQuery;
-  $progressBar: JQuery;
-  $runner: JQuery;
-  $runnerMin: JQuery;
-  $runnerMax: JQuery;
-  $valueWindow: JQuery;
-  $valueWindowMin: JQuery;
-  $valueWindowMax: JQuery;
-  $scaleValues: JQuery;
+  private $slider: JQuery;
+  private $scale: JQuery;
+  private $progressBar: JQuery;
+  private $runner: JQuery;
+  private $runnerMin: JQuery;
+  private $runnerMax: JQuery;
+  private $valueWindow: JQuery;
+  private $valueWindowMin: JQuery;
+  private $valueWindowMax: JQuery;
+  private $scaleValues: JQuery;
 
-  scaleSize: number;
-  scaleOffset: number;
-  unit: number;
+  private scaleSize: number;
+  private scaleOffset: number;
+  private unit: number;
 
   constructor({
     $this,
@@ -133,7 +133,7 @@ class View extends Observer {
     this.init();
   }
 
-  init() {
+  private init() {
     this.$this
       .append(this.$slider
         .append(this.$scale)
@@ -218,7 +218,7 @@ class View extends Observer {
     $(window).on('resize', () => this.handleWindowResize());
   }
 
-  updateCurrentValue(value: number) {
+  public updateCurrentValue(value: number) {
     if (this.isCurrentValue()) {
       this.currentValue[0] = value;
       this.viewCurrentValue[0] = value - this.minValue;
@@ -231,7 +231,7 @@ class View extends Observer {
     }
   }
 
-  updateCurrentValueMin(value: number) {
+  public updateCurrentValueMin(value: number) {
     if (this.isCurrentValue()) {
       this.convertIntervalValue();
       this.currentValue[0] = value;
@@ -244,13 +244,13 @@ class View extends Observer {
     }
   }
 
-  updateCurrentValueMax(value: number) {
+  public updateCurrentValueMax(value: number) {
     this.currentValue[1] = value;
     this.viewCurrentValue[1] = value - this.minValue;
     this.renderCurrentValueMax();
   }
 
-  updateOrientation(orientation: string) {
+  public updateOrientation(orientation: string) {
     this.$this
       .children('.slider')
       .removeClass(`slider_${this.orientation}`)
@@ -292,7 +292,7 @@ class View extends Observer {
     }
   }
 
-  updateMinValue(minValue: number) {
+  public updateMinValue(minValue: number) {
     this.minValue = minValue;
     this.viewMinValue = this.minValue - this.minValue;
     this.viewMaxValue = this.maxValue - this.minValue;
@@ -316,7 +316,7 @@ class View extends Observer {
     }
   }
 
-  updateMaxValue(maxValue: number) {
+  public updateMaxValue(maxValue: number) {
     this.maxValue = maxValue;
     this.viewMaxValue = this.maxValue - this.minValue;
 
@@ -332,12 +332,12 @@ class View extends Observer {
     }
   }
 
-  updateStep(step: number) {
+  public updateStep(step: number) {
     this.step = step;
     this.scaleValues.updateStep(this.step);
   }
 
-  updateIsShowValueWindow(isShowValueWindow: boolean) {
+  public updateIsShowValueWindow(isShowValueWindow: boolean) {
     this.isShowValueWindow = isShowValueWindow;
 
     if (this.isShowValueWindow) {
@@ -374,7 +374,7 @@ class View extends Observer {
     }
   }
 
-  updateIsShowScaleValues(isShowScaleValues: boolean) {
+  public updateIsShowScaleValues(isShowScaleValues: boolean) {
     this.isShowScaleValues = isShowScaleValues;
 
     if (this.isShowScaleValues) {
@@ -398,7 +398,7 @@ class View extends Observer {
     }
   }
 
-  convertIntervalValue() {
+  private convertIntervalValue() {
     delete this.runner;
     if (this.isShowValueWindow) {
       delete this.valueWindow;
@@ -434,7 +434,7 @@ class View extends Observer {
     }
   }
 
-  convertSingleValue() {
+  private convertSingleValue() {
     this.currentValue.splice(1, 1);
     this.viewCurrentValue.splice(1, 1);
     delete this.runnerMin;
@@ -470,15 +470,15 @@ class View extends Observer {
     }
   }
 
-  isCurrentValue() {
+  private isCurrentValue() {
     return this.currentValue.length === 1;
   }
 
-  isCurrentValues() {
+  private isCurrentValues() {
     return this.currentValue.length === 2;
   }
 
-  dataCollection() {
+  private dataCollection() {
     if (this.orientation === 'horizontal') {
       this.scaleSize = this.$scale.outerWidth();
       this.scaleOffset = this.$scale.offset().left;
@@ -490,7 +490,7 @@ class View extends Observer {
     this.unit = this.scaleSize / this.viewMaxValue;
   }
 
-  renderCurrentValue() {
+  private renderCurrentValue() {
     this.runner.updatePositionRunner(this.viewCurrentValue[0] * this.unit);
     this.progressBar.renderProgressBar(this.viewCurrentValue[0] * this.unit, 0);
 
@@ -502,7 +502,7 @@ class View extends Observer {
     }
   }
 
-  renderCurrentValueMin() {
+  private renderCurrentValueMin() {
     this.runnerMin.updatePositionRunner(this.viewCurrentValue[0] * this.unit);
     this.progressBar.renderProgressBar(
       (this.viewCurrentValue[1] - this.viewCurrentValue[0]) * this.unit,
@@ -517,7 +517,7 @@ class View extends Observer {
     }
   }
 
-  renderCurrentValueMax() {
+  private renderCurrentValueMax() {
     this.runnerMax.updatePositionRunner(this.viewCurrentValue[1] * this.unit);
     this.progressBar.renderProgressBar(
       (this.viewCurrentValue[1] - this.viewCurrentValue[0]) * this.unit,
@@ -531,19 +531,19 @@ class View extends Observer {
     }
   }
 
-  handleSliderUpdatePositionRunner(positionRunner: number) {
+  private handleSliderUpdatePositionRunner(positionRunner: number) {
     this.broadcast({ type: 'setCurrentValue', value: (positionRunner - this.scaleOffset) / this.unit + this.minValue });
   }
 
-  handleSliderUpdatePositionRunnerMin(positionRunner: number) {
+  private handleSliderUpdatePositionRunnerMin(positionRunner: number) {
     this.broadcast({ type: 'setCurrentValueMin', value: (positionRunner - this.scaleOffset) / this.unit + this.minValue });
   }
 
-  handleSliderUpdatePositionRunnerMax(positionRunner: number) {
+  private handleSliderUpdatePositionRunnerMax(positionRunner: number) {
     this.broadcast({ type: 'setCurrentValueMax', value: (positionRunner - this.scaleOffset) / this.unit + this.minValue });
   }
 
-  handleScalesClick(position: number) {
+  private handleScalesClick(position: number) {
     if (this.isCurrentValue()) {
       this.broadcast({ type: 'setCurrentValue', value: (position - this.scaleOffset) / this.unit + this.minValue });
     } else if (this.isCurrentValues()) {
@@ -562,7 +562,7 @@ class View extends Observer {
     }
   }
 
-  handleWindowResize() {
+  private handleWindowResize() {
     this.progressBar.renderProgressBar(0, 0);
     this.dataCollection();
 

@@ -5,9 +5,8 @@ import { Model } from './Model';
 import { View } from './View';
 
 class Presenter extends Observer {
-  $this: JQuery;
-  model: IModel;
-  view: IView;
+  private model: IModel;
+  private view: IView;
 
   constructor({
     $this,
@@ -20,7 +19,6 @@ class Presenter extends Observer {
     isShowScaleValues,
   }: IOptions) {
     super();
-    this.$this = $this;
     this.model = new Model({
       $this,
       orientation,
@@ -45,7 +43,7 @@ class Presenter extends Observer {
     this.init();
   }
 
-  init() {
+  private init() {
     this.model.subscribe(({ type, value }: { type: String, value: number | string }) => {
       if (typeof (value) === 'number') {
         switch (type) {

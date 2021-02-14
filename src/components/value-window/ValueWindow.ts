@@ -1,8 +1,8 @@
 import './value-window.scss';
 
 class ValueWindow {
-  $valueWindow: JQuery;
-  orientation: string;
+  private $valueWindow: JQuery;
+  private orientation: string;
 
   constructor(orientation: string) {
     this.orientation = orientation;
@@ -11,11 +11,11 @@ class ValueWindow {
     });
   }
 
-  getValueWindow(): JQuery {
+  public getValueWindow(): JQuery {
     return this.$valueWindow;
   }
 
-  renderValueWindow(currentValue: number, indentValue: number): void {
+  public renderValueWindow(currentValue: number, indentValue: number): void {
     this.$valueWindow.text(currentValue);
     if (this.orientation === 'horizontal') {
       this.$valueWindow.css({ transform: `translateX(${indentValue - this.$valueWindow.outerWidth() / 2}px)` });
@@ -24,7 +24,7 @@ class ValueWindow {
     }
   }
 
-  updateOrientation(orientation: 'horizontal' | 'vertical') {
+  public updateOrientation(orientation: 'horizontal' | 'vertical') {
     this.$valueWindow.removeClass(`value-window_${this.orientation}`);
     this.orientation = orientation;
     this.$valueWindow.addClass(`value-window_${this.orientation}`);

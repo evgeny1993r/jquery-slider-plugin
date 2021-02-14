@@ -1,7 +1,7 @@
 import './slider.scss';
 
 class Slider {
-  $slider: JQuery;
+  private $slider: JQuery;
 
   constructor(orientation: string) {
     this.$slider = $('<div />', {
@@ -9,7 +9,7 @@ class Slider {
     });
   }
 
-  getSlider(): JQuery {
+  public getSlider(): JQuery {
     return this.$slider;
   }
 }

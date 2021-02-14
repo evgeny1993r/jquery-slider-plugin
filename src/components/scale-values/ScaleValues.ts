@@ -3,12 +3,12 @@ import { Observer } from '../../observer/Observer';
 import './scale-values.scss';
 
 class ScaleValues extends Observer {
-  orientation: string;
-  minValue: number;
-  maxValue: number;
-  step: number;
-  $scaleValues: JQuery;
-  symbol: string;
+  private orientation: string;
+  private minValue: number;
+  private maxValue: number;
+  private step: number;
+  private $scaleValues: JQuery;
+  private symbol: string;
 
   constructor(orientation: string, minValue: number, maxValue: number, step: number) {
     super();
@@ -37,24 +37,11 @@ class ScaleValues extends Observer {
     }
   }
 
-  getScaleValues(): JQuery {
+  public getScaleValues(): JQuery {
     return this.$scaleValues;
   }
 
-  addScaleValue(value: number): void {
-    this.$scaleValues
-      .append($('<div/>', {
-        class: 'scale-values__scale-value',
-      }).append($('<span/>', {
-        class: 'scale-values__symbol',
-        text: this.symbol,
-      })).append($('<span/>', {
-        text: value,
-        class: 'scale-values__value',
-      })));
-  }
-
-  updatePositionScaleValues(scaleSize: number): void {
+  public updatePositionScaleValues(scaleSize: number): void {
     if (this.orientation === 'horizontal') {
       this.$scaleValues.css({
         width: (scaleSize / 10) * 11,
@@ -68,7 +55,7 @@ class ScaleValues extends Observer {
     }
   }
 
-  updateOrientation(orientation: 'horizontal' | 'vertical') {
+  public updateOrientation(orientation: 'horizontal' | 'vertical') {
     this.$scaleValues.removeClass(`scale-values_${this.orientation}`);
     this.orientation = orientation;
     this.$scaleValues.addClass(`scale-values_${this.orientation}`);
@@ -83,7 +70,7 @@ class ScaleValues extends Observer {
     }
   }
 
-  updateMinMaxValues(minValue: number, maxValue: number) {
+  public updateMinMaxValues(minValue: number, maxValue: number) {
     this.$scaleValues.find('*').remove();
     this.minValue = minValue;
     this.maxValue = maxValue;
@@ -95,7 +82,7 @@ class ScaleValues extends Observer {
     }
   }
 
-  updateStep(step: number) {
+  public updateStep(step: number) {
     this.step = step;
     this.$scaleValues.find('*').remove();
     for (
@@ -106,7 +93,20 @@ class ScaleValues extends Observer {
     }
   }
 
-  handleScaleValues(e: JQuery.Event): void {
+  private addScaleValue(value: number): void {
+    this.$scaleValues
+      .append($('<div/>', {
+        class: 'scale-values__scale-value',
+      }).append($('<span/>', {
+        class: 'scale-values__symbol',
+        text: this.symbol,
+      })).append($('<span/>', {
+        text: value,
+        class: 'scale-values__value',
+      })));
+  }
+
+  private handleScaleValues(e: JQuery.Event): void {
     if (this.orientation === 'horizontal') {
       this.broadcast({ type: 'clickScale', value: e.pageX });
     } else if (this.orientation === 'vertical') {
