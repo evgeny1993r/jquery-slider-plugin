@@ -1,5 +1,5 @@
 interface JQuery {
-  slider(key?: IOptions | string, value?: | number | [number, number] | boolean | 'horizontal' | 'vertical'): JQuery
+  slider(key?: IOptions | string, value?: | number | [number, number?] | boolean | 'horizontal' | 'vertical'): JQuery
 }
 
 interface IOptions {

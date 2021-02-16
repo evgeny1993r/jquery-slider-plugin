@@ -41,8 +41,12 @@ class Model extends Observer {
     return this.currentValue[0];
   }
 
+  private isSetCurrentValue(currentValue: number) {
+    return currentValue < this.minValue || currentValue > this.maxValue;
+  }
+
   public setCurrentValue(currentValue: number): void {
-    if (currentValue < this.minValue || currentValue > this.maxValue) return;
+    if (this.isSetCurrentValue(currentValue)) return;
     this.currentValue[0] = Math.round(currentValue / this.step) * this.step;
     this.broadcast({ type: 'updateCurrentValue', value: this.currentValue[0] });
   }
@@ -51,8 +55,12 @@ class Model extends Observer {
     return this.currentValue[0];
   }
 
+  private isSetCurrentValueMin(currentValueMin: number) {
+    return currentValueMin < this.minValue || currentValueMin > this.currentValue[1];
+  }
+
   public setCurrentValueMin(currentValueMin: number): void {
-    if (currentValueMin < this.minValue || currentValueMin > this.currentValue[1]) return;
+    if (this.isSetCurrentValueMin(currentValueMin)) return;
     this.currentValue[0] = Math.round(currentValueMin / this.step) * this.step;
     this.broadcast({ type: 'updateCurrentValueMin', value: this.currentValue[0] });
   }
@@ -61,8 +69,12 @@ class Model extends Observer {
     return this.currentValue[1];
   }
 
+  private isSetCurrentValueMax(currentValueMax: number) {
+    return currentValueMax < this.currentValue[0] || currentValueMax > this.maxValue;
+  }
+
   public setCurrentValueMax(currentValueMax: number): void {
-    if (currentValueMax < this.currentValue[0] || currentValueMax > this.maxValue) return;
+    if (this.isSetCurrentValueMax(currentValueMax)) return;
     this.currentValue[1] = Math.round(currentValueMax / this.step) * this.step;
     this.broadcast({ type: 'updateCurrentValueMax', value: this.currentValue[1] });
   }
@@ -71,8 +83,12 @@ class Model extends Observer {
     return this.orientation;
   }
 
+  private isSetOrientation(orientation: 'horizontal' | 'vertical') {
+    return orientation === 'horizontal' || orientation === 'vertical';
+  }
+
   public setOrientation(orientation: 'horizontal' | 'vertical'): void {
-    if (orientation === 'horizontal' || orientation === 'vertical') {
+    if (this.isSetOrientation(orientation)) {
       this.orientation = orientation;
       this.broadcast({ type: 'updateOrientation', value: this.orientation });
     }
@@ -92,9 +108,13 @@ class Model extends Observer {
     return this.maxValue;
   }
 
-  public setMaxValue(maxValue: number): void {
-    if (this.currentValue.length === 1 && maxValue < this.currentValue[0]) return;
-    if (this.currentValue.length === 2 && maxValue < this.currentValue[1]) return;
+  public setMaxValue(maxValue: number): void {  
+    if (this.currentValue.length === 1) {
+      if (maxValue < this.currentValue[0]) return;
+    }
+    if (this.currentValue.length === 2) {
+      if (maxValue < this.currentValue[1]) return;
+    }
     this.maxValue = maxValue;
     this.broadcast({ type: 'updateMaxValue', value: this.maxValue });
   }
