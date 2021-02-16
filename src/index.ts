@@ -20,6 +20,25 @@ import { Presenter } from './mvp/Presenter';
       return new Presenter(settings);
     },
 
+    isValidSetCurrentValue(value: number | [number, number?] | 'horizontal' | 'vertical' | boolean): value is [number, number?] {
+      return (
+        (Array.isArray(value) && typeof (value[0]) === 'number')
+        || (Array.isArray(value) && typeof (value[0]) === 'number' && typeof (value[1]) === 'number')
+      );
+    },
+
+    isValidSetOrientation(value: number | [number, number?] | 'horizontal' | 'vertical' | boolean): value is 'horizontal' | 'vertical' {
+      return (value === 'horizontal' || value === 'vertical');
+    },
+
+    isValidSetNumberValue(value: number | [number, number?] | 'horizontal' | 'vertical' | boolean): value is number {
+      return (typeof (value) === 'number');
+    },
+
+    isValidSetBooleanValue(value: number | [number, number?] | 'horizontal' | 'vertical' | boolean): value is boolean {
+      return (typeof (value) === 'boolean');
+    },
+
     setCurrentValue: (value: number[]) => {
       if (value.length === 1) {
         presenter.setCurrentValue(value[0]);
@@ -33,23 +52,23 @@ import { Presenter } from './mvp/Presenter';
       presenter.setOrientation(value);
     },
 
-    setMinValue: (value: number) => {
+    setMinValue(value: number) {
       presenter.setMinValue(value);
     },
 
-    setMaxValue: (value: number) => {
+    setMaxValue(value: number) {
       presenter.setMaxValue(value);
     },
 
-    setStep: (value: number) => {
+    setStep(value: number) {
       presenter.setStep(value);
     },
 
-    setIsShowValueWindow: (value: boolean) => {
+    setIsShowValueWindow(value: boolean) {
       presenter.setIsShowValueWindow(value);
     },
 
-    setIsShowScaleValues: (value: boolean) => {
+    setIsShowScaleValues(value: boolean) {
       presenter.setIsShowScaleValues(value);
     },
   };
@@ -59,26 +78,20 @@ import { Presenter } from './mvp/Presenter';
       presenter = methods.init(this);
     } else if (typeof (key) === 'object') {
       presenter = methods.init(this, key);
-    } else if (
-      key === 'setCurrentValue'
-      && Array.isArray(value)
-      && typeof (value[0]) === 'number'
-      && (typeof (value[1]) === 'undefined' || typeof (value[1]) === 'number')) {
-      methods.setCurrentValue(value);
-    } else if (
-      (key === 'setOrientation' && value === 'horizontal')
-      || (key === 'setOrientation' && value === 'vertical')) {
-      methods.setOrientation(value);
-    } else if (key === 'setMinValue' && typeof (value) === 'number') {
-      methods.setMinValue(value);
-    } else if (key === 'setMaxValue' && typeof (value) === 'number') {
-      methods.setMaxValue(value);
-    } else if (key === 'setStep' && typeof (value) === 'number') {
-      methods.setStep(value);
-    } else if (key === 'setIsShowValueWindow' && typeof (value) === 'boolean') {
-      methods.setIsShowValueWindow(value);
-    } else if (key === 'setIsShowScaleValues' && typeof (value) === 'boolean') {
-      methods.setIsShowScaleValues(value);
+    } else if (key === 'setCurrentValue') {
+      methods.isValidSetCurrentValue(value) ? methods.setCurrentValue(value) : 0;
+    } else if (key === 'setOrientation') {
+      methods.isValidSetOrientation(value) ? methods.setOrientation(value) : 0;
+    } else if (key === 'setMinValue') {
+      methods.isValidSetNumberValue(value) ? methods.setMinValue(value) : 0;
+    } else if (key === 'setMaxValue') {
+      methods.isValidSetNumberValue(value) ? methods.setMaxValue(value) : 0;
+    } else if (key === 'setStep') {
+      methods.isValidSetNumberValue(value) ? methods.setStep(value) : 0;
+    } else if (key === 'setIsShowValueWindow') {
+      methods.isValidSetBooleanValue(value) ? methods.setIsShowValueWindow(value) : 0;
+    } else if (key === 'setIsShowScaleValues') {
+      methods.isValidSetBooleanValue(value) ? methods.setIsShowScaleValues(value) : 0;
     }
 
     return this;

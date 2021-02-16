@@ -4,13 +4,13 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "class-methods-use-this": ["0", { "exceptMethods": ["isSetOrientation"] }],
     "func-names": ["error", "never"],
     "no-param-reassign": ["error", { "props": false }],
     "no-new": 0,
     "import/prefer-default-export": "off",
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
-    "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }]
+    "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+    "@typescript-eslint/no-unused-expressions": ["off"]
   },
   "env": {
     "jquery": true
