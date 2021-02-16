@@ -21,23 +21,22 @@ import { IPresenter } from './types/mvp/IPresenter';
       return new Presenter(settings);
     },
 
-    isValidSetCurrentValue(value: number | [number, number?] | 'horizontal' | 'vertical' | boolean): value is [number, number?] {
+    isValidSetCurrentValue(
+      value: number | [number, number?] | 'horizontal' | 'vertical' | boolean,
+    ): value is [number, number?] {
       return (
-        (Array.isArray(value) && typeof (value[0]) === 'number')
-        || (Array.isArray(value) && typeof (value[0]) === 'number' && typeof (value[1]) === 'number')
+        (Array.isArray(value)
+        && typeof (value[0]) === 'number')
+        || (Array.isArray(value)
+        && typeof (value[0]) === 'number'
+        && typeof (value[1]) === 'number')
       );
     },
 
-    isValidSetOrientation(value: number | [number, number?] | 'horizontal' | 'vertical' | boolean): value is 'horizontal' | 'vertical' {
+    isValidSetOrientation(
+      value: number | [number, number?] | 'horizontal' | 'vertical' | boolean,
+    ): value is 'horizontal' | 'vertical' {
       return (value === 'horizontal' || value === 'vertical');
-    },
-
-    isValidSetNumberValue(value: number | [number, number?] | 'horizontal' | 'vertical' | boolean): value is number {
-      return (typeof (value) === 'number');
-    },
-
-    isValidSetBooleanValue(value: number | [number, number?] | 'horizontal' | 'vertical' | boolean): value is boolean {
-      return (typeof (value) === 'boolean');
     },
 
     setCurrentValue: (value: number[]) => {
@@ -75,24 +74,34 @@ import { IPresenter } from './types/mvp/IPresenter';
   };
 
   $.fn.slider = function (key, value) {
-    if (!key) {
-      presenter = methods.init(this);
-    } else if (typeof (key) === 'object') {
-      presenter = methods.init(this, key);
-    } else if (key === 'setCurrentValue') {
-      methods.isValidSetCurrentValue(value) ? methods.setCurrentValue(value) : 0;
-    } else if (key === 'setOrientation') {
-      methods.isValidSetOrientation(value) ? methods.setOrientation(value) : 0;
-    } else if (key === 'setMinValue') {
-      methods.isValidSetNumberValue(value) ? methods.setMinValue(value) : 0;
-    } else if (key === 'setMaxValue') {
-      methods.isValidSetNumberValue(value) ? methods.setMaxValue(value) : 0;
-    } else if (key === 'setStep') {
-      methods.isValidSetNumberValue(value) ? methods.setStep(value) : 0;
-    } else if (key === 'setIsShowValueWindow') {
-      methods.isValidSetBooleanValue(value) ? methods.setIsShowValueWindow(value) : 0;
-    } else if (key === 'setIsShowScaleValues') {
-      methods.isValidSetBooleanValue(value) ? methods.setIsShowScaleValues(value) : 0;
+    switch (key) {
+      case 'setCurrentValue':
+        if (methods.isValidSetCurrentValue(value)) methods.setCurrentValue(value);
+        break;
+      case 'setOrientation':
+        if (methods.isValidSetOrientation(value)) methods.setOrientation(value);
+        break;
+      case 'setMinValue':
+        if (typeof (value) === 'number') methods.setMinValue(value);
+        break;
+      case 'setMaxValue':
+        if (typeof (value) === 'number') methods.setMaxValue(value);
+        break;
+      case 'setStep':
+        if (typeof (value) === 'number') methods.setStep(value);
+        break;
+      case 'setIsShowValueWindow':
+        if (typeof (value) === 'boolean') methods.setIsShowValueWindow(value);
+        break;
+      case 'setIsShowScaleValues':
+        if (typeof (value) === 'boolean') methods.setIsShowScaleValues(value);
+        break;
+      default:
+        if (!key) {
+          presenter = methods.init(this);
+        } else if (typeof (key) === 'object') {
+          presenter = methods.init(this, key);
+        }
     }
 
     return this;
