@@ -20,37 +20,37 @@ import { Presenter } from './mvp/Presenter';
       return new Presenter(settings);
     },
 
-    setOrientation: (orientation: string) => {
-      presenter.broadcast({ type: 'setOrientation', value: orientation });
-    },
-
-    setMinValue: (minValue: number) => {
-      presenter.broadcast({ type: 'setMinValue', value: minValue });
-    },
-
-    setMaxValue: (maxValue: number) => {
-      presenter.broadcast({ type: 'setMaxValue', value: maxValue });
-    },
-
     setCurrentValue: (value: number[]) => {
       if (value.length === 1) {
-        presenter.broadcast({ type: 'setCurrentValue', value: value[0] });
+        presenter.setCurrentValue(value[0]);
       } else if (value.length === 2) {
-        presenter.broadcast({ type: 'setCurrentValueMin', value: value[0] });
-        presenter.broadcast({ type: 'setCurrentValueMax', value: value[1] });
+        presenter.setCurrentValueMin(value[0]);
+        presenter.setCurrentValueMax(value[1]);
       }
     },
 
-    setStep: (step: number) => {
-      presenter.broadcast({ type: 'setStep', value: step });
+    setOrientation: (value: string) => {
+      presenter.setOrientation(value);
     },
 
-    setIsShowValueWindow: (isShowValueWindow: boolean) => {
-      presenter.broadcast({ type: 'setIsShowValueWindow', value: isShowValueWindow });
+    setMinValue: (value: number) => {
+      presenter.setMinValue(value);
     },
 
-    setIsShowScaleValues: (isShowScaleValues: boolean) => {
-      presenter.broadcast({ type: 'setIsShowScaleValues', value: isShowScaleValues });
+    setMaxValue: (value: number) => {
+      presenter.setMaxValue(value);
+    },
+
+    setStep: (value: number) => {
+      presenter.setStep(value);
+    },
+
+    setIsShowValueWindow: (value: boolean) => {
+      presenter.setIsShowValueWindow(value);
+    },
+
+    setIsShowScaleValues: (value: boolean) => {
+      presenter.setIsShowScaleValues(value);
     },
   };
 

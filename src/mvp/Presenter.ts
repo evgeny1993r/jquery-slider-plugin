@@ -44,43 +44,43 @@ class Presenter extends Observer {
   }
 
   private init() {
-    this.model.subscribe(({ type, value }: { type: String, value: number | string }) => {
+    this.model.subscribe(({ type, value }: { type: string, value: number | string }) => {
       if (typeof (value) === 'number') {
         switch (type) {
           case 'updateCurrentValue':
-            this.view.updateCurrentValue(value);
+            this.updateCurrentValue(value);
             break;
           case 'updateCurrentValueMin':
-            this.view.updateCurrentValueMin(value);
+            this.updateCurrentValueMin(value);
             break;
           case 'updateCurrentValueMax':
-            this.view.updateCurrentValueMax(value);
+            this.updateCurrentValueMax(value);
             break;
           case 'updateMinValue':
-            this.view.updateMinValue(value);
+            this.updateMinValue(value);
             break;
           case 'updateMaxValue':
-            this.view.updateMaxValue(value);
+            this.updateMaxValue(value);
             break;
           case 'updateStep':
-            this.view.updateStep(value);
+            this.updateStep(value);
             break;
           default:
         }
       } else if (typeof (value) === 'string') {
         switch (type) {
           case 'updateOrientation':
-            this.view.updateOrientation(value);
+            this.updateOrientation(value);
             break;
           default:
         }
       } else if (typeof (value) === 'boolean') {
         switch (type) {
           case 'updateIsShowValueWindow':
-            this.view.updateIsShowValueWindow(value);
+            this.updateIsShowValueWindow(value);
             break;
           case 'updateIsShowScaleValues':
-            this.view.updateIsShowScaleValues(value);
+            this.updateIsShowScaleValues(value);
             break;
           default:
         }
@@ -90,60 +90,89 @@ class Presenter extends Observer {
     this.view.subscribe(({ type, value }: { type: string, value: number }) => {
       switch (type) {
         case 'setCurrentValue':
-          this.model.setCurrentValue(value);
+          this.setCurrentValue(value);
           break;
         case 'setCurrentValueMin':
-          this.model.setCurrentValueMin(value);
+          this.setCurrentValueMin(value);
           break;
         case 'setCurrentValueMax':
-          this.model.setCurrentValueMax(value);
+          this.setCurrentValueMax(value);
           break;
         default:
       }
     });
+  }
 
-    this.subscribe(({ type, value }: { type: String, value: number | string }) => {
-      if (typeof (value) === 'number') {
-        switch (type) {
-          case 'setCurrentValue':
-            this.model.setCurrentValue(value);
-            break;
-          case 'setCurrentValueMin':
-            this.model.setCurrentValueMin(value);
-            break;
-          case 'setCurrentValueMax':
-            this.model.setCurrentValueMax(value);
-            break;
-          case 'setMinValue':
-            this.model.setMinValue(value);
-            break;
-          case 'setMaxValue':
-            this.model.setMaxValue(value);
-            break;
-          case 'setStep':
-            this.model.setStep(value);
-            break;
-          default:
-        }
-      } else if (typeof (value) === 'string') {
-        switch (type) {
-          case 'setOrientation':
-            this.model.setOrientation(value);
-            break;
-          default:
-        }
-      } else if (typeof (value) === 'boolean') {
-        switch (type) {
-          case 'setIsShowValueWindow':
-            this.model.setIsShowValueWindow(value);
-            break;
-          case 'setIsShowScaleValues':
-            this.model.setIsShowScaleValues(value);
-            break;
-          default:
-        }
-      }
-    });
+  public setCurrentValue(value: number) {
+    this.model.setCurrentValue(value);
+  }
+
+  private updateCurrentValue(value: number) {
+    this.view.updateCurrentValue(value);
+  }
+
+  public setCurrentValueMin(value: number) {
+    this.model.setCurrentValueMin(value);
+  }
+
+  private updateCurrentValueMin(value: number) {
+    this.view.updateCurrentValueMin(value);
+  }
+
+  public setCurrentValueMax(value: number) {
+    this.model.setCurrentValueMax(value);
+  }
+
+  private updateCurrentValueMax(value: number) {
+    this.view.updateCurrentValueMax(value);
+  }
+
+  public setOrientation(value: string) {
+    this.model.setOrientation(value);
+  }
+
+  private updateOrientation(value: string) {
+    this.view.updateOrientation(value);
+  }
+
+  public setMinValue(value: number) {
+    this.model.setMinValue(value);
+  }
+
+  private updateMinValue(value: number) {
+    this.view.updateMinValue(value);
+  }
+
+  public setMaxValue(value: number) {
+    this.model.setMaxValue(value);
+  }
+
+  private updateMaxValue(value: number) {
+    this.view.updateMaxValue(value);
+  }
+
+  public setStep(value: number) {
+    this.model.setStep(value);
+  }
+
+  private updateStep(value: number) {
+    this.view.updateStep(value);
+  }
+
+  public setIsShowValueWindow(value: boolean) {
+    this.model.setIsShowValueWindow(value);
+  }
+
+  private updateIsShowValueWindow(value: boolean) {
+    this.view.updateIsShowValueWindow(value);
+  }
+
+  public setIsShowScaleValues(value: boolean) {
+    this.model.setIsShowScaleValues(value);
+  }
+
+  private updateIsShowScaleValues(value: boolean) {
+    this.view.updateIsShowScaleValues(value);
   }
 }
 
