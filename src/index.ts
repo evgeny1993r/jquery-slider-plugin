@@ -1,9 +1,10 @@
-import './types/JQueryType';
+import './types/JQuery';
 
 import { Presenter } from './mvp/Presenter';
+import { IPresenter } from './types/mvp/IPresenter';
 
 (function ($) {
-  let presenter: any;
+  let presenter: IPresenter;
   const methods = {
     init: ($this: JQuery, options?: IOptions) => {
       const settings = $.extend({

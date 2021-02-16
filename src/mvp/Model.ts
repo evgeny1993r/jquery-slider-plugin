@@ -1,6 +1,6 @@
 import { Observer } from '../observer/Observer';
 
-import { IOptionsModel } from '../types/ModelType';
+import { IOptionsModel } from '../types/mvp/IModel';
 
 class Model extends Observer {
   private orientation: 'horizontal' | 'vertical';

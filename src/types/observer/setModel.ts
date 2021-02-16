@@ -43,7 +43,7 @@ type UpdateIsShowScaleValues = {
   value: boolean,
 };
 
-type UpdateView =
+type SetModel =
   UpdateCurrentValue
   | UpdateCurrentValueMin
   | UpdateCurrentValueMax
@@ -55,5 +55,5 @@ type UpdateView =
   | UpdateIsShowScaleValues;
 
 export {
-  UpdateView,
+  SetModel,
 };

@@ -1,10 +1,12 @@
-import { IOptions, IModel, IView } from '../types/PresenterType';
-
 import { Observer } from '../observer/Observer';
 import { Model } from './Model';
-import { SetModel } from '../types/SetModel';
 import { View } from './View';
-import { UpdateView } from '../types/UpdateView';
+
+import { IPresenterOptions } from '../types/mvp/IPresenter';
+import { IModel } from '../types/mvp/IModel';
+import { IView } from '../types/mvp/IView';
+import { SetModel } from '../types/observer/setModel';
+import { UpdateView } from '../types/observer/updateView';
 
 class Presenter extends Observer {
   private model: IModel;
@@ -19,7 +21,7 @@ class Presenter extends Observer {
     step,
     isShowValueWindow,
     isShowScaleValues,
-  }: IOptions) {
+  }: IPresenterOptions) {
     super();
     this.model = new Model({
       $this,
@@ -46,7 +48,7 @@ class Presenter extends Observer {
   }
 
   private init() {
-    this.model.subscribe((data: UpdateView) => {
+    this.model.subscribe((data: SetModel) => {
       switch (data.type) {
         case 'updateCurrentValue':
           this.updateCurrentValue(data.value);
@@ -79,7 +81,7 @@ class Presenter extends Observer {
       }
     });
 
-    this.view.subscribe((data: SetModel) => {
+    this.view.subscribe((data: UpdateView) => {
       switch (data.type) {
         case 'setCurrentValue':
           this.setCurrentValue(data.value);

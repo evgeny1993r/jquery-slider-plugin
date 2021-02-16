@@ -13,8 +13,8 @@ type SetCurrentValueMax = {
   value: number,
 };
 
-type SetModel = SetCurrentValue | SetCurrentValueMin | SetCurrentValueMax;
+type UpdateView = SetCurrentValue | SetCurrentValueMin | SetCurrentValueMax;
 
 export {
-  SetModel,
+  UpdateView,
 };

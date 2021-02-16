@@ -1,13 +1,3 @@
-import {
-  IOptionsView,
-  ISlider,
-  IScale,
-  IProgressBar,
-  IRunner,
-  IValueWindow,
-  IScaleValues,
-} from '../types/ViewType';
-
 import { Observer } from '../observer/Observer';
 import { Slider } from '../components/slider/Slider';
 import { Scale } from '../components/scale/Scale';
@@ -15,6 +5,14 @@ import { ProgressBar } from '../components/progress-bar/ProgressBar';
 import { Runner } from '../components/runner/Runner';
 import { ValueWindow } from '../components/value-window/ValueWindow';
 import { ScaleValues } from '../components/scale-values/ScaleValues';
+
+import { IOptionsView } from '../types/mvp/IView';
+import { ISlider } from '../types/components/ISlider';
+import { IScale } from '../types/components/IScale';
+import { IProgressBar } from '../types/components/IProgressBar';
+import { IRunner } from '../types/components/IRunner';
+import { IValueWindow } from '../types/components/IValueWindow';
+import { IScaleValues } from '../types/components/IScaleValues';
 
 class View extends Observer {
   private $this: JQuery;
