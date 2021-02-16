@@ -3,10 +3,10 @@ import { Observer } from '../../observer/Observer';
 import './scale.scss';
 
 class Scale extends Observer {
-  private orientation: string;
+  private orientation: 'horizontal' | 'vertical';
   private $scale: JQuery;
 
-  constructor(orientation: string) {
+  constructor(orientation: 'horizontal' | 'vertical') {
     super();
     this.orientation = orientation;
     this.$scale = $('<div />', {

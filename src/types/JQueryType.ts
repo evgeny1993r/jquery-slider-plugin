@@ -1,10 +1,10 @@
 interface JQuery {
-  slider(key?: IOptions | string, value?: string | number | [number, number]): JQuery
+  slider(key?: IOptions | string, value?: | number | [number, number] | boolean | 'horizontal' | 'vertical'): JQuery
 }
 
 interface IOptions {
   $this?: JQuery
-  orientation?: string
+  orientation?: 'horizontal' | 'vertical'
   minValue?: number
   maxValue?: number
   currentValue?: [number]

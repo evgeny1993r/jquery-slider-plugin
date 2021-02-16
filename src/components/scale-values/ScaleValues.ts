@@ -3,14 +3,14 @@ import { Observer } from '../../observer/Observer';
 import './scale-values.scss';
 
 class ScaleValues extends Observer {
-  private orientation: string;
+  private orientation: 'horizontal' | 'vertical';
   private minValue: number;
   private maxValue: number;
   private step: number;
   private $scaleValues: JQuery;
   private symbol: string;
 
-  constructor(orientation: string, minValue: number, maxValue: number, step: number) {
+  constructor(orientation: 'horizontal' | 'vertical', minValue: number, maxValue: number, step: number) {
     super();
     this.orientation = orientation;
     this.minValue = minValue;

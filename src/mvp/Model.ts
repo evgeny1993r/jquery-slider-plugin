@@ -3,7 +3,7 @@ import { Observer } from '../observer/Observer';
 import { IOptionsModel } from '../types/ModelType';
 
 class Model extends Observer {
-  private orientation: string;
+  private orientation: 'horizontal' | 'vertical';
   private minValue: number;
   private maxValue: number;
   private currentValue: [number, number?];
@@ -67,11 +67,11 @@ class Model extends Observer {
     this.broadcast({ type: 'updateCurrentValueMax', value: this.currentValue[1] });
   }
 
-  public getOrientation(): string {
+  public getOrientation(): 'horizontal' | 'vertical' {
     return this.orientation;
   }
 
-  public setOrientation(orientation: string): void {
+  public setOrientation(orientation: 'horizontal' | 'vertical'): void {
     if (orientation === 'horizontal' || orientation === 'vertical') {
       this.orientation = orientation;
       this.broadcast({ type: 'updateOrientation', value: this.orientation });

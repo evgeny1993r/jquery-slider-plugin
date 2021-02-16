@@ -29,7 +29,7 @@ import { Presenter } from './mvp/Presenter';
       }
     },
 
-    setOrientation: (value: string) => {
+    setOrientation: (value: 'horizontal' | 'vertical') => {
       presenter.setOrientation(value);
     },
 

@@ -2,9 +2,9 @@ import './value-window.scss';
 
 class ValueWindow {
   private $valueWindow: JQuery;
-  private orientation: string;
+  private orientation: 'horizontal' | 'vertical';
 
-  constructor(orientation: string) {
+  constructor(orientation: 'horizontal' | 'vertical') {
     this.orientation = orientation;
     this.$valueWindow = $('<div />', {
       class: `value-window value-window_${orientation}`,

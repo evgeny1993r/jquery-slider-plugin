@@ -2,7 +2,9 @@ import { IOptions, IModel, IView } from '../types/PresenterType';
 
 import { Observer } from '../observer/Observer';
 import { Model } from './Model';
+import { SetModel } from '../types/SetModel';
 import { View } from './View';
+import { UpdateView } from '../types/UpdateView';
 
 class Presenter extends Observer {
   private model: IModel;
@@ -44,59 +46,49 @@ class Presenter extends Observer {
   }
 
   private init() {
-    this.model.subscribe(({ type, value }: { type: string, value: number | string }) => {
-      if (typeof (value) === 'number') {
-        switch (type) {
-          case 'updateCurrentValue':
-            this.updateCurrentValue(value);
-            break;
-          case 'updateCurrentValueMin':
-            this.updateCurrentValueMin(value);
-            break;
-          case 'updateCurrentValueMax':
-            this.updateCurrentValueMax(value);
-            break;
-          case 'updateMinValue':
-            this.updateMinValue(value);
-            break;
-          case 'updateMaxValue':
-            this.updateMaxValue(value);
-            break;
-          case 'updateStep':
-            this.updateStep(value);
-            break;
-          default:
-        }
-      } else if (typeof (value) === 'string') {
-        switch (type) {
-          case 'updateOrientation':
-            this.updateOrientation(value);
-            break;
-          default:
-        }
-      } else if (typeof (value) === 'boolean') {
-        switch (type) {
-          case 'updateIsShowValueWindow':
-            this.updateIsShowValueWindow(value);
-            break;
-          case 'updateIsShowScaleValues':
-            this.updateIsShowScaleValues(value);
-            break;
-          default:
-        }
+    this.model.subscribe((data: UpdateView) => {
+      switch (data.type) {
+        case 'updateCurrentValue':
+          this.updateCurrentValue(data.value);
+          break;
+        case 'updateCurrentValueMin':
+          this.updateCurrentValueMin(data.value);
+          break;
+        case 'updateCurrentValueMax':
+          this.updateCurrentValueMax(data.value);
+          break;
+        case 'updateOrientation':
+          this.updateOrientation(data.value);
+          break;
+        case 'updateMinValue':
+          this.updateMinValue(data.value);
+          break;
+        case 'updateMaxValue':
+          this.updateMaxValue(data.value);
+          break;
+        case 'updateStep':
+          this.updateStep(data.value);
+          break;
+        case 'updateIsShowValueWindow':
+          this.updateIsShowValueWindow(data.value);
+          break;
+        case 'updateIsShowScaleValues':
+          this.updateIsShowScaleValues(data.value);
+          break;
+        default:
       }
     });
 
-    this.view.subscribe(({ type, value }: { type: string, value: number }) => {
-      switch (type) {
+    this.view.subscribe((data: SetModel) => {
+      switch (data.type) {
         case 'setCurrentValue':
-          this.setCurrentValue(value);
+          this.setCurrentValue(data.value);
           break;
         case 'setCurrentValueMin':
-          this.setCurrentValueMin(value);
+          this.setCurrentValueMin(data.value);
           break;
         case 'setCurrentValueMax':
-          this.setCurrentValueMax(value);
+          this.setCurrentValueMax(data.value);
           break;
         default:
       }
@@ -127,11 +119,11 @@ class Presenter extends Observer {
     this.view.updateCurrentValueMax(value);
   }
 
-  public setOrientation(value: string) {
+  public setOrientation(value: 'horizontal' | 'vertical') {
     this.model.setOrientation(value);
   }
 
-  private updateOrientation(value: string) {
+  private updateOrientation(value: 'horizontal' | 'vertical') {
     this.view.updateOrientation(value);
   }
 

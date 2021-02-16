@@ -1,6 +1,6 @@
 interface IOptionsModel {
   $this: JQuery
-  orientation: string
+  orientation: 'horizontal' | 'vertical'
   minValue: number
   maxValue: number
   currentValue: [number, number?]

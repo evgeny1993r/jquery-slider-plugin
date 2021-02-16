@@ -1,14 +1,19 @@
+type Data = {
+  type: string,
+  value: string | number | boolean,
+};
+
 class Observer {
-  private observers: Function[];
+  private observers: ((data: Data) => void)[];
   constructor() {
     this.observers = [];
   }
 
-  public subscribe(fn: Function): void {
+  public subscribe(fn: (data: Data) => void): void {
     this.observers.push(fn);
   }
 
-  public broadcast(data: { type: string, value: number | string | boolean }) {
+  public broadcast(data: Data) {
     if (this.observers.length !== 0) {
       this.observers.forEach((subscriber) => subscriber(data));
     }

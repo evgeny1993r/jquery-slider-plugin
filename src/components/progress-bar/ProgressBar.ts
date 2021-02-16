@@ -4,10 +4,10 @@ import './progress-bar.scss';
 
 class ProgressBar extends Observer {
   private $progressBar: JQuery;
-  private orientation: string;
+  private orientation: 'horizontal' | 'vertical';
   private size: string;
 
-  constructor(orientation: string) {
+  constructor(orientation: 'horizontal' | 'vertical') {
     super();
     this.orientation = orientation;
     this.$progressBar = $('<div />', {

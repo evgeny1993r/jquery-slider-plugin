@@ -4,11 +4,11 @@ import './runner.scss';
 
 class Runner extends Observer {
   private eventName: string;
-  private orientation: string;
+  private orientation: 'horizontal' | 'vertical';
   private $document: JQuery<Document>;
   private $runner: JQuery;
 
-  constructor(eventName: string, orientation: string) {
+  constructor(eventName: string, orientation: 'horizontal' | 'vertical') {
     super();
     this.eventName = eventName;
     this.orientation = orientation;

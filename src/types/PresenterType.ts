@@ -2,7 +2,7 @@ import { IObserver } from './ObserverTypes';
 
 interface IOptions {
   $this: JQuery
-  orientation: string
+  orientation: 'horizontal' | 'vertical'
   minValue: number
   maxValue: number
   currentValue: [number]
@@ -12,8 +12,8 @@ interface IOptions {
 }
 
 interface IModel extends IObserver {
-  getOrientation(): string
-  setOrientation(orientation: string): void
+  getOrientation(): 'horizontal' | 'vertical'
+  setOrientation(orientation: 'horizontal' | 'vertical'): void
   getMinValue(): number
   setMinValue(minValue: number): void
   getMaxValue(): number
@@ -33,7 +33,7 @@ interface IModel extends IObserver {
 }
 
 interface IView extends IObserver {
-  updateOrientation(orientation: string): void
+  updateOrientation(orientation: 'horizontal' | 'vertical'): void
   updateMinValue(minValue: number): void
   updateMaxValue(maxValue: number): void
   updateCurrentValue(currentValue: number): void

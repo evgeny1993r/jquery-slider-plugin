@@ -18,7 +18,7 @@ import { ScaleValues } from '../components/scale-values/ScaleValues';
 
 class View extends Observer {
   private $this: JQuery;
-  private orientation: string;
+  private orientation: 'horizontal' | 'vertical';
   private minValue: number;
   private maxValue: number;
   private currentValue: [number, number?];
@@ -250,7 +250,7 @@ class View extends Observer {
     this.renderCurrentValueMax();
   }
 
-  public updateOrientation(orientation: string) {
+  public updateOrientation(orientation: 'horizontal' | 'vertical') {
     this.$this
       .children('.slider')
       .removeClass(`slider_${this.orientation}`)
