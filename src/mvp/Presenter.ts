@@ -24,7 +24,6 @@ class Presenter extends Observer {
   }: IPresenterOptions) {
     super();
     this.model = new Model({
-      $this,
       orientation,
       minValue,
       maxValue,

@@ -24,21 +24,10 @@ class Model extends Observer {
     this.orientation = orientation;
     this.minValue = minValue;
     this.maxValue = maxValue;
-    if (currentValue.length === 1) {
-      this.currentValue = [Math.round(currentValue[0] / this.step) * this.step];
-    } else if (currentValue.length === 2) {
-      this.currentValue = [
-        Math.round(currentValue[0] / this.step) * this.step,
-        Math.round(currentValue[1] / this.step) * this.step,
-      ];
-    }
+    this.currentValue = currentValue;
     this.step = step;
     this.isShowValueWindow = isShowValueWindow;
     this.isShowScaleValues = isShowScaleValues;
-  }
-
-  public getCurrentValue(): number {
-    return this.currentValue[0];
   }
 
   public setCurrentValue(currentValue: number): void {
@@ -46,10 +35,6 @@ class Model extends Observer {
     if (isNotValidCurrentValue) return;
     this.currentValue[0] = Math.round(currentValue / this.step) * this.step;
     this.broadcast({ type: 'updateCurrentValue', value: this.currentValue[0] });
-  }
-
-  public getCurrentValueMin(): number {
-    return this.currentValue[0];
   }
 
   public setCurrentValueMin(currentValueMin: number): void {
@@ -60,10 +45,6 @@ class Model extends Observer {
     this.broadcast({ type: 'updateCurrentValueMin', value: this.currentValue[0] });
   }
 
-  public getCurrentValueMax(): number {
-    return this.currentValue[1];
-  }
-
   public setCurrentValueMax(currentValueMax: number): void {
     const isNotValidCurrentValueMax = currentValueMax < this.currentValue[0]
     || currentValueMax > this.maxValue;
@@ -72,27 +53,15 @@ class Model extends Observer {
     this.broadcast({ type: 'updateCurrentValueMax', value: this.currentValue[1] });
   }
 
-  public getOrientation(): 'horizontal' | 'vertical' {
-    return this.orientation;
-  }
-
   public setOrientation(orientation: 'horizontal' | 'vertical'): void {
     this.orientation = orientation;
     this.broadcast({ type: 'updateOrientation', value: this.orientation });
-  }
-
-  public getMinValue(): number {
-    return this.minValue;
   }
 
   public setMinValue(minValue: number): void {
     if (minValue > this.currentValue[0]) return;
     this.minValue = minValue;
     this.broadcast({ type: 'updateMinValue', value: this.minValue });
-  }
-
-  public getMaxValue(): number {
-    return this.maxValue;
   }
 
   public setMaxValue(maxValue: number): void {
@@ -103,17 +72,9 @@ class Model extends Observer {
     this.broadcast({ type: 'updateMaxValue', value: this.maxValue });
   }
 
-  public getStep(): number {
-    return this.step;
-  }
-
   public setStep(step: number): void {
     this.step = step;
     this.broadcast({ type: 'updateStep', value: this.step });
-  }
-
-  public getIsShowValueWindow(): boolean {
-    return this.isShowValueWindow;
   }
 
   public setIsShowValueWindow(isShowValueWindow: boolean): void {
@@ -121,13 +82,34 @@ class Model extends Observer {
     this.broadcast({ type: 'updateIsShowValueWindow', value: this.isShowValueWindow });
   }
 
-  public getIsShowScaleValues(): boolean {
-    return this.isShowScaleValues;
-  }
-
   public setIsShowScaleValues(isShowScaleValues: boolean) {
     this.isShowScaleValues = isShowScaleValues;
     this.broadcast({ type: 'updateIsShowScaleValues', value: this.isShowScaleValues });
+  }
+
+  // eslint-disable-next-line consistent-return
+  public getState(value: string): number | 'horizontal' | 'vertical' | boolean {
+    switch (value) {
+      case 'currentValue':
+        return this.currentValue[0];
+      case 'currentValueMin':
+        return this.currentValue[0];
+      case 'currentValueMax':
+        return this.currentValue[1];
+      case 'orientation':
+        return this.orientation;
+      case 'minValue':
+        return this.minValue;
+      case 'maxValue':
+        return this.maxValue;
+      case 'step':
+        return this.step;
+      case 'isShowValueWindow':
+        return this.isShowValueWindow;
+      case 'isShowScaleValues':
+        return this.isShowScaleValues;
+      default:
+    }
   }
 }
 
