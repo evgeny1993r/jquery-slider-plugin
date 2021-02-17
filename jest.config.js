@@ -3,4 +3,7 @@ module.exports = {
   transform: {
     '.(ts|tsx)': '<rootDir>/node_modules/ts-jest/preprocessor.js',
   },
+  moduleNameMapper: {
+    '\\.(css|scss)$': 'identity-obj-proxy',
+  },
 };
