@@ -20,7 +20,7 @@ interface IModel extends IObserver {
   setStep(step: number): void
   setIsShowValueWindow(isShowValueWindow: boolean): void
   setIsShowScaleValues(isShowScaleValues: boolean): void
-  getState(value: string): number | 'horizontal' | 'vertical'
+  getState(value: string): number | 'horizontal' | 'vertical' | boolean
 }
 
 export {
