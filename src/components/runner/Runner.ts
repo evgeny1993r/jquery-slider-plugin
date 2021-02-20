@@ -8,9 +8,8 @@ class Runner extends Observer {
   private $document: JQuery<Document>;
   private $runner: JQuery;
 
-  constructor(eventName: string, orientation: 'horizontal' | 'vertical') {
+  constructor(orientation: 'horizontal' | 'vertical') {
     super();
-    this.eventName = eventName;
     this.orientation = orientation;
     this.$document = $(document);
     this.$runner = $('<div />', {
@@ -46,9 +45,9 @@ class Runner extends Observer {
 
   private handleDocumentMousemove(e: JQuery.Event) {
     if (this.orientation === 'horizontal') {
-      this.broadcast({ type: this.eventName, value: e.pageX });
+      this.broadcast({ type: 'updatePositionRunner', value: e.pageX });
     } else if (this.orientation === 'vertical') {
-      this.broadcast({ type: this.eventName, value: e.pageY });
+      this.broadcast({ type: 'updatePositionRunner', value: e.pageY });
     }
   }
 

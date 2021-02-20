@@ -87,13 +87,13 @@ class View extends Observer {
     this.scale = new Scale(this.orientation);
     this.progressBar = new ProgressBar(this.orientation);
     if (this.isCurrentValue()) {
-      this.runner = new Runner('updatePositionRunner', this.orientation);
+      this.runner = new Runner(this.orientation);
       if (this.isShowValueWindow) {
         this.valueWindow = new ValueWindow(this.orientation);
       }
     } else if (this.isCurrentValues()) {
-      this.runnerMin = new Runner('updatePositionRunnerMin', this.orientation);
-      this.runnerMax = new Runner('updatePositionRunnerMax', this.orientation);
+      this.runnerMin = new Runner(this.orientation);
+      this.runnerMax = new Runner(this.orientation);
       if (this.isShowValueWindow) {
         this.valueWindowMin = new ValueWindow(this.orientation);
         this.valueWindowMax = new ValueWindow(this.orientation);
@@ -179,7 +179,7 @@ class View extends Observer {
 
     if (this.$runnerMin !== undefined) {
       this.runnerMin.subscribe(({ type, value }: { type: string, value: number }) => {
-        if (type === 'updatePositionRunnerMin') {
+        if (type === 'updatePositionRunner') {
           this.handleSliderUpdatePositionRunnerMin(value);
         }
       });
@@ -187,7 +187,7 @@ class View extends Observer {
 
     if (this.$runnerMax !== undefined) {
       this.runnerMax.subscribe(({ type, value }: { type: string, value: number }) => {
-        if (type === 'updatePositionRunnerMax') {
+        if (type === 'updatePositionRunner') {
           this.handleSliderUpdatePositionRunnerMax(value);
         }
       });
@@ -410,8 +410,8 @@ class View extends Observer {
       this.$this.find('.value-window').remove();
     }
 
-    this.runnerMin = new Runner('updatePositionRunnerMin', this.orientation);
-    this.runnerMax = new Runner('updatePositionRunnerMax', this.orientation);
+    this.runnerMin = new Runner(this.orientation);
+    this.runnerMax = new Runner(this.orientation);
     if (this.isShowValueWindow) {
       this.valueWindowMin = new ValueWindow(this.orientation);
       this.valueWindowMax = new ValueWindow(this.orientation);
@@ -452,7 +452,7 @@ class View extends Observer {
       this.$this.find('.value-window').remove();
     }
 
-    this.runner = new Runner('updatePositionRunner', this.orientation);
+    this.runner = new Runner(this.orientation);
     if (this.isShowValueWindow) {
       this.valueWindow = new ValueWindow(this.orientation);
     }
