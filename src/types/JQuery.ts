@@ -9,6 +9,6 @@ interface IOptions {
   maxValue?: number
   currentValue?: [number]
   step?: number
-  isShowWindowValue?: boolean
+  isShowValueWindow?: boolean
   isShowScaleValues?: boolean
 }

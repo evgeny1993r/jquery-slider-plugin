@@ -1,0 +1,16 @@
+@import './components/panel-configuration/panel-configuration.scss';
+@import './components/radio-buttons/radio-buttons.scss';
+@import './components/text-field/text-field.scss';
+@import './components//toggle/toggle.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  padding: 3.125rem;
+  display: grid;
+  row-gap: 50px;
+}

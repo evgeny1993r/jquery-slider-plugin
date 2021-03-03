@@ -1,0 +1,24 @@
+include ../radio-buttons/radio-buttons.pug
+include ../text-field/text-field.pug
+include ../toggle/toggle.pug 
+
+mixin panel-configuration({ orientation, currentValue, minValue, maxValue, step, isShowValueWindow, isShowScaleValues })
+  .panel-configuration(
+    data-orientation= orientation, 
+    data-current-value= currentValue,
+    data-min-value= minValue, 
+    data-max-value= maxValue, 
+    data-step= step, 
+    data-is-show-value-window= isShowValueWindow, 
+    data-is-show-scale-values= isShowScaleValues,
+  )
+    .panel-configuration__title Panel Configuration
+    .panel-configuration__panel
+      +radio-buttons('orientation')
+      +text-field('current value')
+      +text-field('min value')
+      +text-field('max value')
+      +text-field('step')
+      +toggle('Is show value window')
+      +toggle('Is show scale values')
+    .panel-configuration__slider

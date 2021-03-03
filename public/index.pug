@@ -1,0 +1,45 @@
+include ../src/components/panel-configuration/panel-configuration.pug 
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Demo Page 
+  body 
+    +panel-configuration({
+      orientation: 'horizontal',
+      currentValue: [0],
+      minValue: -100,
+      maxValue: 100,
+      step: 1,
+      isShowValueWindow: 'true',
+      isShowScaleValues: 'true'
+    })
+    +panel-configuration({
+      orientation: 'horizontal',
+      currentValue: [-1000, 1000],
+      minValue: -2000,
+      maxValue: 2000,
+      step: 5,
+      isShowValueWindow: 'false',
+      isShowScaleValues: 'true',
+    })
+    +panel-configuration({
+      orientation: 'vertical',
+      currentValue: [-500, 500],
+      minValue: -2000,
+      maxValue: 2000,
+      step: 25,
+      isShowValueWindow: 'true',
+      isShowScaleValues: 'false',
+    })
+    +panel-configuration({
+      orientation: 'vertical',
+      currentValue: [4000],
+      minValue: -4000,
+      maxValue: 4000,
+      step: 50,
+      isShowValueWindow: 'false',
+      isShowScaleValues: 'false',
+    })

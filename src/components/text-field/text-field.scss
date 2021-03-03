@@ -1,0 +1,38 @@
+.text-field {
+  display: grid;
+  row-gap: 0.3125rem;
+
+  &__title {
+    font-family: sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 0.75rem;
+    line-height: 0.9375rem;
+    text-transform: uppercase;
+    color: #1F2041;
+  }
+
+  &__input {
+    max-width: 20rem;
+    width: 100%;
+    padding: 0.75rem 0.875rem;
+    font-family: sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    color: rgba(31, 32, 65, 0.75);
+    border: 0.0625rem solid rgba(31, 32, 65, 0.25);
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    outline: none;
+  }
+  &__input:focus, 
+  &__input:hover {
+    border: 0.0625rem solid rgba(31, 32, 65, 0.5);
+  }
+  
+  &__input::placeholder {
+    color: rgba(31, 32, 65, 0.25);
+  }
+}
