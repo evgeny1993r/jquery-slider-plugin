@@ -1,6 +1,7 @@
 .slider {
   display: grid;
   position: relative;
+  user-select: none;
   
   &_horizontal {
     grid-template-columns: 0.5rem 0.5rem auto 0.5rem 0.5rem;

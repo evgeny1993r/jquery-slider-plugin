@@ -243,9 +243,16 @@ class View extends Observer {
   }
 
   public updateCurrentValueMax(value: number) {
-    this.currentValue[1] = value;
-    this.viewCurrentValue[1] = value - this.minValue;
-    this.renderCurrentValueMax();
+    if (this.isCurrentValue()) {
+      this.convertIntervalValue();
+      this.currentValue[1] = value;
+      this.viewCurrentValue[1] = value - this.minValue;
+      this.renderCurrentValueMax();
+    } else if (this.isCurrentValues()) {
+      this.currentValue[1] = value;
+      this.viewCurrentValue[1] = value - this.minValue;
+      this.renderCurrentValueMax();
+    }
   }
 
   public updateOrientation(orientation: 'horizontal' | 'vertical') {
@@ -394,6 +401,12 @@ class View extends Observer {
       delete this.$scaleValues;
       this.$slider.find('.scale-values').remove();
     }
+
+    this.scaleValues.subscribe(({ type, value }: { type: String, value: number }) => {
+      if (type === 'clickScale') {
+        this.handleScalesClick(value);
+      }
+    });
   }
 
   private convertIntervalValue() {
@@ -430,6 +443,18 @@ class View extends Observer {
         .append(this.$valueWindowMin)
         .append(this.$valueWindowMax);
     }
+
+    this.runnerMin.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'updatePositionRunner') {
+        this.handleSliderUpdatePositionRunnerMin(value);
+      }
+    });
+
+    this.runnerMax.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'updatePositionRunner') {
+        this.handleSliderUpdatePositionRunnerMax(value);
+      }
+    });
   }
 
   private convertSingleValue() {
@@ -466,6 +491,12 @@ class View extends Observer {
       this.$slider
         .append(this.$valueWindow);
     }
+
+    this.runner.subscribe(({ type, value }: { type: string, value: number }) => {
+      if (type === 'updatePositionRunner') {
+        this.handleSliderUpdatePositionRunner(value);
+      }
+    });
   }
 
   private isCurrentValue() {

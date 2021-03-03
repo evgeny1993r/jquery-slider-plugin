@@ -11,6 +11,7 @@ import { UpdateView } from '../types/observer/updateView';
 class Presenter extends Observer {
   private model: IModel;
   private view: IView;
+  private $this: JQuery;
 
   constructor({
     $this,
@@ -42,6 +43,7 @@ class Presenter extends Observer {
       isShowValueWindow,
       isShowScaleValues,
     });
+    this.$this = $this;
 
     this.init();
   }
@@ -98,6 +100,7 @@ class Presenter extends Observer {
 
   public setCurrentValue(value: number) {
     this.model.setCurrentValue(value);
+    this.$this.trigger('updateCurrentValue', { currentValue: this.model.getCurrentValue() });
   }
 
   private updateCurrentValue(value: number) {
@@ -106,6 +109,7 @@ class Presenter extends Observer {
 
   public setCurrentValueMin(value: number) {
     this.model.setCurrentValueMin(value);
+    this.$this.trigger('updateCurrentValue', { currentValue: this.model.getCurrentValue() });
   }
 
   private updateCurrentValueMin(value: number) {
@@ -114,6 +118,7 @@ class Presenter extends Observer {
 
   public setCurrentValueMax(value: number) {
     this.model.setCurrentValueMax(value);
+    this.$this.trigger('updateCurrentValue', { currentValue: this.model.getCurrentValue() });
   }
 
   private updateCurrentValueMax(value: number) {
@@ -130,6 +135,7 @@ class Presenter extends Observer {
 
   public setMinValue(value: number) {
     this.model.setMinValue(value);
+    this.$this.trigger('updateMinValue', { minValue: this.model.getMinValue() });
   }
 
   private updateMinValue(value: number) {
@@ -138,6 +144,7 @@ class Presenter extends Observer {
 
   public setMaxValue(value: number) {
     this.model.setMaxValue(value);
+    this.$this.trigger('updateMaxValue', { maxValue: this.model.getMaxValue() });
   }
 
   private updateMaxValue(value: number) {
@@ -146,6 +153,7 @@ class Presenter extends Observer {
 
   public setStep(value: number) {
     this.model.setStep(value);
+    this.$this.trigger('updateStep', { step: this.model.getStep() });
   }
 
   private updateStep(value: number) {

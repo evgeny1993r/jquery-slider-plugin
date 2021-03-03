@@ -43,8 +43,13 @@ import { IPresenter } from './types/mvp/IPresenter';
       if (value.length === 1) {
         presenter.setCurrentValue(value[0]);
       } else if (value.length === 2) {
-        presenter.setCurrentValueMin(value[0]);
-        presenter.setCurrentValueMax(value[1]);
+        if (value[0] < value[1]) {
+          presenter.setCurrentValueMin(value[0]);
+          presenter.setCurrentValueMax(value[1]);
+        } else if (value[0] > value[1]) {
+          presenter.setCurrentValueMin(value[1]);
+          presenter.setCurrentValueMax(value[0]);
+        }
       }
     },
 

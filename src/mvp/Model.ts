@@ -30,27 +30,52 @@ class Model extends Observer {
     this.isShowScaleValues = isShowScaleValues;
   }
 
+  public getCurrentValue(): [number, number?] {
+    return this.currentValue;
+  }
+
   public setCurrentValue(currentValue: number): void {
-    const isNotValidCurrentValue = currentValue < this.minValue || currentValue > this.maxValue;
-    if (isNotValidCurrentValue) return;
+    const isValidCurrentValue = currentValue >= this.minValue && currentValue <= this.maxValue;
+    if (!isValidCurrentValue) return;
     this.currentValue[0] = Math.round(currentValue / this.step) * this.step;
     this.broadcast({ type: 'updateCurrentValue', value: this.currentValue[0] });
   }
 
   public setCurrentValueMin(currentValueMin: number): void {
-    const isNotValidCurrentValueMin = currentValueMin < this.minValue
-      || currentValueMin > this.currentValue[1];
-    if (isNotValidCurrentValueMin) return;
+    if (this.currentValue.length === 1) {
+      const isValidCurrentValueMin = currentValueMin >= this.minValue
+        && currentValueMin <= this.maxValue;
+      if (!isValidCurrentValueMin) return;
+      this.currentValue[0] = Math.round(currentValueMin / this.step) * this.step;
+      this.broadcast({ type: 'updateCurrentValueMin', value: this.currentValue[0] });
+    } else if (this.currentValue.length === 2) {
+      const isValidCurrentValueMin = currentValueMin >= this.minValue
+        && currentValueMin <= this.currentValue[1];
+      if (!isValidCurrentValueMin) return;
+      this.currentValue[0] = Math.round(currentValueMin / this.step) * this.step;
+      this.broadcast({ type: 'updateCurrentValueMin', value: this.currentValue[0] });
+    }
+    const isValidCurrentValueMin = currentValueMin >= this.minValue
+      && currentValueMin <= this.currentValue[1];
+    if (!isValidCurrentValueMin) return;
     this.currentValue[0] = Math.round(currentValueMin / this.step) * this.step;
     this.broadcast({ type: 'updateCurrentValueMin', value: this.currentValue[0] });
   }
 
   public setCurrentValueMax(currentValueMax: number): void {
-    const isNotValidCurrentValueMax = currentValueMax < this.currentValue[0]
-    || currentValueMax > this.maxValue;
-    if (isNotValidCurrentValueMax) return;
-    this.currentValue[1] = Math.round(currentValueMax / this.step) * this.step;
-    this.broadcast({ type: 'updateCurrentValueMax', value: this.currentValue[1] });
+    if (this.currentValue.length === 1) {
+      const isValidCurrentValueMax = currentValueMax > this.minValue
+      && currentValueMax <= this.maxValue;
+      if (!isValidCurrentValueMax) return;
+      this.currentValue[1] = Math.round(currentValueMax / this.step) * this.step;
+      this.broadcast({ type: 'updateCurrentValueMax', value: this.currentValue[1] });
+    } else if (this.currentValue.length === 2) {
+      const isValidCurrentValueMax = currentValueMax > this.currentValue[0]
+      && currentValueMax <= this.maxValue;
+      if (!isValidCurrentValueMax) return;
+      this.currentValue[1] = Math.round(currentValueMax / this.step) * this.step;
+      this.broadcast({ type: 'updateCurrentValueMax', value: this.currentValue[1] });
+    }
   }
 
   public setOrientation(orientation: 'horizontal' | 'vertical'): void {
@@ -58,10 +83,18 @@ class Model extends Observer {
     this.broadcast({ type: 'updateOrientation', value: this.orientation });
   }
 
+  public getMinValue(): number {
+    return this.minValue;
+  }
+
   public setMinValue(minValue: number): void {
     if (minValue > this.currentValue[0]) return;
     this.minValue = minValue;
     this.broadcast({ type: 'updateMinValue', value: this.minValue });
+  }
+
+  public getMaxValue(): number {
+    return this.maxValue;
   }
 
   public setMaxValue(maxValue: number): void {
@@ -72,7 +105,12 @@ class Model extends Observer {
     this.broadcast({ type: 'updateMaxValue', value: this.maxValue });
   }
 
+  public getStep(): number {
+    return this.step;
+  }
+
   public setStep(step: number): void {
+    if (step > (this.maxValue - this.minValue) / 10) return;
     this.step = step;
     this.broadcast({ type: 'updateStep', value: this.step });
   }
