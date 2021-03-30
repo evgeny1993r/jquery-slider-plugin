@@ -21,18 +21,24 @@ class Scale extends Observer {
     return this.$scale;
   }
 
-  public updateOrientation(orientation: 'horizontal' | 'vertical') {
+  public updateOrientation(orientation: 'horizontal' | 'vertical'): void {
     this.$scale.removeClass(`scale_${this.orientation}`);
     this.orientation = orientation;
     this.$scale.addClass(`scale_${this.orientation}`);
   }
 
-  private handleScaleClick(e: JQuery.Event) {
+  private handleScaleClick(e: JQuery.Event): void {
     if (this.orientation === 'horizontal') {
       this.broadcast({ type: 'clickScale', value: e.pageX });
     } else if (this.orientation === 'vertical') {
       this.broadcast({ type: 'clickScale', value: e.pageY });
     }
+  }
+
+  public getState(): { orientation: string } {
+    return {
+      orientation: this.orientation,
+    };
   }
 }
 

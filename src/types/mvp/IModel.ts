@@ -12,19 +12,19 @@ interface IOptionsModel {
 
 interface IModel extends IObserver {
   setOrientation(orientation: 'horizontal' | 'vertical'): void
-  getMinValue(): number
   setMinValue(minValue: number): void
-  getMaxValue(): number
+  getMinValue(): number
   setMaxValue(maxValue: number): void
-  getCurrentValue(): [number, number?]
+  getMaxValue(): number
   setCurrentValue(currentValue: number): void
   setCurrentValueMin(currentValueMin: number): void
   setCurrentValueMax(currentValueMax: number): void
-  getStep(): number
+  getCurrentValue(): [number, number?]
   setStep(step: number): void
+  getStep(): number
   setIsShowValueWindow(isShowValueWindow: boolean): void
   setIsShowScaleValues(isShowScaleValues: boolean): void
-  getState(value: string): number | 'horizontal' | 'vertical' | boolean
+  getState(): IOptionsModel
 }
 
 export {
