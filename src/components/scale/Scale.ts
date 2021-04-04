@@ -30,7 +30,8 @@ class Scale extends Observer {
   private handleScaleClick(e: JQuery.Event): void {
     if (this.orientation === 'horizontal') {
       this.broadcast({ type: 'clickScale', value: e.pageX });
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.broadcast({ type: 'clickScale', value: e.pageY });
     }
   }

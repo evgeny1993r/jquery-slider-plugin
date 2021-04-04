@@ -21,7 +21,8 @@ class ValueWindow {
       this.$valueWindow.css({
         transform: `translateX(${indentValue - this.$valueWindow.outerWidth() / 2}px)`,
       });
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.$valueWindow.css({
         transform: `translate(-${this.$valueWindow.outerWidth() + 20}px,
         ${indentValue - this.$valueWindow.outerHeight() / 2}px)`,
@@ -33,6 +34,12 @@ class ValueWindow {
     this.$valueWindow.removeClass(`value-window_${this.orientation}`);
     this.orientation = orientation;
     this.$valueWindow.addClass(`value-window_${this.orientation}`);
+  }
+
+  public getState() {
+    return {
+      orientation: this.orientation,
+    };
   }
 }
 

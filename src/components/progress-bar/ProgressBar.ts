@@ -29,7 +29,8 @@ class ProgressBar extends Observer {
         width: `${sizeValue}px`,
         transform: `translateX(${indentValue}px)`,
       });
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.size = this.$progressBar.css('width');
       this.$progressBar.css({
         height: `${sizeValue}px`,
@@ -47,7 +48,8 @@ class ProgressBar extends Observer {
         height: this.size,
         transform: 'translateX(0)',
       });
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.$progressBar.css({
         width: this.size,
         transform: 'translateY(0)',
@@ -58,9 +60,16 @@ class ProgressBar extends Observer {
   private handleProgressBar(e: JQuery.Event): void {
     if (this.orientation === 'horizontal') {
       this.broadcast({ type: 'clickScale', value: e.pageX });
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.broadcast({ type: 'clickScale', value: e.pageY });
     }
+  }
+
+  public getState() {
+    return {
+      orientation: this.orientation,
+    };
   }
 }
 

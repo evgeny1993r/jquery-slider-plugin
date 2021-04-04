@@ -25,7 +25,8 @@ class ScaleValues extends Observer {
 
     if (this.orientation === 'horizontal') {
       this.symbol = '|';
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.symbol = '—';
     }
 
@@ -47,7 +48,8 @@ class ScaleValues extends Observer {
         width: (scaleSize / 10) * 11,
         transform: `translateX(-${scaleSize / 20}px)`,
       });
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.$scaleValues.css({
         height: (scaleSize / 10) * 11,
         transform: `translateY(-${scaleSize / 20}px)`,
@@ -63,7 +65,8 @@ class ScaleValues extends Observer {
       this.$scaleValues.css({ height: 'auto' });
       this.symbol = '|';
       this.$scaleValues.find('.scale-values__symbol').text(this.symbol);
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.$scaleValues.css({ width: 'auto' });
       this.symbol = '—';
       this.$scaleValues.find('.scale-values__symbol').text(this.symbol);
@@ -109,9 +112,20 @@ class ScaleValues extends Observer {
   private handleScaleValues(e: JQuery.Event): void {
     if (this.orientation === 'horizontal') {
       this.broadcast({ type: 'clickScale', value: e.pageX });
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.broadcast({ type: 'clickScale', value: e.pageY });
     }
+  }
+
+  public getState() {
+    return {
+      orientation: this.orientation,
+      symbol: this.symbol,
+      minValue: this.minValue,
+      maxValue: this.maxValue,
+      step: this.step,
+    };
   }
 }
 

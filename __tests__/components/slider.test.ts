@@ -15,9 +15,8 @@ describe('Testing Slider', () => {
     jest.addMatchers(matchers);
   });
 
-  const slider = new Slider('horizontal');
-
   test('Testing getSlider', () => {
+    const slider = new Slider('horizontal');
     const $slider = slider.getSlider();
     expect($slider).toHaveClass('slider slider_horizontal');
   });

@@ -50,6 +50,11 @@ describe('Testing basic model methods', () => {
     expect(model.getState().currentValue[1]).toBe(50);
   });
 
+  test('Testing getCurrentValue', () => {
+    expect(model.getCurrentValue()[0]).toBe(25);
+    expect(model.getCurrentValue()[1]).toBe(50);
+  });
+
   test('Testing setOrientation', () => {
     model.setOrientation('vertical');
     expect(model.getState().orientation).toBe('vertical');
@@ -64,6 +69,10 @@ describe('Testing basic model methods', () => {
 
     model.setMinValue(-100);
     expect(model.getState().minValue).toBe(-100);
+  });
+
+  test('Testing getMinValue', () => {
+    expect(model.getMinValue()).toBe(-100);
   });
 
   test('Testing setMaxValue', () => {
@@ -82,12 +91,20 @@ describe('Testing basic model methods', () => {
     expect(model.getState().maxValue).toBe(300);
   });
 
+  test('Testing getMaxValue', () => {
+    expect(model.getMaxValue()).toBe(300);
+  });
+
   test('Testing setStep', () => {
     model.setStep(50);
     expect(model.getState().step).toBe(1);
 
     model.setStep(5);
     expect(model.getState().step).toBe(5);
+  });
+
+  test('Testing getStep', () => {
+    expect(model.getStep()).toBe(5);
   });
 
   test('Testing setIsShowValueWindow', () => {

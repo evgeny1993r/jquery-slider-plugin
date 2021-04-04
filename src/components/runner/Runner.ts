@@ -3,7 +3,6 @@ import { Observer } from '../../observer/Observer';
 import './runner.scss';
 
 class Runner extends Observer {
-  private eventName: string;
   private orientation: 'horizontal' | 'vertical';
   private $document: JQuery<Document>;
   private $runner: JQuery;
@@ -27,7 +26,8 @@ class Runner extends Observer {
   public updatePositionRunner(value: number): void {
     if (this.orientation === 'horizontal') {
       this.$runner.css({ transform: `translateX(${value}px)` });
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.$runner.css({ transform: `translateY(${value}px)` });
     }
   }
@@ -46,13 +46,20 @@ class Runner extends Observer {
   private handleDocumentMousemove(e: JQuery.Event) {
     if (this.orientation === 'horizontal') {
       this.broadcast({ type: 'updatePositionRunner', value: e.pageX });
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.broadcast({ type: 'updatePositionRunner', value: e.pageY });
     }
   }
 
   private handleDocumentMouseup() {
     this.$document.off('mousemove');
+  }
+
+  public getState() {
+    return {
+      orientation: this.orientation,
+    };
   }
 }
 
