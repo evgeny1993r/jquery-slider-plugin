@@ -78,7 +78,6 @@ class Presenter extends Observer {
         case 'updateIsShowScaleValues':
           this.updateIsShowScaleValues(data.value);
           break;
-        default:
       }
     });
 
@@ -93,7 +92,6 @@ class Presenter extends Observer {
         case 'setCurrentValueMax':
           this.setCurrentValueMax(data.value);
           break;
-        default:
       }
     });
   }
@@ -174,6 +172,13 @@ class Presenter extends Observer {
 
   private updateIsShowScaleValues(value: boolean) {
     this.view.updateIsShowScaleValues(value);
+  }
+
+  public getState() {
+    return {
+      model: this.model,
+      view: this.view,
+    };
   }
 }
 

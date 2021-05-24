@@ -46,6 +46,7 @@ describe('Testing ValueWindow', () => {
     valueWindow.updateOrientation('vertical');
     valueWindow.renderValueWindow(100, 150);
     expect($valueWindow).toHaveText('100');
-    expect($valueWindow).toHaveCss({ transform: 'translate(-20px, 150px)' });
+    expect($valueWindow.css('transform')).toBe(`translate(-20px,
+        150px)`);
   });
 });

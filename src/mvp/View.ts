@@ -73,7 +73,8 @@ class View extends Observer {
     this.viewMaxValue = this.maxValue - this.minValue;
     if (this.isCurrentValue()) {
       this.viewCurrentValue = [this.currentValue[0] - this.minValue];
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValues()) {
       this.viewCurrentValue = [
         this.currentValue[0] - this.minValue,
         this.currentValue[1] - this.minValue,
@@ -88,16 +89,17 @@ class View extends Observer {
     this.progressBar = new ProgressBar(this.orientation);
     if (this.isCurrentValue()) {
       this.runner = new Runner(this.orientation);
-      if (this.isShowValueWindow) {
-        this.valueWindow = new ValueWindow(this.orientation);
-      }
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValue() && this.isShowValueWindow) {
+      this.valueWindow = new ValueWindow(this.orientation);
+    }
+    if (this.isCurrentValues()) {
       this.runnerMin = new Runner(this.orientation);
       this.runnerMax = new Runner(this.orientation);
-      if (this.isShowValueWindow) {
-        this.valueWindowMin = new ValueWindow(this.orientation);
-        this.valueWindowMax = new ValueWindow(this.orientation);
-      }
+    }
+    if (this.isCurrentValues() && this.isShowValueWindow) {
+      this.valueWindowMin = new ValueWindow(this.orientation);
+      this.valueWindowMax = new ValueWindow(this.orientation);
     }
     if (this.isShowScaleValues) {
       this.scaleValues = new ScaleValues(
@@ -113,16 +115,17 @@ class View extends Observer {
     this.$progressBar = this.progressBar.getProgressBar();
     if (this.isCurrentValue()) {
       this.$runner = this.runner.getRunner();
-      if (this.isShowValueWindow) {
-        this.$valueWindow = this.valueWindow.getValueWindow();
-      }
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValue() && this.isShowValueWindow) {
+      this.$valueWindow = this.valueWindow.getValueWindow();
+    }
+    if (this.isCurrentValues()) {
       this.$runnerMin = this.runnerMin.getRunner();
       this.$runnerMax = this.runnerMax.getRunner();
-      if (this.isShowValueWindow) {
-        this.$valueWindowMin = this.valueWindowMin.getValueWindow();
-        this.$valueWindowMax = this.valueWindowMax.getValueWindow();
-      }
+    }
+    if (this.isCurrentValues() && this.isShowValueWindow) {
+      this.$valueWindowMin = this.valueWindowMin.getValueWindow();
+      this.$valueWindowMax = this.valueWindowMax.getValueWindow();
     }
     if (this.isShowScaleValues) {
       this.$scaleValues = this.scaleValues.getScaleValues();
@@ -138,24 +141,26 @@ class View extends Observer {
         .append(this.$progressBar));
     if (this.isCurrentValue()) {
       this.$slider.append(this.$runner);
-      if (this.isShowValueWindow) {
-        this.$slider.append(this.$valueWindow);
-      }
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValue() && this.isShowValueWindow) {
+      this.$slider.append(this.$valueWindow);
+    }
+    if (this.isCurrentValues()) {
       this.$slider
         .append(this.$runnerMin)
         .append(this.$runnerMax);
-      if (this.isShowValueWindow) {
-        this.$slider
-          .append(this.$valueWindowMin)
-          .append(this.$valueWindowMax);
-      }
+    }
+    if (this.isCurrentValues() && this.isShowValueWindow) {
+      this.$slider
+        .append(this.$valueWindowMin)
+        .append(this.$valueWindowMax);
     }
     if (this.isShowScaleValues) {
       this.$slider.append(this.$scaleValues);
       if (this.orientation === 'horizontal') {
         this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
-      } else if (this.orientation === 'vertical') {
+      }
+      if (this.orientation === 'vertical') {
         this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
       }
     }
@@ -164,12 +169,13 @@ class View extends Observer {
 
     if (this.isCurrentValue()) {
       this.renderCurrentValue();
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValues()) {
       this.renderCurrentValueMin();
       this.renderCurrentValueMax();
     }
 
-    if (this.$runner !== undefined) {
+    if (this.runner) {
       this.runner.subscribe(({ type, value }: { type: string, value: number }) => {
         if (type === 'updatePositionRunner') {
           this.handleSliderUpdatePositionRunner(value);
@@ -177,7 +183,7 @@ class View extends Observer {
       });
     }
 
-    if (this.$runnerMin !== undefined) {
+    if (this.$runnerMin) {
       this.runnerMin.subscribe(({ type, value }: { type: string, value: number }) => {
         if (type === 'updatePositionRunner') {
           this.handleSliderUpdatePositionRunnerMin(value);
@@ -185,7 +191,7 @@ class View extends Observer {
       });
     }
 
-    if (this.$runnerMax !== undefined) {
+    if (this.$runnerMax) {
       this.runnerMax.subscribe(({ type, value }: { type: string, value: number }) => {
         if (type === 'updatePositionRunner') {
           this.handleSliderUpdatePositionRunnerMax(value);
@@ -205,7 +211,7 @@ class View extends Observer {
       }
     });
 
-    if (this.$scaleValues !== undefined) {
+    if (this.$scaleValues) {
       this.scaleValues.subscribe(({ type, value }: { type: String, value: number }) => {
         if (type === 'clickScale') {
           this.handleScalesClick(value);
@@ -221,7 +227,8 @@ class View extends Observer {
       this.currentValue[0] = value;
       this.viewCurrentValue[0] = value - this.minValue;
       this.renderCurrentValue();
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValues()) {
       this.convertSingleValue();
       this.currentValue[0] = value;
       this.viewCurrentValue[0] = value - this.minValue;
@@ -235,7 +242,8 @@ class View extends Observer {
       this.currentValue[0] = value;
       this.viewCurrentValue[0] = value - this.minValue;
       this.renderCurrentValueMin();
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValues()) {
       this.currentValue[0] = value;
       this.viewCurrentValue[0] = value - this.minValue;
       this.renderCurrentValueMin();
@@ -248,7 +256,8 @@ class View extends Observer {
       this.currentValue[1] = value;
       this.viewCurrentValue[1] = value - this.minValue;
       this.renderCurrentValueMax();
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValues()) {
       this.currentValue[1] = value;
       this.viewCurrentValue[1] = value - this.minValue;
       this.renderCurrentValueMax();
@@ -265,17 +274,17 @@ class View extends Observer {
     this.progressBar.updateOrientation(this.orientation);
     if (this.isCurrentValue()) {
       this.runner.updateOrientation(this.orientation);
-      if (this.isShowValueWindow) {
-        this.valueWindow.updateOrientation(this.orientation);
-      }
+    }
+    if (this.isCurrentValue() && this.isShowValueWindow) {
+      this.valueWindow.updateOrientation(this.orientation);
     }
     if (this.isCurrentValues()) {
       this.runnerMin.updateOrientation(this.orientation);
       this.runnerMax.updateOrientation(this.orientation);
-      if (this.isShowValueWindow) {
-        this.valueWindowMin.updateOrientation(this.orientation);
-        this.valueWindowMax.updateOrientation(this.orientation);
-      }
+    }
+    if (this.isCurrentValues() && this.isShowValueWindow) {
+      this.valueWindowMin.updateOrientation(this.orientation);
+      this.valueWindowMax.updateOrientation(this.orientation);
     }
     if (this.isShowScaleValues) {
       this.scaleValues.updateOrientation(this.orientation);
@@ -285,13 +294,15 @@ class View extends Observer {
 
     if (this.isShowScaleValues && this.orientation === 'horizontal') {
       this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
-    } else if (this.isShowScaleValues && this.orientation === 'vertical') {
+    }
+    if (this.isShowScaleValues && this.orientation === 'vertical') {
       this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
     }
 
     if (this.isCurrentValue()) {
       this.renderCurrentValue();
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValues()) {
       this.renderCurrentValueMin();
       this.renderCurrentValueMax();
     }
@@ -304,18 +315,22 @@ class View extends Observer {
 
     if (this.isCurrentValue()) {
       this.viewCurrentValue[0] = this.currentValue[0] - this.minValue;
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValues()) {
       this.viewCurrentValue[0] = this.currentValue[0] - this.minValue;
       this.viewCurrentValue[1] = this.currentValue[1] - this.minValue;
     }
 
     this.dataCollection();
 
-    this.scaleValues.updateMinMaxValues(this.minValue, this.maxValue);
+    if (this.scaleValues) {
+      this.scaleValues.updateMinMaxValues(this.minValue, this.maxValue);
+    }
 
     if (this.isCurrentValue()) {
       this.renderCurrentValue();
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValues()) {
       this.renderCurrentValueMin();
       this.renderCurrentValueMax();
     }
@@ -327,11 +342,14 @@ class View extends Observer {
 
     this.dataCollection();
 
-    this.scaleValues.updateMinMaxValues(this.minValue, this.maxValue);
+    if (this.scaleValues) {
+      this.scaleValues.updateMinMaxValues(this.minValue, this.maxValue);
+    }
 
     if (this.isCurrentValue()) {
       this.renderCurrentValue();
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValues()) {
       this.renderCurrentValueMin();
       this.renderCurrentValueMax();
     }
@@ -339,43 +357,43 @@ class View extends Observer {
 
   public updateStep(step: number) {
     this.step = step;
-    this.scaleValues.updateStep(this.step);
+    if (this.scaleValues) {
+      this.scaleValues.updateStep(this.step);
+    }
   }
 
   public updateIsShowValueWindow(isShowValueWindow: boolean) {
     this.isShowValueWindow = isShowValueWindow;
+    if (this.isShowValueWindow && this.isCurrentValue()) {
+      this.valueWindow = new ValueWindow(this.orientation);
+      this.$valueWindow = this.valueWindow.getValueWindow();
+      this.$slider.append(this.$valueWindow);
 
-    if (this.isShowValueWindow) {
-      if (this.isCurrentValue()) {
-        this.valueWindow = new ValueWindow(this.orientation);
-        this.$valueWindow = this.valueWindow.getValueWindow();
-        this.$slider.append(this.$valueWindow);
+      this.renderCurrentValue();
+    }
+    if (this.isShowValueWindow && this.isCurrentValues()) {
+      this.valueWindowMin = new ValueWindow(this.orientation);
+      this.valueWindowMax = new ValueWindow(this.orientation);
+      this.$valueWindowMin = this.valueWindowMin.getValueWindow();
+      this.$valueWindowMax = this.valueWindowMax.getValueWindow();
+      this.$slider
+        .append(this.$valueWindowMin)
+        .append(this.$valueWindowMax);
 
-        this.renderCurrentValue();
-      } else if (this.isCurrentValues()) {
-        this.valueWindowMin = new ValueWindow(this.orientation);
-        this.valueWindowMax = new ValueWindow(this.orientation);
-        this.$valueWindowMin = this.valueWindowMin.getValueWindow();
-        this.$valueWindowMax = this.valueWindowMax.getValueWindow();
-        this.$slider
-          .append(this.$valueWindowMin)
-          .append(this.$valueWindowMax);
-
-        this.renderCurrentValueMin();
-        this.renderCurrentValueMax();
-      }
-    } else if (!this.isShowValueWindow) {
-      if (this.isCurrentValue()) {
-        delete this.valueWindow;
-        delete this.$valueWindow;
-        this.$slider.find('.value-window').remove();
-      } else if (this.isCurrentValues()) {
-        delete this.valueWindowMin;
-        delete this.valueWindowMax;
-        delete this.$valueWindowMin;
-        delete this.$valueWindowMax;
-        this.$slider.find('.value-window').remove();
-      }
+      this.renderCurrentValueMin();
+      this.renderCurrentValueMax();
+    }
+    if (!this.isShowValueWindow && this.isCurrentValue()) {
+      delete this.valueWindow;
+      delete this.$valueWindow;
+      this.$slider.find('.value-window').remove();
+    }
+    if (!this.isShowValueWindow && this.isCurrentValues()) {
+      delete this.valueWindowMin;
+      delete this.valueWindowMax;
+      delete this.$valueWindowMin;
+      delete this.$valueWindowMax;
+      this.$slider.find('.value-window').remove();
     }
   }
 
@@ -391,22 +409,23 @@ class View extends Observer {
       );
       this.$scaleValues = this.scaleValues.getScaleValues();
       this.$slider.append(this.$scaleValues);
-      if (this.orientation === 'horizontal') {
-        this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
-      } else if (this.orientation === 'vertical') {
-        this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
-      }
-    } else if (!this.isShowScaleValues) {
+      this.scaleValues.subscribe(({ type, value }: { type: String, value: number }) => {
+        if (type === 'clickScale') {
+          this.handleScalesClick(value);
+        }
+      });
+    }
+    if (this.isShowScaleValues && this.orientation === 'horizontal') {
+      this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
+    }
+    if (this.isShowScaleValues && this.orientation === 'vertical') {
+      this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
+    }
+    if (!this.isShowScaleValues) {
       delete this.scaleValues;
       delete this.$scaleValues;
       this.$slider.find('.scale-values').remove();
     }
-
-    this.scaleValues.subscribe(({ type, value }: { type: String, value: number }) => {
-      if (type === 'clickScale') {
-        this.handleScalesClick(value);
-      }
-    });
   }
 
   private convertIntervalValue() {
@@ -511,7 +530,8 @@ class View extends Observer {
     if (this.orientation === 'horizontal') {
       this.scaleSize = this.$scale.outerWidth();
       this.scaleOffset = this.$scale.offset().left;
-    } else if (this.orientation === 'vertical') {
+    }
+    if (this.orientation === 'vertical') {
       this.scaleSize = this.$scale.outerHeight();
       this.scaleOffset = this.$scale.offset().top;
     }
@@ -587,7 +607,8 @@ class View extends Observer {
         type: 'setCurrentValue',
         value: (position - this.scaleOffset) / this.unit + this.minValue,
       });
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValues()) {
       const min = this.currentValue[1] - Math.floor(
         (position - this.scaleOffset) / this.unit + this.minValue,
       );
@@ -600,7 +621,8 @@ class View extends Observer {
           type: 'setCurrentValueMin',
           value: (position - this.scaleOffset) / this.unit + this.minValue,
         });
-      } else if (max > min) {
+      }
+      if (max > min) {
         this.broadcast({
           type: 'setCurrentValueMax',
           value: (position - this.scaleOffset) / this.unit + this.minValue,
@@ -615,16 +637,46 @@ class View extends Observer {
 
     if (this.isCurrentValue()) {
       this.renderCurrentValue();
-    } else if (this.isCurrentValues()) {
+    }
+    if (this.isCurrentValues()) {
       this.renderCurrentValueMin();
       this.renderCurrentValueMax();
     }
 
     if (this.isShowScaleValues && this.orientation === 'horizontal') {
       this.scaleValues.updatePositionScaleValues(this.$scale.outerWidth());
-    } else if (this.isShowScaleValues && this.orientation === 'vertical') {
+    }
+    if (this.isShowScaleValues && this.orientation === 'vertical') {
       this.scaleValues.updatePositionScaleValues(this.$scale.outerHeight());
     }
+  }
+
+  public getState() {
+    return {
+      this: this,
+      orientation: this.orientation,
+      minValue: this.minValue,
+      maxValue: this.maxValue,
+      currentValue: this.currentValue,
+      viewMinValue: this.viewMinValue,
+      viewMaxValue: this.viewMaxValue,
+      viewCurrentValue: this.viewCurrentValue,
+      step: this.step,
+      isShowValueWindow: this.isShowValueWindow,
+      isShowScaleValues: this.isShowScaleValues,
+      scale: this.scale,
+      runner: this.runner,
+      runnerMin: this.runnerMin,
+      runnerMax: this.runnerMax,
+      $this: this.$this,
+      $runner: this.$runner,
+      $runnerMin: this.$runnerMin,
+      $runnerMax: this.$runnerMax,
+      $valueWindow: this.$valueWindow,
+      $valueWindowMin: this.$valueWindowMin,
+      $valueWindowMax: this.$valueWindowMax,
+      $scaleValues: this.$scaleValues,
+    };
   }
 }
 

@@ -10,7 +10,8 @@
     "import/prefer-default-export": "off",
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
-    "@typescript-eslint/no-unused-expressions": ["off"]
+    "@typescript-eslint/no-unused-expressions": ["off"],
+    "default-case": "off"
   },
   "env": {
     "jquery": true

@@ -21,6 +21,7 @@ interface IView extends IObserver {
   updateStep(step: number): void
   updateIsShowValueWindow(isShowValueWindow: boolean): void
   updateIsShowScaleValues(isShowScaleValues: boolean): void
+  getState(): any
 }
 
 export {
