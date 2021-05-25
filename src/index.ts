@@ -5,8 +5,9 @@ import { IPresenter } from './types/mvp/IPresenter';
 
 (function ($) {
   let presenter: IPresenter;
-  const methods = {
-    init: ($this: JQuery, options?: IOptions) => {
+
+  $.fn.slider = function (key, value) {
+    this.init = ($this: JQuery, options?: IOptions) => {
       const settings = $.extend({
         $this,
         orientation: 'horizontal',
@@ -19,93 +20,87 @@ import { IPresenter } from './types/mvp/IPresenter';
       }, options);
 
       return new Presenter(settings);
-    },
+    };
 
-    isValidSetCurrentValue(
-      value: number | [number, number?] | 'horizontal' | 'vertical' | boolean,
-    ): value is [number, number?] {
-      return (
-        (Array.isArray(value)
-        && typeof (value[0]) === 'number')
-        || (Array.isArray(value)
-        && typeof (value[0]) === 'number'
-        && typeof (value[1]) === 'number')
-      );
-    },
+    this.isValidSetCurrentValue = (
+      val: number | [number, number?] | 'horizontal' | 'vertical' | boolean,
+    ): val is [number, number?] => (
+      (Array.isArray(val)
+      && typeof (val[0]) === 'number')
+      || (Array.isArray(val)
+      && typeof (val[0]) === 'number'
+      && typeof (val[1]) === 'number')
+    );
 
-    isValidSetOrientation(
-      value: number | [number, number?] | 'horizontal' | 'vertical' | boolean,
-    ): value is 'horizontal' | 'vertical' {
-      return (value === 'horizontal' || value === 'vertical');
-    },
+    this.isValidSetOrientation = (
+      val: number | [number, number?] | 'horizontal' | 'vertical' | boolean,
+    ): val is 'horizontal' | 'vertical' => (val === 'horizontal' || val === 'vertical');
 
-    setCurrentValue: (value: number[]) => {
-      if (value.length === 1) {
-        presenter.setCurrentValue(value[0]);
-      } else if (value.length === 2) {
-        if (value[0] < value[1]) {
-          presenter.setCurrentValueMin(value[0]);
-          presenter.setCurrentValueMax(value[1]);
-        } else if (value[0] > value[1]) {
-          presenter.setCurrentValueMin(value[1]);
-          presenter.setCurrentValueMax(value[0]);
+    this.setCurrentValue = (val: number[]) => {
+      if (val.length === 1) {
+        presenter.setCurrentValue(val[0]);
+      } else if (val.length === 2) {
+        if (val[0] < val[1]) {
+          presenter.setCurrentValueMin(val[0]);
+          presenter.setCurrentValueMax(val[1]);
+        } else if (val[0] > val[1]) {
+          presenter.setCurrentValueMin(val[1]);
+          presenter.setCurrentValueMax(val[0]);
         }
       }
-    },
+    };
 
-    setOrientation: (value: 'horizontal' | 'vertical') => {
-      presenter.setOrientation(value);
-    },
+    this.setOrientation = (val: 'horizontal' | 'vertical') => {
+      presenter.setOrientation(val);
+    };
 
-    setMinValue(value: number) {
-      presenter.setMinValue(value);
-    },
+    this.setMinValue = (val: number) => {
+      presenter.setMinValue(val);
+    };
 
-    setMaxValue(value: number) {
-      presenter.setMaxValue(value);
-    },
+    this.setMaxValue = (val: number) => {
+      presenter.setMaxValue(val);
+    };
 
-    setStep(value: number) {
-      presenter.setStep(value);
-    },
+    this.setStep = (val: number) => {
+      presenter.setStep(val);
+    };
 
-    setIsShowValueWindow(value: boolean) {
-      presenter.setIsShowValueWindow(value);
-    },
+    this.setIsShowValueWindow = (val: boolean) => {
+      presenter.setIsShowValueWindow(val);
+    };
 
-    setIsShowScaleValues(value: boolean) {
-      presenter.setIsShowScaleValues(value);
-    },
-  };
+    this.setIsShowScaleValues = (val: boolean) => {
+      presenter.setIsShowScaleValues(val);
+    };
 
-  $.fn.slider = function (key, value) {
     switch (key) {
       case 'setCurrentValue':
-        if (methods.isValidSetCurrentValue(value)) methods.setCurrentValue(value);
+        if (this.isValidSetCurrentValue(value)) this.setCurrentValue(value);
         break;
       case 'setOrientation':
-        if (methods.isValidSetOrientation(value)) methods.setOrientation(value);
+        if (this.isValidSetOrientation(value)) this.setOrientation(value);
         break;
       case 'setMinValue':
-        if (typeof (value) === 'number') methods.setMinValue(value);
+        if (typeof (value) === 'number') this.setMinValue(value);
         break;
       case 'setMaxValue':
-        if (typeof (value) === 'number') methods.setMaxValue(value);
+        if (typeof (value) === 'number') this.setMaxValue(value);
         break;
       case 'setStep':
-        if (typeof (value) === 'number') methods.setStep(value);
+        if (typeof (value) === 'number') this.setStep(value);
         break;
       case 'setIsShowValueWindow':
-        if (typeof (value) === 'boolean') methods.setIsShowValueWindow(value);
+        if (typeof (value) === 'boolean') this.setIsShowValueWindow(value);
         break;
       case 'setIsShowScaleValues':
-        if (typeof (value) === 'boolean') methods.setIsShowScaleValues(value);
+        if (typeof (value) === 'boolean') this.setIsShowScaleValues(value);
         break;
       default:
         if (!key) {
-          presenter = methods.init(this);
+          presenter = this.init(this);
         } else if (typeof (key) === 'object') {
-          presenter = methods.init(this, key);
+          presenter = this.init(this, key);
         }
     }
 
