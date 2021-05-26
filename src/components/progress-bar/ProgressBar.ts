@@ -1,8 +1,9 @@
 import { Observer } from '../../observer/Observer';
+import { IUpdateProgressBar } from '../../types/observer/IUpdateProgressBar';
 
 import './progress-bar.scss';
 
-class ProgressBar extends Observer {
+class ProgressBar extends Observer<IUpdateProgressBar> {
   private $progressBar: JQuery;
   private orientation: 'horizontal' | 'vertical';
   private size: string;

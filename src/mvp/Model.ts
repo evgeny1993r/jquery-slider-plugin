@@ -1,8 +1,17 @@
 import { Observer } from '../observer/Observer';
+import { ISetModel } from '../types/observer/ISetModel';
 
-import { IOptionsModel } from '../types/mvp/IModel';
+interface IParameters {
+  orientation: 'horizontal' | 'vertical';
+  minValue: number;
+  maxValue: number;
+  currentValue: [number, number?];
+  step: number;
+  isShowValueWindow: boolean;
+  isShowScaleValues: boolean;
+}
 
-class Model extends Observer {
+class Model extends Observer<ISetModel> {
   private orientation: 'horizontal' | 'vertical';
   private minValue: number;
   private maxValue: number;
@@ -19,7 +28,7 @@ class Model extends Observer {
     step,
     isShowValueWindow,
     isShowScaleValues,
-  }: IOptionsModel) {
+  }: IParameters) {
     super();
     this.orientation = orientation;
     this.minValue = minValue;

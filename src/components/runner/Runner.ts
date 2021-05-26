@@ -1,8 +1,9 @@
 import { Observer } from '../../observer/Observer';
+import { IUpdateRunner } from '../../types/observer/IUpdateRunner';
 
 import './runner.scss';
 
-class Runner extends Observer {
+class Runner extends Observer<IUpdateRunner> {
   private orientation: 'horizontal' | 'vertical';
   private $document: JQuery<Document>;
   private $runner: JQuery;

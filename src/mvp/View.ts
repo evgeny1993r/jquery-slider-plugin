@@ -1,4 +1,5 @@
 import { Observer } from '../observer/Observer';
+import { IUpdateView } from '../types/observer/IUpdateView';
 import { Slider } from '../components/slider/Slider';
 import { Scale } from '../components/scale/Scale';
 import { ProgressBar } from '../components/progress-bar/ProgressBar';
@@ -6,15 +7,18 @@ import { Runner } from '../components/runner/Runner';
 import { ValueWindow } from '../components/value-window/ValueWindow';
 import { ScaleValues } from '../components/scale-values/ScaleValues';
 
-import { IOptionsView } from '../types/mvp/IView';
-import { ISlider } from '../types/components/ISlider';
-import { IScale } from '../types/components/IScale';
-import { IProgressBar } from '../types/components/IProgressBar';
-import { IRunner } from '../types/components/IRunner';
-import { IValueWindow } from '../types/components/IValueWindow';
-import { IScaleValues } from '../types/components/IScaleValues';
+interface IParameters {
+  $this: JQuery;
+  orientation: 'horizontal' | 'vertical';
+  minValue: number;
+  maxValue: number;
+  currentValue: [number, number?];
+  step: number;
+  isShowValueWindow: boolean;
+  isShowScaleValues: boolean;
+}
 
-class View extends Observer {
+class View extends Observer<IUpdateView> {
   private $this: JQuery;
   private orientation: 'horizontal' | 'vertical';
   private minValue: number;
@@ -27,16 +31,16 @@ class View extends Observer {
   private isShowValueWindow: boolean;
   private isShowScaleValues: boolean;
 
-  private slider: ISlider;
-  private scale: IScale;
-  private progressBar: IProgressBar;
-  private runner: IRunner;
-  private runnerMin: IRunner;
-  private runnerMax: IRunner;
-  private valueWindow: IValueWindow;
-  private valueWindowMin: IValueWindow;
-  private valueWindowMax: IValueWindow;
-  private scaleValues: IScaleValues;
+  private slider: Slider;
+  private scale: Scale;
+  private progressBar: ProgressBar;
+  private runner: Runner;
+  private runnerMin: Runner;
+  private runnerMax: Runner;
+  private valueWindow: ValueWindow;
+  private valueWindowMin: ValueWindow;
+  private valueWindowMax: ValueWindow;
+  private scaleValues: ScaleValues;
 
   private $slider: JQuery;
   private $scale: JQuery;
@@ -62,7 +66,7 @@ class View extends Observer {
     step,
     isShowValueWindow,
     isShowScaleValues,
-  }: IOptionsView) {
+  }: IParameters) {
     super();
     this.$this = $this;
     this.orientation = orientation;
@@ -176,7 +180,7 @@ class View extends Observer {
     }
 
     if (this.runner) {
-      this.runner.subscribe(({ type, value }: { type: string, value: number }) => {
+      this.runner.subscribe(({ type, value }) => {
         if (type === 'updatePositionRunner') {
           this.handleSliderUpdatePositionRunner(value);
         }
@@ -184,7 +188,7 @@ class View extends Observer {
     }
 
     if (this.$runnerMin) {
-      this.runnerMin.subscribe(({ type, value }: { type: string, value: number }) => {
+      this.runnerMin.subscribe(({ type, value }) => {
         if (type === 'updatePositionRunner') {
           this.handleSliderUpdatePositionRunnerMin(value);
         }
@@ -192,27 +196,27 @@ class View extends Observer {
     }
 
     if (this.$runnerMax) {
-      this.runnerMax.subscribe(({ type, value }: { type: string, value: number }) => {
+      this.runnerMax.subscribe(({ type, value }) => {
         if (type === 'updatePositionRunner') {
           this.handleSliderUpdatePositionRunnerMax(value);
         }
       });
     }
 
-    this.scale.subscribe(({ type, value }: { type: string, value: number }) => {
+    this.scale.subscribe(({ type, value }) => {
       if (type === 'clickScale') {
         this.handleScalesClick(value);
       }
     });
 
-    this.progressBar.subscribe(({ type, value }: { type: string, value: number }) => {
+    this.progressBar.subscribe(({ type, value }) => {
       if (type === 'clickScale') {
         this.handleScalesClick(value);
       }
     });
 
     if (this.$scaleValues) {
-      this.scaleValues.subscribe(({ type, value }: { type: String, value: number }) => {
+      this.scaleValues.subscribe(({ type, value }) => {
         if (type === 'clickScale') {
           this.handleScalesClick(value);
         }
@@ -409,7 +413,7 @@ class View extends Observer {
       );
       this.$scaleValues = this.scaleValues.getScaleValues();
       this.$slider.append(this.$scaleValues);
-      this.scaleValues.subscribe(({ type, value }: { type: String, value: number }) => {
+      this.scaleValues.subscribe(({ type, value }) => {
         if (type === 'clickScale') {
           this.handleScalesClick(value);
         }
@@ -463,13 +467,13 @@ class View extends Observer {
         .append(this.$valueWindowMax);
     }
 
-    this.runnerMin.subscribe(({ type, value }: { type: string, value: number }) => {
+    this.runnerMin.subscribe(({ type, value }) => {
       if (type === 'updatePositionRunner') {
         this.handleSliderUpdatePositionRunnerMin(value);
       }
     });
 
-    this.runnerMax.subscribe(({ type, value }: { type: string, value: number }) => {
+    this.runnerMax.subscribe(({ type, value }) => {
       if (type === 'updatePositionRunner') {
         this.handleSliderUpdatePositionRunnerMax(value);
       }
@@ -511,7 +515,7 @@ class View extends Observer {
         .append(this.$valueWindow);
     }
 
-    this.runner.subscribe(({ type, value }: { type: string, value: number }) => {
+    this.runner.subscribe(({ type, value }) => {
       if (type === 'updatePositionRunner') {
         this.handleSliderUpdatePositionRunner(value);
       }

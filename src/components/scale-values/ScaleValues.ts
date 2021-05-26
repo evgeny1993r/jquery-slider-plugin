@@ -1,8 +1,9 @@
 import { Observer } from '../../observer/Observer';
+import { IUpdateScaleValues } from '../../types/observer/IUpdateScaleValues';
 
 import './scale-values.scss';
 
-class ScaleValues extends Observer {
+class ScaleValues extends Observer<IUpdateScaleValues> {
   private orientation: 'horizontal' | 'vertical';
   private minValue: number;
   private maxValue: number;
@@ -10,7 +11,12 @@ class ScaleValues extends Observer {
   private $scaleValues: JQuery;
   private symbol: string;
 
-  constructor(orientation: 'horizontal' | 'vertical', minValue: number, maxValue: number, step: number) {
+  constructor(
+    orientation: 'horizontal' | 'vertical',
+    minValue: number,
+    maxValue: number,
+    step: number,
+  ) {
     super();
     this.orientation = orientation;
     this.minValue = minValue;

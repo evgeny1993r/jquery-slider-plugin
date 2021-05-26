@@ -43,7 +43,7 @@ type UpdateIsShowScaleValues = {
   value: boolean,
 };
 
-type SetModel =
+type ISetModel =
   UpdateCurrentValue
   | UpdateCurrentValueMin
   | UpdateCurrentValueMax
@@ -55,5 +55,5 @@ type SetModel =
   | UpdateIsShowScaleValues;
 
 export {
-  SetModel,
+  ISetModel,
 };

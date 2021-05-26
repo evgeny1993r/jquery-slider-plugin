@@ -2,16 +2,21 @@ import { Observer } from '../observer/Observer';
 import { Model } from './Model';
 import { View } from './View';
 
-import { IPresenterOptions } from '../types/mvp/IPresenter';
-import { IModel } from '../types/mvp/IModel';
-import { IView } from '../types/mvp/IView';
-import { SetModel } from '../types/observer/setModel';
-import { UpdateView } from '../types/observer/updateView';
+interface IParameters {
+  $this: JQuery;
+  orientation: 'horizontal' | 'vertical';
+  minValue: number;
+  maxValue: number;
+  currentValue: [number, number?];
+  step: number;
+  isShowValueWindow: boolean;
+  isShowScaleValues: boolean;
+}
 
-class Presenter extends Observer {
-  private model: IModel;
-  private view: IView;
+class Presenter extends Observer<null> {
   private $this: JQuery;
+  private model: Model;
+  private view: View;
 
   constructor({
     $this,
@@ -22,7 +27,7 @@ class Presenter extends Observer {
     step,
     isShowValueWindow,
     isShowScaleValues,
-  }: IPresenterOptions) {
+  }: IParameters) {
     super();
     this.model = new Model({
       orientation,
@@ -49,7 +54,7 @@ class Presenter extends Observer {
   }
 
   private init() {
-    this.model.subscribe((data: SetModel) => {
+    this.model.subscribe((data) => {
       switch (data.type) {
         case 'updateCurrentValue':
           this.updateCurrentValue(data.value);
@@ -81,7 +86,7 @@ class Presenter extends Observer {
       }
     });
 
-    this.view.subscribe((data: UpdateView) => {
+    this.view.subscribe((data) => {
       switch (data.type) {
         case 'setCurrentValue':
           this.setCurrentValue(data.value);

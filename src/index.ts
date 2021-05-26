@@ -1,5 +1,3 @@
-import './types/JQuery';
-
 import { Presenter } from './mvp/Presenter';
 
 (function ($) {

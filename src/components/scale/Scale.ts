@@ -1,8 +1,9 @@
 import { Observer } from '../../observer/Observer';
+import { IUpdateScale } from '../../types/observer/IUpdateScale';
 
 import './scale.scss';
 
-class Scale extends Observer {
+class Scale extends Observer<IUpdateScale> {
   private orientation: 'horizontal' | 'vertical';
   private $scale: JQuery;
 
