@@ -217,8 +217,8 @@ class View extends Observer<IUpdateView> {
 
     if (this.$scaleValues) {
       this.scaleValues.subscribe(({ type, value }) => {
-        if (type === 'clickScale') {
-          this.handleScalesClick(value);
+        if (type === 'clickScaleValues') {
+          this.handleScaleValuesClick(value);
         }
       });
     }
@@ -414,7 +414,7 @@ class View extends Observer<IUpdateView> {
       this.$scaleValues = this.scaleValues.getScaleValues();
       this.$slider.append(this.$scaleValues);
       this.scaleValues.subscribe(({ type, value }) => {
-        if (type === 'clickScale') {
+        if (type === 'clickScaleValues') {
           this.handleScalesClick(value);
         }
       });
@@ -630,6 +630,30 @@ class View extends Observer<IUpdateView> {
         this.broadcast({
           type: 'setCurrentValueMax',
           value: (position - this.scaleOffset) / this.unit + this.minValue,
+        });
+      }
+    }
+  }
+
+  private handleScaleValuesClick(value: number) {
+    if (this.isCurrentValue()) {
+      this.broadcast({ type: 'setCurrentValue', value });
+    }
+
+    if (this.isCurrentValues()) {
+      const min = this.currentValue[1] - value + this.minValue;
+      const max = value - this.currentValue[0] + this.minValue;
+
+      if (min > max) {
+        this.broadcast({
+          type: 'setCurrentValueMin',
+          value,
+        });
+      }
+      if (max >= min) {
+        this.broadcast({
+          type: 'setCurrentValueMax',
+          value,
         });
       }
     }

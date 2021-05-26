@@ -43,7 +43,11 @@ class Model extends Observer<ISetModel> {
     const isValidCurrentValue = currentValue >= this.minValue
       && currentValue <= this.maxValue;
     if (isValidCurrentValue) {
-      this.currentValue[0] = Math.round(currentValue / this.step) * this.step;
+      if (currentValue === this.minValue || currentValue === this.maxValue) {
+        this.currentValue[0] = currentValue;
+      } else {
+        this.currentValue[0] = Math.round(currentValue / this.step) * this.step;
+      }
       this.broadcast({ type: 'updateCurrentValue', value: this.currentValue[0] });
       if (this.currentValue.length === 2) {
         this.currentValue.splice(1, 1);
@@ -56,7 +60,11 @@ class Model extends Observer<ISetModel> {
       const isValidCurrentValueMin = currentValueMin >= this.minValue
         && currentValueMin <= this.maxValue;
       if (isValidCurrentValueMin) {
-        this.currentValue[0] = Math.round(currentValueMin / this.step) * this.step;
+        if (currentValueMin === this.minValue) {
+          this.currentValue[0] = currentValueMin;
+        } else {
+          this.currentValue[0] = Math.round(currentValueMin / this.step) * this.step;
+        }
         this.broadcast({ type: 'updateCurrentValueMin', value: this.currentValue[0] });
       }
     }
@@ -64,7 +72,11 @@ class Model extends Observer<ISetModel> {
       const isValidCurrentValueMin = currentValueMin >= this.minValue
         && currentValueMin <= this.currentValue[1];
       if (isValidCurrentValueMin) {
-        this.currentValue[0] = Math.round(currentValueMin / this.step) * this.step;
+        if (currentValueMin === this.minValue) {
+          this.currentValue[0] = currentValueMin;
+        } else {
+          this.currentValue[0] = Math.round(currentValueMin / this.step) * this.step;
+        }
         this.broadcast({ type: 'updateCurrentValueMin', value: this.currentValue[0] });
       }
     }
@@ -74,7 +86,11 @@ class Model extends Observer<ISetModel> {
     const isValidCurrentValueMax = currentValueMax > this.currentValue[0]
     && currentValueMax <= this.maxValue;
     if (isValidCurrentValueMax) {
-      this.currentValue[1] = Math.round(currentValueMax / this.step) * this.step;
+      if (currentValueMax === this.maxValue) {
+        this.currentValue[1] = currentValueMax;
+      } else {
+        this.currentValue[1] = Math.round(currentValueMax / this.step) * this.step;
+      }
       this.broadcast({ type: 'updateCurrentValueMax', value: this.currentValue[1] });
     }
   }

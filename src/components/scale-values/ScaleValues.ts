@@ -10,6 +10,7 @@ class ScaleValues extends Observer<IUpdateScaleValues> {
   private step: number;
   private $scaleValues: JQuery;
   private symbol: string;
+  private scaleSize: number;
 
   constructor(
     orientation: 'horizontal' | 'vertical',
@@ -24,9 +25,6 @@ class ScaleValues extends Observer<IUpdateScaleValues> {
     this.step = step;
     this.$scaleValues = $('<div/>', {
       class: `scale-values scale-values_${this.orientation}`,
-      on: {
-        click: (e: JQuery.Event) => this.handleScaleValues(e),
-      },
     });
 
     if (this.orientation === 'horizontal') {
@@ -36,12 +34,18 @@ class ScaleValues extends Observer<IUpdateScaleValues> {
       this.symbol = '—';
     }
 
-    for (
-      let value = this.minValue;
-      value <= this.maxValue;
-      value += (this.maxValue - this.minValue) / 10) {
-      this.addScaleValue(Math.floor(value / this.step) * this.step);
-    }
+    const val = Math.round((this.maxValue - this.minValue) / 8 / this.step) * this.step;
+
+    this.addScaleValue(this.minValue);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 2);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 3);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 4);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 5);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 6);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 7);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 8);
+    this.addScaleValue(this.maxValue);
   }
 
   public getScaleValues(): JQuery {
@@ -49,17 +53,22 @@ class ScaleValues extends Observer<IUpdateScaleValues> {
   }
 
   public updatePositionScaleValues(scaleSize: number): void {
+    this.scaleSize = scaleSize;
     if (this.orientation === 'horizontal') {
-      this.$scaleValues.css({
-        width: (scaleSize / 10) * 11,
-        transform: `translateX(-${scaleSize / 20}px)`,
-      });
+      const items = this.$scaleValues.find('.scale-values__scale-value');
+      const unit = this.scaleSize / (this.maxValue - this.minValue);
+      for (let i = 0; i <= items.length; i += 1) {
+        const valueItem = $(items[i]).data('value') - this.minValue;
+        $(items[i]).css({ transform: `translateX(${valueItem * unit - 20}px)` });
+      }
     }
     if (this.orientation === 'vertical') {
-      this.$scaleValues.css({
-        height: (scaleSize / 10) * 11,
-        transform: `translateY(-${scaleSize / 20}px)`,
-      });
+      const items = this.$scaleValues.find('.scale-values__scale-value');
+      const unit = this.scaleSize / (this.maxValue - this.minValue);
+      for (let i = 0; i <= items.length; i += 1) {
+        const valueItem = $(items[i]).data('value') - this.minValue;
+        $(items[i]).css({ transform: `translateY(${valueItem * unit - 20}px)` });
+      }
     }
   }
 
@@ -68,12 +77,10 @@ class ScaleValues extends Observer<IUpdateScaleValues> {
     this.orientation = orientation;
     this.$scaleValues.addClass(`scale-values_${this.orientation}`);
     if (this.orientation === 'horizontal') {
-      this.$scaleValues.css({ height: 'auto' });
       this.symbol = '|';
       this.$scaleValues.find('.scale-values__symbol').text(this.symbol);
     }
     if (this.orientation === 'vertical') {
-      this.$scaleValues.css({ width: 'auto' });
       this.symbol = '—';
       this.$scaleValues.find('.scale-values__symbol').text(this.symbol);
     }
@@ -83,29 +90,52 @@ class ScaleValues extends Observer<IUpdateScaleValues> {
     this.$scaleValues.find('*').remove();
     this.minValue = minValue;
     this.maxValue = maxValue;
-    for (
-      let value = this.minValue;
-      value <= this.maxValue;
-      value += (this.maxValue - this.minValue) / 10) {
-      this.addScaleValue(Math.floor(value / this.step) * this.step);
-    }
+
+    const val = Math.round((this.maxValue - this.minValue) / 6 / this.step) * this.step;
+
+    this.addScaleValue(this.minValue);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 2);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 3);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 4);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 5);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 6);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 7);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 8);
+    this.addScaleValue(this.maxValue);
+
+    this.updatePositionScaleValues(this.scaleSize);
   }
 
   public updateStep(step: number) {
     this.step = step;
     this.$scaleValues.find('*').remove();
-    for (
-      let value = this.minValue;
-      value <= this.maxValue;
-      value += (this.maxValue - this.minValue) / 10) {
-      this.addScaleValue(Math.floor(value / this.step) * this.step);
-    }
+
+    const val = Math.round((this.maxValue - this.minValue) / 6 / this.step) * this.step;
+
+    this.addScaleValue(this.minValue);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 2);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 3);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 4);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 5);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 6);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 7);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 8);
+    this.addScaleValue(this.maxValue);
+
+    this.updatePositionScaleValues(this.scaleSize);
   }
 
   private addScaleValue(value: number): void {
+    if (value > this.maxValue) return;
     this.$scaleValues
       .append($('<div/>', {
         class: 'scale-values__scale-value',
+        data: { value },
+        on: {
+          click: () => this.handleScaleValueClick(value),
+        },
       }).append($('<span/>', {
         class: 'scale-values__symbol',
         text: this.symbol,
@@ -115,12 +145,12 @@ class ScaleValues extends Observer<IUpdateScaleValues> {
       })));
   }
 
-  private handleScaleValues(e: JQuery.Event): void {
+  private handleScaleValueClick(value: number): void {
     if (this.orientation === 'horizontal') {
-      this.broadcast({ type: 'clickScale', value: e.pageX });
+      this.broadcast({ type: 'clickScaleValues', value });
     }
     if (this.orientation === 'vertical') {
-      this.broadcast({ type: 'clickScale', value: e.pageY });
+      this.broadcast({ type: 'clickScaleValues', value });
     }
   }
 

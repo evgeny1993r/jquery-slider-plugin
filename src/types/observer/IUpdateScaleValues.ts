@@ -1,9 +1,9 @@
-type ClickScale = {
-  type: 'clickScale',
+type ClickScaleValues = {
+  type: 'clickScaleValues',
   value: number,
 };
 
-type IUpdateScaleValues = ClickScale;
+type IUpdateScaleValues = ClickScaleValues;
 
 export {
   IUpdateScaleValues,
