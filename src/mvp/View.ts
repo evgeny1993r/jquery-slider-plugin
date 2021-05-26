@@ -415,7 +415,7 @@ class View extends Observer<IUpdateView> {
       this.$slider.append(this.$scaleValues);
       this.scaleValues.subscribe(({ type, value }) => {
         if (type === 'clickScaleValues') {
-          this.handleScalesClick(value);
+          this.handleScaleValuesClick(value);
         }
       });
     }
