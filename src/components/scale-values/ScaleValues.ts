@@ -34,18 +34,7 @@ class ScaleValues extends Observer<IUpdateScaleValues> {
       this.symbol = '—';
     }
 
-    const val = Math.round((this.maxValue - this.minValue) / 8 / this.step) * this.step;
-
-    this.addScaleValue(this.minValue);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 2);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 3);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 4);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 5);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 6);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 7);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 8);
-    this.addScaleValue(this.maxValue);
+    this.createScaleValuesItems();
   }
 
   public getScaleValues(): JQuery {
@@ -91,19 +80,7 @@ class ScaleValues extends Observer<IUpdateScaleValues> {
     this.minValue = minValue;
     this.maxValue = maxValue;
 
-    const val = Math.round((this.maxValue - this.minValue) / 6 / this.step) * this.step;
-
-    this.addScaleValue(this.minValue);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 2);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 3);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 4);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 5);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 6);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 7);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 8);
-    this.addScaleValue(this.maxValue);
-
+    this.createScaleValuesItems();
     this.updatePositionScaleValues(this.scaleSize);
   }
 
@@ -111,19 +88,7 @@ class ScaleValues extends Observer<IUpdateScaleValues> {
     this.step = step;
     this.$scaleValues.find('*').remove();
 
-    const val = Math.round((this.maxValue - this.minValue) / 6 / this.step) * this.step;
-
-    this.addScaleValue(this.minValue);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 2);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 3);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 4);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 5);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 6);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 7);
-    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 8);
-    this.addScaleValue(this.maxValue);
-
+    this.createScaleValuesItems();
     this.updatePositionScaleValues(this.scaleSize);
   }
 
@@ -143,6 +108,26 @@ class ScaleValues extends Observer<IUpdateScaleValues> {
         text: value,
         class: 'scale-values__value',
       })));
+  }
+
+  private createScaleValuesItems() {
+    const val = Math.round((this.maxValue - this.minValue) / 8 / this.step) * this.step;
+
+    this.addScaleValue(this.minValue);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 2);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 3);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 4);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 5);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 6);
+    this.addScaleValue(Math.round(this.minValue / this.step) * this.step + val * 7);
+    const value = Math.round(this.minValue / this.step) * this.step + val * 8;
+    if (Math.round(this.minValue / this.step) * this.step + val * 8 >= this.maxValue) {
+      this.addScaleValue(this.maxValue);
+    } else {
+      this.addScaleValue(value);
+      this.addScaleValue(this.maxValue);
+    }
   }
 
   private handleScaleValueClick(value: number): void {
